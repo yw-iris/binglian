@@ -80,21 +80,13 @@ section{padding:170px 0;position:relative;z-index:1}
 .quotes p .en{font-family:var(--script);font-size:1.18em}
 .tagline{font-family:var(--serif);font-weight:300;font-size:clamp(18px,3.4vw,24px);margin:30px 0;letter-spacing:.04em}
 
-/* ===== 流体小图：每一节垂落 ===== */
-.drip{width:104px;height:148px;margin:6px 0 46px;opacity:0;transform:translateY(-56px) scaleY(.45);transform-origin:top center;
+/* ===== 流体小图：开场图裁出的碎片，每节垂落 ===== */
+.drip{height:172px;margin:6px 0 46px;display:flex;opacity:0;transform:translateY(-56px) scaleY(.45);transform-origin:top center;
   transition:opacity 1s ease .15s,transform 1.5s cubic-bezier(.2,.85,.3,1.18) .15s}
 .reveal.in .drip{opacity:1;transform:none}
-.drip-morph{width:100%;height:100%;animation:bob 7s ease-in-out infinite}
-.drip img{width:100%;height:100%;object-fit:cover;display:block;
-  border-radius:52% 48% 58% 42%/62% 55% 45% 38%;
-  animation:morph 11s ease-in-out infinite alternate;
-  filter:drop-shadow(0 16px 34px rgba(15,35,130,.5)) saturate(1.15)}
-.drip.d2 img{border-radius:44% 56% 48% 52%/56% 44% 58% 42%;animation-delay:-3.5s,-2s}
-.drip.d3 img{border-radius:58% 42% 45% 55%/48% 60% 40% 52%;animation-delay:-6s,-4s}
-@keyframes morph{
-  0%{border-radius:52% 48% 58% 42%/62% 55% 45% 38%}
-  50%{border-radius:46% 54% 50% 50%/54% 46% 58% 42%}
-  100%{border-radius:56% 44% 52% 48%/58% 50% 42% 50%}}
+.drip img{height:100%;width:auto;display:block;
+  filter:drop-shadow(0 0 26px rgba(60,100,235,.45)) drop-shadow(0 16px 32px rgba(10,25,110,.55)) saturate(1.2);
+  animation:bob 7s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(12px)}}
 
 footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
@@ -105,7 +97,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 
 .reveal{opacity:0;transform:translateY(34px);transition:opacity 1.2s ease,transform 1.2s ease}
 .reveal.in{opacity:1;transform:none}
-@media(max-width:600px){section{padding:120px 0}.wrap{padding:0 22px}.drip{width:84px;height:120px}}
+@media(max-width:600px){section{padding:120px 0}.wrap{padding:0 22px} .drip{height:132px}}
 </style>
 </head>
 <body>
@@ -125,7 +117,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 
 <!-- ============ 【陰暗】 ============ -->
 <section class="wrap reveal">
-  <div class="drip"><div class="drip-morph"><img src="assets/bl_bflybook.jpg" alt=""></div></div>
+  <div class="drip"><img src="assets/bl_frag01.png" alt=""></div>
   <div class="eyebrow">SHADOW · 【陰暗】</div>
   <h2 class="h2">【陰暗】</h2>
   <div class="rule"></div>
@@ -136,7 +128,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 
 <!-- ============ ｜我 ============ -->
 <section class="wrap reveal">
-  <div class="drip d2"><div class="drip-morph"><img src="assets/bl_fl2.jpg" alt=""></div></div>
+  <div class="drip"><img src="assets/bl_frag02.png" alt=""></div>
   <div class="eyebrow">｜ 我 · ME</div>
   <h2 class="h2">｜我<small>Claire</small></h2>
   <div class="rule"></div>
@@ -149,14 +141,14 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 
 <!-- ============ 抓娃娃机 ============ -->
 <section class="wrap reveal">
-  <div class="drip d3"><div class="drip-morph"><img src="assets/bl_circle.jpg" alt=""></div></div>
+  <div class="drip"><img src="assets/bl_frag03.png" alt=""></div>
   <p class="line">世界是一个巨大的抓娃娃机<br>隔着玻璃 只想要你</p>
   <p class="script">/ . 你去发誓吧 说你离开我就会三掉 . /</p>
 </section>
 
 <!-- ============ ｜无相 ============ -->
 <section class="wrap reveal">
-  <div class="drip"><div class="drip-morph"><img src="assets/bl_grid.jpg" alt=""></div></div>
+  <div class="drip"><img src="assets/bl_frag04.png" alt=""></div>
   <div class="eyebrow">｜无相 · STYLE</div>
   <h2 class="h2">｜无相<small>最近 风格</small></h2>
   <div class="rule"></div>
@@ -172,7 +164,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 
 <!-- ============ 我的常驻 ============ -->
 <section class="wrap reveal">
-  <div class="drip d2"><div class="drip-morph"><img src="assets/bl_cat.jpg" alt=""></div></div>
+  <div class="drip"><img src="assets/bl_frag05.png" alt=""></div>
   <p class="line">摸摸头会变乖么<br>软软的窝在怀里</p>
   <p class="script">you were always meant to be my destiny</p>
   <p class="tagline">斜太 · 爱神</p>
@@ -180,7 +172,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 
 <!-- ============ 单前须知 ============ -->
 <section class="wrap reveal">
-  <div class="drip d3"><div class="drip-morph"><img src="assets/bl_jelly.jpg" alt=""></div></div>
+  <div class="drip"><img src="assets/bl_frag06.png" alt=""></div>
   <p class="line">是在说我吗.听不懂.像是在对主人示好</p>
   <p class="script">—— Claire</p>
   <p class="script" style="font-size:clamp(19px,3.4vw,27px)">It's a shame to bring it up about you</p>
@@ -214,7 +206,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 
 <!-- ============ ｜板评 ============ -->
 <section class="wrap reveal">
-  <div class="drip"><div class="drip-morph"><img src="assets/bl_cross.jpg" alt=""></div></div>
+  <div class="drip"><img src="assets/bl_frag07.png" alt=""></div>
   <div class="eyebrow">｜板评 · REVIEW</div>
   <h2 class="h2">｜板评</h2>
   <div class="rule"></div>
@@ -226,7 +218,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 
 <!-- ============ ｜话术 ============ -->
 <section class="wrap reveal">
-  <div class="drip d2"><div class="drip-morph"><img src="assets/bl_handwrite.jpg" alt=""></div></div>
+  <div class="drip"><img src="assets/bl_frag08.png" alt=""></div>
   <div class="eyebrow">｜话术 · CRAFT</div>
   <h2 class="h2">｜话术</h2>
   <div class="rule"></div>
