@@ -49,7 +49,7 @@ body{font-family:var(--sans);color:var(--ink);background:#06060c;overflow-x:hidd
   background:radial-gradient(125% 95% at 50% 40%,#0b0b18 0%,#050509 65%,#020205 100%);overflow:hidden}
 .intro.done{opacity:0;transition:opacity 1s ease;pointer-events:none}
 .intro .stage{position:relative;width:100%;height:100%}
-.big-flower{position:absolute;left:50%;top:41%;width:min(64vmin,470px);height:min(64vmin,470px);
+.big-flower{position:absolute;left:50%;top:47%;width:min(66vmin,500px);height:min(66vmin,500px);
   transform:translate(-50%,-50%);animation:bloom 1.7s cubic-bezier(.2,.7,.3,1) .35s both}
 .big-flower .lily{width:100%;height:100%;display:block;
   filter:drop-shadow(0 0 20px rgba(70,120,255,.78)) drop-shadow(0 0 48px rgba(40,80,220,.45));
@@ -58,21 +58,8 @@ body{font-family:var(--sans);color:var(--ink);background:#06060c;overflow-x:hidd
   60%{opacity:1}
   100%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0)}}
 @keyframes floaty{0%,100%{transform:rotate(0) translateY(0)}50%{transform:rotate(2.2deg) translateY(-10px)}}
-.small-flowers{position:absolute;inset:0}
-.sf{position:absolute;width:clamp(46px,8.5vmin,98px);height:clamp(46px,8.5vmin,98px);bottom:5%;
-  opacity:0;transform:translateY(90px) scale(.6);
-  animation:rise 1.5s cubic-bezier(.2,.7,.3,1) var(--d,2s) both}
-.sf .lily{width:100%;height:100%;display:block;
-  filter:drop-shadow(0 0 12px rgba(70,120,255,.6)) drop-shadow(0 0 26px rgba(40,80,220,.35));
-  animation:floaty2 5.5s ease-in-out 3.5s infinite}
-@keyframes rise{0%{opacity:0;transform:translateY(110px) scale(.55)}
-  55%{opacity:1}
-  100%{opacity:.92;transform:translateY(0) scale(1)}}
-@keyframes floaty2{0%,100%{transform:rotate(0) translateY(0)}50%{transform:rotate(-2deg) translateY(-7px)}}
 @media(prefers-reduced-motion:reduce){
-  .big-flower,.sf{animation:none;opacity:1}
-  .big-flower{transform:translate(-50%,-50%)}
-  .sf{transform:none}
+  .big-flower{animation:none;opacity:1;transform:translate(-50%,-50%)}
 }
 
 /* ===== 正文底图：蓝手（新版） ===== */
@@ -153,12 +140,12 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
       <stop offset="100%" stop-color="#1430b0"/>
     </radialGradient>
     <g id="lilyG">
-      <path d="M100,100 C92,64 94,34 101,16 C103,9 110,6 113,12 C109,30 106,66 100,100 Z" transform="rotate(0 100 100)" fill="url(#pg)" stroke="#bcd4ff" stroke-width="0.8" stroke-opacity=".5"/>
-      <path d="M100,100 C92,64 94,34 101,16 C103,9 110,6 113,12 C109,30 106,66 100,100 Z" transform="rotate(60 100 100)" fill="url(#pg)" stroke="#bcd4ff" stroke-width="0.8" stroke-opacity=".5"/>
-      <path d="M100,100 C92,64 94,34 101,16 C103,9 110,6 113,12 C109,30 106,66 100,100 Z" transform="rotate(120 100 100)" fill="url(#pg)" stroke="#bcd4ff" stroke-width="0.8" stroke-opacity=".5"/>
-      <path d="M100,100 C92,64 94,34 101,16 C103,9 110,6 113,12 C109,30 106,66 100,100 Z" transform="rotate(180 100 100)" fill="url(#pg)" stroke="#bcd4ff" stroke-width="0.8" stroke-opacity=".5"/>
-      <path d="M100,100 C92,64 94,34 101,16 C103,9 110,6 113,12 C109,30 106,66 100,100 Z" transform="rotate(240 100 100)" fill="url(#pg)" stroke="#bcd4ff" stroke-width="0.8" stroke-opacity=".5"/>
-      <path d="M100,100 C92,64 94,34 101,16 C103,9 110,6 113,12 C109,30 106,66 100,100 Z" transform="rotate(300 100 100)" fill="url(#pg)" stroke="#bcd4ff" stroke-width="0.8" stroke-opacity=".5"/>
+      <path d="M100,95 C92,84 87,66 94,50 C99,42 92,33 97,25 C102,17 112,10 122,12 C133,14 138,26 131,34 C124,31 119,34 117,38 C113,40 110,49 108,58 C104,70 106,84 100,95 Z" transform="rotate(0 100 100)" fill="url(#pg)" stroke="#bcd4ff" stroke-width="0.8" stroke-opacity=".5"/>
+      <path d="M100,95 C92,84 87,66 94,50 C99,42 92,33 97,25 C102,17 112,10 122,12 C133,14 138,26 131,34 C124,31 119,34 117,38 C113,40 110,49 108,58 C104,70 106,84 100,95 Z" transform="rotate(60 100 100)" fill="url(#pg)" stroke="#bcd4ff" stroke-width="0.8" stroke-opacity=".5"/>
+      <path d="M100,95 C92,84 87,66 94,50 C99,42 92,33 97,25 C102,17 112,10 122,12 C133,14 138,26 131,34 C124,31 119,34 117,38 C113,40 110,49 108,58 C104,70 106,84 100,95 Z" transform="rotate(120 100 100)" fill="url(#pg)" stroke="#bcd4ff" stroke-width="0.8" stroke-opacity=".5"/>
+      <path d="M100,95 C92,84 87,66 94,50 C99,42 92,33 97,25 C102,17 112,10 122,12 C133,14 138,26 131,34 C124,31 119,34 117,38 C113,40 110,49 108,58 C104,70 106,84 100,95 Z" transform="rotate(180 100 100)" fill="url(#pg)" stroke="#bcd4ff" stroke-width="0.8" stroke-opacity=".5"/>
+      <path d="M100,95 C92,84 87,66 94,50 C99,42 92,33 97,25 C102,17 112,10 122,12 C133,14 138,26 131,34 C124,31 119,34 117,38 C113,40 110,49 108,58 C104,70 106,84 100,95 Z" transform="rotate(240 100 100)" fill="url(#pg)" stroke="#bcd4ff" stroke-width="0.8" stroke-opacity=".5"/>
+      <path d="M100,95 C92,84 87,66 94,50 C99,42 92,33 97,25 C102,17 112,10 122,12 C133,14 138,26 131,34 C124,31 119,34 117,38 C113,40 110,49 108,58 C104,70 106,84 100,95 Z" transform="rotate(300 100 100)" fill="url(#pg)" stroke="#bcd4ff" stroke-width="0.8" stroke-opacity=".5"/>
       <ellipse cx="100" cy="52" rx="2.6" ry="48" transform="rotate(30 100 100)" fill="#9fc0ff"/>
       <ellipse cx="100" cy="52" rx="2.6" ry="48" transform="rotate(90 100 100)" fill="#9fc0ff"/>
       <ellipse cx="100" cy="52" rx="2.6" ry="48" transform="rotate(150 100 100)" fill="#9fc0ff"/>
@@ -179,15 +166,6 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 <div class="intro" id="intro">
   <div class="stage">
     <div class="big-flower"><svg class="lily" viewBox="0 0 200 200"><use href="#lilyG"/></svg></div>
-    <div class="small-flowers">
-      <div class="sf" style="left:8%;bottom:4%;--d:2.0s"><svg class="lily" viewBox="0 0 200 200"><use href="#lilyG"/></svg></div>
-      <div class="sf" style="left:22%;bottom:9%;--d:2.25s"><svg class="lily" viewBox="0 0 200 200"><use href="#lilyG"/></svg></div>
-      <div class="sf" style="left:38%;bottom:3%;--d:2.5s"><svg class="lily" viewBox="0 0 200 200"><use href="#lilyG"/></svg></div>
-      <div class="sf" style="left:52%;bottom:8%;--d:2.7s"><svg class="lily" viewBox="0 0 200 200"><use href="#lilyG"/></svg></div>
-      <div class="sf" style="left:66%;bottom:4%;--d:2.95s"><svg class="lily" viewBox="0 0 200 200"><use href="#lilyG"/></svg></div>
-      <div class="sf" style="left:80%;bottom:10%;--d:3.2s"><svg class="lily" viewBox="0 0 200 200"><use href="#lilyG"/></svg></div>
-      <div class="sf" style="left:91%;bottom:5%;--d:3.45s"><svg class="lily" viewBox="0 0 200 200"><use href="#lilyG"/></svg></div>
-    </div>
   </div>
 </div>
 
@@ -411,7 +389,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   if(rm){intro.style.display='none';return;}
   let done=false;
   function finish(){if(done)return;done=true;intro.classList.add('done');}
-  setTimeout(finish,4800);
+  setTimeout(finish,3800);
   intro.addEventListener('transitionend',e=>{if(done&&e.propertyName==='opacity')intro.style.display='none';});
   intro.addEventListener('click',finish,{passive:true});
 })();
