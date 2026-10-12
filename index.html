@@ -58,6 +58,13 @@ body{font-family:var(--sans);color:var(--ink);background:#06060c;overflow-x:hidd
   60%{opacity:1}
   100%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0)}}
 @keyframes floaty{0%,100%{transform:rotate(0) translateY(0)}50%{transform:rotate(2.2deg) translateY(-10px)}}
+/* 开场动画底部：彼岸花英文 */
+.intro-cap{position:absolute;left:50%;bottom:6.5%;transform:translateX(-50%);
+  font-family:var(--display);text-transform:uppercase;letter-spacing:.46em;
+  font-size:12px;color:var(--ink);opacity:0;
+  text-shadow:0 0 16px rgba(80,120,255,.5);
+  animation:capin 1.4s ease 2.4s both}
+@keyframes capin{from{opacity:0;letter-spacing:.7em}to{opacity:.62;letter-spacing:.46em}}
 @media(prefers-reduced-motion:reduce){
   .big-flower{animation:none;opacity:1;transform:translate(-50%,-50%)}
 }
@@ -166,6 +173,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 <div class="intro" id="intro">
   <div class="stage">
     <div class="big-flower"><svg class="lily" viewBox="0 0 200 200"><use href="#lilyG"/></svg></div>
+    <div class="intro-cap">Lycoris radiata</div>
   </div>
 </div>
 
