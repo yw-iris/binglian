@@ -411,7 +411,6 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   function finish(){if(done)return;done=true;intro.classList.add('done');}
   setTimeout(finish,6000);
   intro.addEventListener('transitionend',e=>{if(done&&e.propertyName==='opacity')intro.style.display='none';});
-  intro.addEventListener('click',finish,{passive:true});
 })();
 </script>
 </body>
