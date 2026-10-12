@@ -110,7 +110,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 <!-- ============ 开场：非白部分如流体淌下 ============ -->
 <header class="hero">
   <div class="hero-stage">
-    <img class="clean" src="assets/bl_hero_wt.png" alt="">
+    <img class="clean" src="assets/bl_hero_dark.png" alt="">
   </div>
   <div class="hero-veil"></div>
   <div class="hero-in">
@@ -261,7 +261,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
     B.push({x:x*dpr,y:y*dpr,s:s*dpr,
       vx:rnd(-0.3,0.3)*dpr, vy:up*rnd(0.35,0.85)*dpr,
       ph:rnd(0,6.28), fs:rnd(0.13,0.24),
-      sway:rnd(0.6,1.5), t:0, life:rnd(6,11), a0:opt.a||0.92});
+      sway:rnd(0.6,1.5), t:0, life:rnd(3,5), a0:opt.a||0.92});
   }
   function drawB(b){
     const s=b.s, ws=0.18+0.82*Math.abs(Math.cos(b.ph));
