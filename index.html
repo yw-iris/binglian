@@ -40,6 +40,7 @@ body{font-family:var(--sans);color:var(--ink);background:#06060c;overflow-x:hidd
   text-shadow:0 0 26px rgba(80,120,255,.6),0 0 64px rgba(40,80,220,.45)}
 .hero .sub{font-family:var(--script);color:var(--ink);font-size:clamp(22px,4.2vw,32px);margin-top:22px;text-shadow:0 0 18px rgba(80,120,255,.55)}
 .hero .tag{font-family:var(--serif);font-weight:300;letter-spacing:.34em;font-size:clamp(12px,2.4vw,15px);color:var(--ink);opacity:.68;margin-top:34px}
+.hero .oath{font-family:var(--serif);font-weight:300;font-size:clamp(15px,3vw,19px);line-height:1.9;letter-spacing:.06em;color:var(--ink);opacity:.9;margin-top:30px;text-shadow:0 0 16px rgba(80,120,255,.45)}
 .hero .cue{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);font-family:var(--script);color:var(--ink);font-size:14px;opacity:.65;animation:cue 2.4s ease-in-out infinite;z-index:1}
 @keyframes cue{0%,100%{opacity:.25;transform:translate(-50%,0)}50%{opacity:.8;transform:translate(-50%,6px)}}
 
@@ -118,6 +119,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
     <h1>贪恋你的吻<br>也是罪过吗</h1>
     <div class="sub">— Claire · 克莱尔</div>
     <div class="tag">向死而生，亦向爱而生</div>
+    <div class="oath">你去发誓吧——说你离开我，就会死掉。</div>
   </div>
   <div class="cue">scroll</div>
 </header>
@@ -147,7 +149,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 <!-- ============ 抓娃娃机 ============ -->
 <section class="wrap reveal">
   <p class="line">世界是一个巨大的抓娃娃机<br>隔着玻璃 只想要你</p>
-  <p class="script">/ . 你去发誓吧 说你离开我就会三掉 . /</p>
+  <p class="script">/ . 你去发誓吧——说你离开我，就会死掉。. /</p>
 </section>
 
 <!-- ============ ｜无相 ============ -->
@@ -261,7 +263,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
     B.push({x:x*dpr,y:y*dpr,s:s*dpr,
       vx:rnd(-0.3,0.3)*dpr, vy:up*rnd(0.35,0.85)*dpr,
       ph:rnd(0,6.28), fs:rnd(0.13,0.24),
-      sway:rnd(0.6,1.5), t:0, life:rnd(3,5), a0:opt.a||0.92});
+      sway:rnd(0.6,1.5), t:0, life:rnd(2,3), a0:opt.a||0.92});
   }
   function drawB(b){
     const s=b.s, ws=0.18+0.82*Math.abs(Math.cos(b.ph));
