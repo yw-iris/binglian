@@ -417,8 +417,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
 /* 里页英文文案：粉末颗粒聚集显现（不改字体风格） */
 (function(){
-  const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
-  if(reduce)return; // 降级：英文随板块普通浮现
+  // 注：用户明确要求该效果，故即便系统开启“减少动态效果”也照常播放
   const cjk=/[　-鿿぀-ヿ＀-￯]/;
   const nodes=[...document.querySelectorAll('.reveal .script, .reveal .en')];
   nodes.forEach(el=>{
