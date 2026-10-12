@@ -26,10 +26,10 @@ body{font-family:var(--sans);color:var(--ink);background:#06060c;overflow-x:hidd
 .hero{min-height:100svh;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 24px;overflow:hidden;background:#06060c}
 /* 与原图同比例的画布，按 cover 方式铺满首屏 */
 .hero-stage{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  --arn:1.1184; /* 1445/1292 */
+  --arn:1.1688; /* 1080/924 */
   width:max(100vw,calc(100svh * var(--arn)));
   height:max(100svh,calc(100vw / var(--arn)));}
-/* 黑底蓝花：静态开场，不再做流体动画 */
+/* 碎片拼图（已去白底）：静态开场 */
 .hero-stage .clean{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block;opacity:.85}
 .hero-veil{position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(120% 78% at 50% 42%,transparent,rgba(6,6,12,.55)),
@@ -110,7 +110,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 <!-- ============ 开场：非白部分如流体淌下 ============ -->
 <header class="hero">
   <div class="hero-stage">
-    <img class="clean" src="assets/bl_hero_black.png" alt="">
+    <img class="clean" src="assets/bl_hero_wt.png" alt="">
   </div>
   <div class="hero-veil"></div>
   <div class="hero-in">
@@ -246,7 +246,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 <canvas id="bfly"></canvas>
 
 <script>
-/* 白色蝴蝶：随指针 / 触摸 / 滚动 / 定时 在暗底上飘飞（取代水波纹） */
+/* 白色蝴蝶：点击鼠标 / 手机触屏 时在指点处生蝶（取代水波纹） */
 (function(){
   if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)return;
   const cv=document.getElementById('bfly'),ctx=cv.getContext('2d');
@@ -301,18 +301,13 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
     }
     requestAnimationFrame(loop);
   })();
-  // 指针 / 触摸：在光标处生蝶
-  let px=-9,py=-9,pt=0;
-  function move(x,y){if(performance.now()-pt>120){spawn(x,y,{});px=x;py=y;pt=performance.now();}}
-  addEventListener('pointermove',e=>move(e.clientX,e.clientY),{passive:true});
-  addEventListener('touchmove',e=>{const t=e.touches[0];if(t)move(t.clientX,t.clientY);},{passive:true});
-  // 滚动：自上方飘落
-  let sy=scrollY;
-  addEventListener('scroll',()=>{if(Math.abs(scrollY-sy)>30){sy=scrollY;spawn(rnd(0,innerWidth),rnd(-10,40),{});}},{passive:true});
-  // 环境飘落
-  setInterval(()=>spawn(rnd(0,innerWidth),rnd(-10,innerHeight*0.3),{}),1700);
-  // 开场预置几只
-  for(let k=0;k<6;k++)spawn(rnd(0,innerWidth),rnd(0,innerHeight*0.6),{});
+  // 点击鼠标 / 触屏按下：在指点处生蝶（每次一小簇）
+  function burst(x,y){
+    spawn(x,y,{});
+    for(let k=0;k<3;k++)spawn(x+rnd(-26,26),y+rnd(-20,20),{});
+  }
+  addEventListener('click',e=>burst(e.clientX,e.clientY),{passive:true});
+  addEventListener('touchstart',e=>{const t=e.touches[0];if(t)burst(t.clientX,t.clientY);},{passive:true});
 })();
 
 /* 滚动显现 */
