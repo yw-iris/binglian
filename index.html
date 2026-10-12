@@ -22,22 +22,41 @@
 html{scroll-behavior:smooth}
 body{font-family:var(--sans);color:var(--ink);background:#06060c;overflow-x:hidden;line-height:2.1;-webkit-font-smoothing:antialiased}
 
-/* ===== 开场：蓝花碎片 ===== */
-.hero{min-height:100svh;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 24px;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:url('assets/bl_hero.jpg') center/cover no-repeat;background-color:#fdfdfe}
-.hero-veil{position:absolute;inset:0;
-  background:radial-gradient(70% 55% at 50% 44%,rgba(255,255,255,.62),rgba(255,255,255,.18) 62%,transparent 78%),
-  linear-gradient(180deg,rgba(253,253,254,.35),transparent 22%,transparent 58%,rgba(6,6,12,.42) 84%,#06060c 99%)}
+/* ===== 开场：白底蓝花图，非白部分如流体淌下 ===== */
+.hero{min-height:100svh;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 24px;overflow:hidden;background:#fdfdfe}
+/* 与原图同比例的画布，按 cover 方式铺满首屏 */
+.hero-stage{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  --arn:1.1184; /* 1445/1292 */
+  width:max(100vw,calc(100svh * var(--arn)));
+  height:max(100svh,calc(100vw / var(--arn)));}
+.hero-stage .clean{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block}
+/* 碎片层：越往下淌越淡，融入暗区 */
+.frags{position:absolute;inset:0;
+  -webkit-mask-image:linear-gradient(180deg,#000 58%,transparent 96%);
+          mask-image:linear-gradient(180deg,#000 58%,transparent 96%)}
+.frag{position:absolute;height:auto;display:block;
+  filter:drop-shadow(0 6px 18px rgba(30,60,200,.25));
+  transform:translateY(0);
+  animation:flow var(--d,9s) cubic-bezier(.5,.06,.7,.6) var(--dl,0s) infinite}
+@keyframes flow{
+  0%      {transform:translateY(0) scaleY(1);opacity:0}
+  7%      {transform:translateY(0) scaleY(1);opacity:1}
+  68%     {transform:translateY(40vh) scaleY(1.05);opacity:1}
+  90%,100%{transform:translateY(58vh) scaleY(1.12);opacity:0}
+}
+.hero-veil{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(253,253,254,0) 30%,rgba(6,6,12,.34) 74%,rgba(6,6,12,.78) 90%,#06060c 100%)}
 .hero-in{position:relative;z-index:1}
 .hero .eyebrow{font-family:var(--display);letter-spacing:.44em;font-size:12px;text-transform:uppercase;color:var(--kb);opacity:.85;margin-bottom:26px}
-.hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(34px,8.2vw,80px);line-height:1.18;letter-spacing:.05em;color:var(--kb)}
-.hero .sub{font-family:var(--script);color:var(--kb);font-size:clamp(22px,4.2vw,32px);margin-top:22px}
+.hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(34px,8.2vw,80px);line-height:1.18;letter-spacing:.05em;color:var(--kb);
+  text-shadow:0 0 24px rgba(255,255,255,.9),0 0 60px rgba(255,255,255,.7)}
+.hero .sub{font-family:var(--script);color:var(--kb);font-size:clamp(22px,4.2vw,32px);margin-top:22px;text-shadow:0 0 18px rgba(255,255,255,.9)}
 .hero .tag{font-family:var(--serif);font-weight:300;letter-spacing:.34em;font-size:clamp(12px,2.4vw,15px);color:var(--kb);opacity:.75;margin-top:34px}
-.hero .cue{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);font-family:var(--script);color:var(--kb);font-size:14px;opacity:.65;animation:cue 2.4s ease-in-out infinite;z-index:1}
+.hero .cue{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);font-family:var(--script);color:var(--ink);font-size:14px;opacity:.65;animation:cue 2.4s ease-in-out infinite;z-index:1}
 @keyframes cue{0%,100%{opacity:.25;transform:translate(-50%,0)}50%{opacity:.8;transform:translate(-50%,6px)}}
 
-/* ===== 正文底图：蓝手 ===== */
-#hand{position:fixed;inset:0;z-index:-3;background:url('assets/bl_hand.jpg') center 38%/cover no-repeat;background-color:#04060f}
+/* ===== 正文底图：蓝手（新版） ===== */
+#hand{position:fixed;inset:0;z-index:-3;background:url('assets/bl_hand2.jpg') center 38%/cover no-repeat;background-color:#04060f}
 #hand::after{content:"";position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(5,9,26,.78),rgba(10,8,38,.6) 48%,rgba(3,3,12,.9)),
   radial-gradient(85% 60% at 50% 32%,transparent,rgba(3,3,14,.55))}
@@ -80,15 +99,6 @@ section{padding:170px 0;position:relative;z-index:1}
 .quotes p .en{font-family:var(--script);font-size:1.18em}
 .tagline{font-family:var(--serif);font-weight:300;font-size:clamp(18px,3.4vw,24px);margin:30px 0;letter-spacing:.04em}
 
-/* ===== 流体小图：开场图裁出的碎片，每节垂落 ===== */
-.drip{height:172px;margin:6px 0 46px;display:flex;opacity:0;transform:translateY(-56px) scaleY(.45);transform-origin:top center;
-  transition:opacity 1s ease .15s,transform 1.5s cubic-bezier(.2,.85,.3,1.18) .15s}
-.reveal.in .drip{opacity:1;transform:none}
-.drip img{height:100%;width:auto;display:block;
-  filter:drop-shadow(0 0 26px rgba(60,100,235,.45)) drop-shadow(0 16px 32px rgba(10,25,110,.55)) saturate(1.2);
-  animation:bob 7s ease-in-out infinite}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(12px)}}
-
 footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 .fmark{font-family:var(--display);font-size:30px;letter-spacing:.3em;opacity:.45;margin-bottom:22px}
 .credit{font-family:var(--script);font-size:15px;letter-spacing:.04em;opacity:.65;margin-top:18px}
@@ -97,14 +107,27 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 
 .reveal{opacity:0;transform:translateY(34px);transition:opacity 1.2s ease,transform 1.2s ease}
 .reveal.in{opacity:1;transform:none}
-@media(max-width:600px){section{padding:120px 0}.wrap{padding:0 22px} .drip{height:132px}}
+@media(max-width:600px){section{padding:120px 0}.wrap{padding:0 22px}}
+@media(prefers-reduced-motion:reduce){.frag{animation:none;opacity:1}}
 </style>
 </head>
 <body>
 
-<!-- ============ 开场 ============ -->
+<!-- ============ 开场：非白部分如流体淌下 ============ -->
 <header class="hero">
-  <div class="hero-bg"></div>
+  <div class="hero-stage">
+    <img class="clean" src="assets/bl_hero_clean.jpg" alt="">
+    <div class="frags">
+      <img class="frag" src="assets/bl_frag01.png" style="left:0%;top:2.86%;width:7.06%;--d:9.5s;--dl:0s" alt="">
+      <img class="frag" src="assets/bl_frag02.png" style="left:6.71%;top:18.89%;width:5.54%;--d:8s;--dl:1.3s" alt="">
+      <img class="frag" src="assets/bl_frag03.png" style="left:11.76%;top:14.09%;width:41.38%;--d:12s;--dl:.4s" alt="">
+      <img class="frag" src="assets/bl_frag04.png" style="left:52.66%;top:35.6%;width:16.82%;--d:10s;--dl:2.2s" alt="">
+      <img class="frag" src="assets/bl_frag05.png" style="left:69.2%;top:62.23%;width:5.61%;--d:8.5s;--dl:3.1s" alt="">
+      <img class="frag" src="assets/bl_frag06.png" style="left:74.95%;top:35.91%;width:12.53%;--d:11s;--dl:1.8s" alt="">
+      <img class="frag" src="assets/bl_frag07.png" style="left:86.44%;top:38.78%;width:4.91%;--d:7.5s;--dl:2.7s" alt="">
+      <img class="frag" src="assets/bl_frag08.png" style="left:92.66%;top:9.21%;width:7.34%;--d:9s;--dl:.9s" alt="">
+    </div>
+  </div>
   <div class="hero-veil"></div>
   <div class="hero-in">
     <div class="eyebrow">BING LIAN · 病恋</div>
@@ -117,7 +140,6 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 
 <!-- ============ 【陰暗】 ============ -->
 <section class="wrap reveal">
-  <div class="drip"><img src="assets/bl_frag01.png" alt=""></div>
   <div class="eyebrow">SHADOW · 【陰暗】</div>
   <h2 class="h2">【陰暗】</h2>
   <div class="rule"></div>
@@ -128,7 +150,6 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 
 <!-- ============ ｜我 ============ -->
 <section class="wrap reveal">
-  <div class="drip"><img src="assets/bl_frag02.png" alt=""></div>
   <div class="eyebrow">｜ 我 · ME</div>
   <h2 class="h2">｜我<small>Claire</small></h2>
   <div class="rule"></div>
@@ -141,14 +162,12 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 
 <!-- ============ 抓娃娃机 ============ -->
 <section class="wrap reveal">
-  <div class="drip"><img src="assets/bl_frag03.png" alt=""></div>
   <p class="line">世界是一个巨大的抓娃娃机<br>隔着玻璃 只想要你</p>
   <p class="script">/ . 你去发誓吧 说你离开我就会三掉 . /</p>
 </section>
 
 <!-- ============ ｜无相 ============ -->
 <section class="wrap reveal">
-  <div class="drip"><img src="assets/bl_frag04.png" alt=""></div>
   <div class="eyebrow">｜无相 · STYLE</div>
   <h2 class="h2">｜无相<small>最近 风格</small></h2>
   <div class="rule"></div>
@@ -164,7 +183,6 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 
 <!-- ============ 我的常驻 ============ -->
 <section class="wrap reveal">
-  <div class="drip"><img src="assets/bl_frag05.png" alt=""></div>
   <p class="line">摸摸头会变乖么<br>软软的窝在怀里</p>
   <p class="script">you were always meant to be my destiny</p>
   <p class="tagline">斜太 · 爱神</p>
@@ -172,7 +190,6 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 
 <!-- ============ 单前须知 ============ -->
 <section class="wrap reveal">
-  <div class="drip"><img src="assets/bl_frag06.png" alt=""></div>
   <p class="line">是在说我吗.听不懂.像是在对主人示好</p>
   <p class="script">—— Claire</p>
   <p class="script" style="font-size:clamp(19px,3.4vw,27px)">It's a shame to bring it up about you</p>
@@ -206,7 +223,6 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 
 <!-- ============ ｜板评 ============ -->
 <section class="wrap reveal">
-  <div class="drip"><img src="assets/bl_frag07.png" alt=""></div>
   <div class="eyebrow">｜板评 · REVIEW</div>
   <h2 class="h2">｜板评</h2>
   <div class="rule"></div>
@@ -218,7 +234,6 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 
 <!-- ============ ｜话术 ============ -->
 <section class="wrap reveal">
-  <div class="drip"><img src="assets/bl_frag08.png" alt=""></div>
   <div class="eyebrow">｜话术 · CRAFT</div>
   <h2 class="h2">｜话术</h2>
   <div class="rule"></div>
@@ -254,7 +269,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
   function add(x,y){rip.push({x:x*dpr,y:y*dpr,r:0,a:1});if(rip.length>46)rip.shift();}
   let px=-9,py=-9,pt=0;
   addEventListener('pointermove',e=>{if(e.clientX-px>6||e.clientY-py>6){if(performance.now()-pt>26){add(e.clientX,e.clientY);px=e.clientX;py=e.clientY;pt=performance.now();}}},{passive:true});
-  addEventListener('touchmove',e=>{const t=e.touches[0];if(!t)return;if(t.clientX-px>6||t.clientY-py>6){if(performance.now()-pt>26){add(t.clientX,t.clientY);px=t.clientX;py=t.clientY;pt=performance.now();}}},{passive:true});
+  addEventListener('touchmove',e=>{const t=e.touches[0];if(!t)return;if(t.clientX-px>6||e.clientY-py>6){if(performance.now()-pt>26){add(t.clientX,t.clientY);px=e.clientX;py=e.clientY;pt=performance.now();}}},{passive:true});
   let sy=scrollY;
   addEventListener('scroll',()=>{if(Math.abs(scrollY-sy)>26){sy=scrollY;add(innerWidth/2+(Math.random()*120-60),innerHeight/2+(Math.random()*120-60));}},{passive:true});
   (function loop(){ctx.clearRect(0,0,W,H);ctx.globalCompositeOperation='lighter';
