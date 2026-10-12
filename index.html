@@ -31,12 +31,6 @@ body{font-family:var(--sans);color:var(--blue);background:#06060c;overflow-x:hid
 #hand::after{content:"";position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(5,9,26,.74),rgba(10,8,38,.58) 48%,rgba(3,3,12,.88)),
   radial-gradient(85% 60% at 50% 32%,transparent,rgba(3,3,14,.55))}
-#petals{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden}
-.pwrap{position:absolute;top:0;will-change:transform;animation:rise var(--dur) linear infinite;animation-delay:var(--del);opacity:0}
-.pwrap i{display:block;width:100%;height:100%;animation:sway var(--sdur) ease-in-out infinite alternate;animation-delay:var(--sdel);
-  filter:drop-shadow(0 0 6px rgba(150,120,240,.35))}
-@keyframes rise{0%{transform:translateY(72vh);opacity:0}9%{opacity:var(--op)}91%{opacity:var(--op)}100%{transform:translateY(-82vh);opacity:0}}
-@keyframes sway{from{transform:translateX(-16px) rotate(var(--r0))}to{transform:translateX(16px) rotate(var(--r1))}}
 #ripple{position:fixed;inset:0;z-index:-1;pointer-events:none}
 
 .wrap{max-width:920px;margin:0 auto;padding:0 26px}
@@ -52,19 +46,6 @@ section{padding:118px 0;position:relative;z-index:1}
 .red{color:var(--red);font-weight:500}
 .del{text-decoration:line-through;opacity:.6}
 .miss{color:var(--purple-d);font-style:italic;font-size:14px}
-
-/* 错落画廊（参考花瓶碎片排版） */
-.gallery{display:flex;flex-wrap:wrap;align-items:flex-end;gap:18px;margin:30px 0}
-.gallery img{height:auto;max-height:300px;width:auto;max-width:47%;object-fit:contain;border-radius:5px;
-  filter:drop-shadow(0 12px 34px rgba(0,0,0,.55))}
-.gallery.s3 img{max-height:250px}
-.gallery img:nth-child(2){margin-bottom:38px}
-.gallery img:nth-child(3){margin-bottom:8px}
-.gallery.img2 img{max-height:330px}
-.gallery.img3 img{max-height:250px}
-.gallery.img3 img:nth-child(1){margin-bottom:6px}
-.gallery.img3 img:nth-child(2){margin-bottom:40px}
-.gallery.img3 img:nth-child(3){margin-bottom:0}
 
 /* id 卡 */
 .idcard{display:flex;flex-wrap:wrap;gap:10px 14px;margin:24px 0}
@@ -96,12 +77,11 @@ footer{padding:90px 0 64px;text-align:center;position:relative;z-index:1}
 
 .reveal{opacity:0;transform:translateY(30px);transition:opacity 1.1s ease,transform 1.1s ease}
 .reveal.in{opacity:1;transform:none}
-@media(max-width:600px){section{padding:92px 0}.wrap{padding:0 20px}.gallery img{max-width:100%;margin-bottom:14px!important}}
+@media(max-width:600px){section{padding:92px 0}.wrap{padding:0 20px}}
 </style>
 </head>
 <body>
 <div id="hand"></div>
-<div id="petals"></div>
 <canvas id="ripple"></canvas>
 
 <!-- ============ 开屏 ============ -->
@@ -122,10 +102,6 @@ footer{padding:90px 0 64px;text-align:center;position:relative;z-index:1}
   <p class="line">—— 我没有什么坏心思哦一·</p>
   <p class="line">只是想掠夺你全部的注意力而已</p>
   <p class="script" style="margin-top:22px">it is the white plum that blooms in the cold winter it is the.</p>
-  <div class="gallery img2">
-    <img src="assets/bl_bflybook.jpg" alt="">
-    <img src="assets/bl_glass.jpg" alt="">
-  </div>
 </section>
 
 <!-- ============ ｜我 ============ -->
@@ -138,19 +114,11 @@ footer{padding:90px 0 64px;text-align:center;position:relative;z-index:1}
   </div>
   <p class="line">亲吻我 · 拥抱我 · <span class="red">依附在我身上</span></p>
   <p class="script" style="margin-top:20px">“ The moment I met you, it was not the wind but the heart. ”</p>
-  <div class="gallery s3">
-    <img src="assets/bl_fl1.jpg" alt="">
-    <img src="assets/bl_fl2.jpg" alt="">
-    <img src="assets/bl_fl3.jpg" alt="">
-  </div>
 </section>
 
 <!-- ============ 抓娃娃机 ============ -->
 <section class="wrap reveal">
   <p class="line">世界是一个巨大的抓娃娃机<br>隔着玻璃 只想要你</p>
-  <div class="gallery img2">
-    <img src="assets/bl_circle.jpg" alt="">
-  </div>
   <p class="script">/ . 你去发誓吧 说你离开我就会三掉 . /</p>
 </section>
 
@@ -173,9 +141,6 @@ footer{padding:90px 0 64px;text-align:center;position:relative;z-index:1}
 <section class="wrap reveal">
   <p class="line">摸摸头会变乖么<br>软软的窝在怀里</p>
   <p class="script" style="margin-top:16px">you were always meant to be my destiny</p>
-  <div class="gallery">
-    <img src="assets/bl_cat.jpg" alt="我的常驻" style="max-height:240px">
-  </div>
   <p class="tagline">斜太 · 爱神</p>
 </section>
 
@@ -184,9 +149,6 @@ footer{padding:90px 0 64px;text-align:center;position:relative;z-index:1}
   <p class="line">是在说我吗.听不懂.像是在对主人示好</p>
   <p class="script" style="margin-top:10px">—— Claire</p>
   <p class="script" style="margin-top:6px;font-size:clamp(19px,3.4vw,27px)">It's a shame to bring it up about you</p>
-  <div class="gallery img2">
-    <img src="assets/bl_notice.jpg" alt="克莱尔·单前须知">
-  </div>
   <h2 class="h2" style="margin-top:10px">克莱尔 · 单前须知</h2>
   <div class="rule"></div>
   <p class="red" style="margin:6px 0 4px;font-size:14px;letter-spacing:.04em">le 不接男板</p>
@@ -207,21 +169,8 @@ footer{padding:90px 0 64px;text-align:center;position:relative;z-index:1}
     <li>如果我的爱人不配合，我将会提前结束约会，<span class="red">时间内 我就是你的恋人</span>（低无，dom 等特殊情况除外）</li>
     <li>最后，很荣幸能与您进行一场愉快的约会，我们都在期待</li>
   </ol>
-  <div class="gallery img3" style="margin-top:30px">
-    <img src="assets/bl_bfpaint.jpg" alt="">
-    <img src="assets/bl_flpaint.jpg" alt="">
-    <img src="assets/bl_swan1.jpg" alt="">
-  </div>
   <p class="black" style="margin-top:26px">Mecum lacrimare, mecum plorare.</p>
   <p class="lead">同我啜泣 同我悲鸣</p>
-  <div class="gallery img3">
-    <img src="assets/bl_swan2.jpg" alt="">
-    <img src="assets/bl_swan3.jpg" alt="">
-    <img src="assets/bl_jelly.jpg" alt="">
-  </div>
-  <div class="gallery">
-    <img src="assets/bl_grid.jpg" alt="" style="max-height:280px">
-  </div>
   <div class="quotes">
     <p>“嘴上说着讨厌我，其实噩梦和椿梦都是我的脸吧”</p>
     <p>“学会对我撒娇就好了.不是吗”</p>
@@ -233,9 +182,6 @@ footer{padding:90px 0 64px;text-align:center;position:relative;z-index:1}
   <div class="eyebrow">｜板评 · REVIEW</div>
   <h2 class="h2">｜板评</h2>
   <div class="rule"></div>
-  <div class="gallery img2">
-    <img src="assets/bl_cross.jpg" alt="">
-  </div>
   <div class="quotes">
     <p>— 白鸽啃食信徒的身躯</p>
     <p>乌鸦沉迷于欲望.</p>
@@ -247,11 +193,6 @@ footer{padding:90px 0 64px;text-align:center;position:relative;z-index:1}
   <div class="eyebrow">｜话术 · CRAFT</div>
   <h2 class="h2">｜话术</h2>
   <div class="rule"></div>
-  <div class="gallery img3">
-    <img src="assets/bl_tree.jpg" alt="">
-    <img src="assets/bl_ghost.jpg" alt="">
-    <img src="assets/bl_handwrite.jpg" alt="">
-  </div>
   <div class="quotes">
     <p><span class="en">as far as I can see</span></p>
     <p>每一句都在怪我</p>
@@ -272,36 +213,6 @@ footer{padding:90px 0 64px;text-align:center;position:relative;z-index:1}
 </footer>
 
 <script>
-/* 升腾的彼岸花 / 蝴蝶 / 十字架 */
-(function(){
-  const host=document.getElementById('petals');
-  const COL=['#c01230','#3a6bff','#7a4fd0','#cfd0e8','#8a6bff'];
-  function spider(c){let s='<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><g stroke="'+c+'" stroke-width="2.4" fill="none" stroke-linecap="round"><line x1="60" y1="64" x2="60" y2="120"/>';
-    for(let k=0;k<6;k++){const a=(-90+k*60)*Math.PI/180;const tx=60+Math.cos(a)*46,ty=64+Math.sin(a)*46;const cx=60+Math.cos(a)*20,cy=64+Math.sin(a)*20-6;s+='<path d="M60 64 Q '+cx+' '+cy+' '+tx+' '+ty+'"/><circle cx="'+tx+'" cy="'+ty+'" r="4.5" fill="'+c+'" stroke="none"/>';}
-    for(let k=0;k<6;k++){const a=(-90+k*60+30)*Math.PI/180;const px=60+Math.cos(a)*15,py=64+Math.sin(a)*15;s+='<path d="M60 64 Q '+px+' '+py+' '+(60+Math.cos(a)*8)+' '+(64+Math.sin(a)*8)+'" stroke-width="1.5"/>';}
-    return s+'</g></svg>';}
-  function butterfly(c){return '<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg"><g fill="'+c+'" opacity="0.9"><path d="M60 50 C30 8 6 20 18 46 C6 56 36 60 60 50 Z"/><path d="M60 50 C90 8 114 20 102 46 C114 56 84 60 60 50 Z"/><path d="M60 52 C40 72 22 80 30 94 C46 96 58 70 60 52 Z"/><path d="M60 52 C80 72 98 80 90 94 C74 96 62 70 60 52 Z"/></g><line x1="60" y1="28" x2="60" y2="94" stroke="'+c+'" stroke-width="2"/></svg>';}
-  function cross(c){return '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g stroke="'+c+'" stroke-width="3.4" stroke-linecap="round"><line x1="50" y1="16" x2="50" y2="86"/><line x1="28" y1="38" x2="72" y2="38"/></g></svg>';}
-  const FN=[spider,butterfly,cross];
-  const N=innerWidth<600?7:12;
-  for(let i=0;i<N;i++){
-    const w=20+Math.random()*44;
-    const el=document.createElement('div');el.className='pwrap';
-    const fn=FN[Math.random()*FN.length|0],c=COL[Math.random()*COL.length|0];
-    el.style.left=(Math.random()*100)+'vw';
-    el.style.width=w+'px';el.style.height=w+'px';
-    el.style.setProperty('--dur',(18+Math.random()*16).toFixed(1)+'s');
-    el.style.setProperty('--del',(-Math.random()*32).toFixed(1)+'s');
-    el.style.setProperty('--op',(0.16+Math.random()*0.34).toFixed(2));
-    el.style.setProperty('--sdur',(4+Math.random()*5).toFixed(1)+'s');
-    el.style.setProperty('--sdel',(-Math.random()*6).toFixed(1)+'s');
-    el.style.setProperty('--r0',(-12+Math.random()*8).toFixed(1)+'deg');
-    el.style.setProperty('--r1',(4+Math.random()*12).toFixed(1)+'deg');
-    el.innerHTML='<i>'+fn(c)+'</i>';
-    host.appendChild(el);
-  }
-})();
-
 /* 水波荡漾（鼠标 / 触摸滑动 / 滚动） */
 (function(){
   const cv=document.getElementById('ripple'),ctx=cv.getContext('2d');
