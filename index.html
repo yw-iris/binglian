@@ -35,14 +35,15 @@ body{font-family:var(--sans);color:var(--ink);background:#06060c;overflow-x:hidd
   -webkit-mask-image:linear-gradient(180deg,#000 58%,transparent 96%);
           mask-image:linear-gradient(180deg,#000 58%,transparent 96%)}
 .frag{position:absolute;height:auto;display:block;
-  filter:drop-shadow(0 6px 18px rgba(30,60,200,.25));
+  filter:drop-shadow(0 4px 10px rgba(30,60,200,.16)) blur(.3px);
   transform:translateY(0);
   animation:flow var(--d,9s) cubic-bezier(.5,.06,.7,.6) var(--dl,0s) infinite}
 @keyframes flow{
   0%      {transform:translateY(0) scaleY(1);opacity:0}
-  7%      {transform:translateY(0) scaleY(1);opacity:1}
-  68%     {transform:translateY(40vh) scaleY(1.05);opacity:1}
-  90%,100%{transform:translateY(58vh) scaleY(1.12);opacity:0}
+  8%      {transform:translateY(0) scaleY(1);opacity:1}
+  26%     {transform:translateY(0) scaleY(1);opacity:1}
+  76%     {transform:translateY(42vh) scaleY(1.05);opacity:.9}
+  93%,100%{transform:translateY(60vh) scaleY(1.12);opacity:0}
 }
 .hero-veil{position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(180deg,rgba(253,253,254,0) 30%,rgba(6,6,12,.34) 74%,rgba(6,6,12,.78) 90%,#06060c 100%)}
@@ -58,8 +59,8 @@ body{font-family:var(--sans);color:var(--ink);background:#06060c;overflow-x:hidd
 /* ===== 正文底图：蓝手（新版） ===== */
 #hand{position:fixed;inset:0;z-index:-3;background:url('assets/bl_hand2.jpg') center 38%/cover no-repeat;background-color:#04060f}
 #hand::after{content:"";position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(5,9,26,.78),rgba(10,8,38,.6) 48%,rgba(3,3,12,.9)),
-  radial-gradient(85% 60% at 50% 32%,transparent,rgba(3,3,14,.55))}
+  background:linear-gradient(180deg,rgba(5,9,26,.5),rgba(10,8,38,.34) 48%,rgba(3,3,12,.78)),
+  radial-gradient(85% 60% at 50% 32%,transparent,rgba(3,3,14,.35))}
 #ripple{position:fixed;inset:0;z-index:-1;pointer-events:none}
 
 /* ===== 排版 ===== */
@@ -118,14 +119,14 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
   <div class="hero-stage">
     <img class="clean" src="assets/bl_hero_clean.jpg" alt="">
     <div class="frags">
-      <img class="frag" src="assets/bl_frag01.png" style="left:0%;top:2.86%;width:7.06%;--d:9.5s;--dl:0s" alt="">
-      <img class="frag" src="assets/bl_frag02.png" style="left:6.71%;top:18.89%;width:5.54%;--d:8s;--dl:1.3s" alt="">
-      <img class="frag" src="assets/bl_frag03.png" style="left:11.76%;top:14.09%;width:41.38%;--d:12s;--dl:.4s" alt="">
-      <img class="frag" src="assets/bl_frag04.png" style="left:52.66%;top:35.6%;width:16.82%;--d:10s;--dl:2.2s" alt="">
-      <img class="frag" src="assets/bl_frag05.png" style="left:69.2%;top:62.23%;width:5.61%;--d:8.5s;--dl:3.1s" alt="">
-      <img class="frag" src="assets/bl_frag06.png" style="left:74.95%;top:35.91%;width:12.53%;--d:11s;--dl:1.8s" alt="">
-      <img class="frag" src="assets/bl_frag07.png" style="left:86.44%;top:38.78%;width:4.91%;--d:7.5s;--dl:2.7s" alt="">
-      <img class="frag" src="assets/bl_frag08.png" style="left:92.66%;top:9.21%;width:7.34%;--d:9s;--dl:.9s" alt="">
+      <img class="frag" src="assets/bl_frag01.png" style="left:0%;top:2.86%;width:7.06%;--d:15s;--dl:1s" alt="">
+      <img class="frag" src="assets/bl_frag02.png" style="left:6.71%;top:18.89%;width:5.54%;--d:13.5s;--dl:3.4s" alt="">
+      <img class="frag" src="assets/bl_frag03.png" style="left:11.76%;top:14.09%;width:41.38%;--d:17s;--dl:1.8s" alt="">
+      <img class="frag" src="assets/bl_frag04.png" style="left:52.66%;top:35.6%;width:16.82%;--d:14.5s;--dl:5s" alt="">
+      <img class="frag" src="assets/bl_frag05.png" style="left:69.2%;top:62.23%;width:5.61%;--d:13s;--dl:6.2s" alt="">
+      <img class="frag" src="assets/bl_frag06.png" style="left:74.95%;top:35.91%;width:12.53%;--d:16s;--dl:4.1s" alt="">
+      <img class="frag" src="assets/bl_frag07.png" style="left:86.44%;top:38.78%;width:4.91%;--d:12.5s;--dl:5.6s" alt="">
+      <img class="frag" src="assets/bl_frag08.png" style="left:92.66%;top:9.21%;width:7.34%;--d:14s;--dl:2.6s" alt="">
     </div>
   </div>
   <div class="hero-veil"></div>
@@ -256,6 +257,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
   <div class="credit">made by <a href="https://github.com/yw-iris" target="_blank" rel="noopener">yw-iris</a></div>
 </footer>
 
+<div id="hand"></div>
 <canvas id="ripple"></canvas>
 
 <script>
