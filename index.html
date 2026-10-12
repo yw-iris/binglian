@@ -6,265 +6,293 @@
 <title>贪恋你的吻也是罪过吗 · 克莱尔</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Noto+Serif+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500&family=Dancing+Script:wght@500;600&family=UnifrakturMaguntia&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --serif:'Noto Serif SC',serif;
+  --sans:'Noto Sans SC',system-ui,sans-serif;
+  --script:'Dancing Script',cursive;
+  --black:'UnifrakturMaguntia',serif;
   --display:'Cinzel',serif;
-  --latin:'Cormorant Garamond',serif;
-  --klein:#002FA7;            /* 克莱因蓝 */
-  --klein-2:#1d4fd6;
-  --purple:#5a32b0;
-  --violet:#2a1652;
-  --crimson:#c01230;          /* 彼岸花红 */
-  --paper:#e9e6f5;
-  --muted:#9b90c4;
-  --line:rgba(150,130,220,.18);
+  --purple:#b69ce6;
+  --purple-d:#8f74c8;
+  --blue:#9ab2f0;
+  --blue-d:#6f8fe0;
+  --red:#e06078;
+  --paper:#eef0fb;
+  --line:rgba(150,130,220,.20);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{
-  font-family:var(--serif);color:var(--paper);
-  background:var(--ink,#06060c);
-  overflow-x:hidden;line-height:1.85;-webkit-font-smoothing:antialiased;
-}
-.bg{position:fixed;inset:0;z-index:-3;
-  background:
-    radial-gradient(120% 90% at 50% -15%,#163a8a 0%,#0c1f5e 30%,#1a0f3e 62%,#06060c 100%),
-    linear-gradient(180deg,#06060c,#0a0820);
-}
-.bg::after{content:"";position:absolute;inset:0;
-  background:radial-gradient(70% 50% at 50% 110%,rgba(192,18,48,.16),transparent 70%);
-  mix-blend-mode:screen}
-/* 升腾的彼岸花 / 蝴蝶 / 十字架 */
+body{font-family:var(--sans);color:var(--blue);background:#06060c;overflow-x:hidden;line-height:1.95;-webkit-font-smoothing:antialiased}
+
+/* 底图：蓝手 */
+#hand{position:fixed;inset:0;z-index:-3;background:url('assets/bl_hand.jpg') center 38%/cover no-repeat;background-color:#04060f}
+#hand::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(5,9,26,.74),rgba(10,8,38,.58) 48%,rgba(3,3,12,.88)),
+  radial-gradient(85% 60% at 50% 32%,transparent,rgba(3,3,14,.55))}
 #petals{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden}
-.pwrap{position:absolute;top:0;will-change:transform;
-  animation:rise var(--dur) linear infinite;animation-delay:var(--del);opacity:0}
-.pwrap i{display:block;width:100%;height:100%;
-  animation:sway var(--sdur) ease-in-out infinite alternate;animation-delay:var(--sdel);
-  filter:drop-shadow(0 0 6px rgba(140,110,230,.35))}
-@keyframes rise{
-  0%{transform:translateY(72vh);opacity:0}
-  9%{opacity:var(--op)}
-  91%{opacity:var(--op)}
-  100%{transform:translateY(-82vh);opacity:0}}
-@keyframes sway{
-  from{transform:translateX(-16px) rotate(var(--r0))}
-  to{transform:translateX(16px) rotate(var(--r1))}}
-/* 水波 */
+.pwrap{position:absolute;top:0;will-change:transform;animation:rise var(--dur) linear infinite;animation-delay:var(--del);opacity:0}
+.pwrap i{display:block;width:100%;height:100%;animation:sway var(--sdur) ease-in-out infinite alternate;animation-delay:var(--sdel);
+  filter:drop-shadow(0 0 6px rgba(150,120,240,.35))}
+@keyframes rise{0%{transform:translateY(72vh);opacity:0}9%{opacity:var(--op)}91%{opacity:var(--op)}100%{transform:translateY(-82vh);opacity:0}}
+@keyframes sway{from{transform:translateX(-16px) rotate(var(--r0))}to{transform:translateX(16px) rotate(var(--r1))}}
 #ripple{position:fixed;inset:0;z-index:-1;pointer-events:none}
-.wrap{max-width:880px;margin:0 auto;padding:0 26px}
-section{padding:128px 0;position:relative;z-index:1}
-.eyebrow{font-family:var(--display);letter-spacing:.42em;font-size:12px;
-  color:var(--klein-2);text-transform:uppercase;margin-bottom:22px}
-.h2{font-family:var(--serif);font-weight:500;font-size:clamp(26px,5.4vw,42px);
-  line-height:1.28;letter-spacing:.02em}
-.h2 small{display:block;font-family:var(--latin);font-style:italic;font-weight:400;
-  font-size:.42em;letter-spacing:.14em;color:var(--muted);margin-top:12px}
-.rule{width:54px;height:1px;background:linear-gradient(90deg,var(--klein-2),transparent);margin:24px 0}
-.lead{color:var(--muted);font-size:clamp(15px,2.4vw,17px);max-width:38em}
-.quote{font-family:var(--latin);font-style:italic;font-size:clamp(18px,3vw,24px);
-  color:#cfc6ef;letter-spacing:.02em;line-height:1.6}
-.bigline{font-size:clamp(20px,4vw,30px);font-weight:300;letter-spacing:.06em;
-  color:var(--paper);margin-top:18px}
-.bigline b{font-weight:500;color:#fff}
 
-/* ============ 开屏 ============ */
-.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;
-  text-align:center;position:relative;padding:0 22px}
-.hero .mark{position:absolute;top:50%;left:50%;transform:translate(-50%,-54%);
-  width:min(60vmin,440px);opacity:.14;z-index:-1;pointer-events:none}
-.hero .eyebrow{margin-bottom:26px}
-.hero h1{font-family:var(--serif);font-weight:500;
-  font-size:clamp(34px,8.4vw,82px);line-height:1.12;letter-spacing:.04em;
-  text-shadow:0 0 38px rgba(40,80,200,.45)}
-.hero h1 .accent{color:#bcd2ff}
-.hero .sub{font-family:var(--latin);font-style:italic;font-size:clamp(20px,4vw,30px);
-  color:var(--muted);margin-top:18px;letter-spacing:.06em}
-.hero .tag{margin-top:34px;font-size:clamp(13px,2.6vw,15px);letter-spacing:.34em;
-  color:var(--klein-2);text-transform:uppercase;font-family:var(--display)}
-.scrollcue{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
-  font-family:var(--latin);font-style:italic;color:var(--muted);font-size:13px;letter-spacing:.2em;
-  animation:cue 2.4s ease-in-out infinite}
-@keyframes cue{0%,100%{opacity:.3;transform:translate(-50%,0)}50%{opacity:.9;transform:translate(-50%,6px)}}
+.wrap{max-width:920px;margin:0 auto;padding:0 26px}
+section{padding:118px 0;position:relative;z-index:1}
+.eyebrow{font-family:var(--display);letter-spacing:.4em;font-size:12px;color:var(--blue-d);text-transform:uppercase;margin-bottom:20px}
+.h2{font-family:var(--serif);font-weight:500;font-size:clamp(26px,5.2vw,42px);line-height:1.3;letter-spacing:.03em;color:var(--purple)}
+.h2 small{display:block;font-family:var(--display);font-weight:400;font-size:.32em;letter-spacing:.18em;color:var(--purple-d);margin-top:14px;text-transform:uppercase}
+.rule{width:54px;height:1px;background:linear-gradient(90deg,var(--blue-d),transparent);margin:22px 0}
+.lead{color:var(--blue);font-size:clamp(15px,2.4vw,17px);max-width:40em}
+.line{font-family:var(--serif);font-weight:300;font-size:clamp(19px,3.6vw,27px);line-height:1.5;color:var(--paper);letter-spacing:.04em;margin:14px 0}
+.script{font-family:var(--script);color:var(--blue);font-size:clamp(22px,4vw,34px);line-height:1.3;letter-spacing:.01em}
+.black{font-family:var(--black);color:var(--purple);font-size:clamp(26px,5vw,40px);letter-spacing:.02em;line-height:1.2}
+.red{color:var(--red);font-weight:500}
+.del{text-decoration:line-through;opacity:.6}
+.miss{color:var(--purple-d);font-style:italic;font-size:14px}
 
-/* ============ ｜我 ============ */
-.idcard{display:flex;flex-wrap:wrap;gap:10px 14px;margin:26px 0}
-.idcard span{border:1px solid var(--line);border-radius:2px;padding:7px 14px;
-  font-size:14px;letter-spacing:.06em;color:#d7d0f0;background:rgba(40,30,80,.25)}
+/* 错落画廊（参考花瓶碎片排版） */
+.gallery{display:flex;flex-wrap:wrap;align-items:flex-end;gap:18px;margin:30px 0}
+.gallery img{height:auto;max-height:300px;width:auto;max-width:47%;object-fit:contain;border-radius:5px;
+  filter:drop-shadow(0 12px 34px rgba(0,0,0,.55))}
+.gallery.s3 img{max-height:250px}
+.gallery img:nth-child(2){margin-bottom:38px}
+.gallery img:nth-child(3){margin-bottom:8px}
+.gallery.img2 img{max-height:330px}
+.gallery.img3 img{max-height:250px}
+.gallery.img3 img:nth-child(1){margin-bottom:6px}
+.gallery.img3 img:nth-child(2){margin-bottom:40px}
+.gallery.img3 img:nth-child(3){margin-bottom:0}
 
-/* ============ 标签 ============ */
-.tags{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
-.tags span{border:1px solid var(--line);padding:9px 18px;border-radius:30px;
-  font-size:14.5px;letter-spacing:.05em;color:#d8d1f2;
-  background:linear-gradient(180deg,rgba(45,30,90,.35),rgba(20,15,45,.45));
-  transition:.3s}
-.tags span:hover{color:#fff;border-color:var(--klein-2);box-shadow:0 0 18px rgba(45,80,210,.3)}
+/* id 卡 */
+.idcard{display:flex;flex-wrap:wrap;gap:10px 14px;margin:24px 0}
+.idcard span{border:1px solid var(--line);border-radius:3px;padding:7px 15px;font-size:14px;letter-spacing:.06em;color:#d7d0f0;background:rgba(40,30,80,.3)}
 
-/* ============ 价目 / 须知 占位 ============ */
-.note-card{border:1px dashed var(--line);border-radius:8px;padding:22px 24px;margin-top:24px;
-  background:rgba(30,20,60,.28);color:var(--muted);font-size:14.5px;line-height:1.9}
-.note-card b{color:#d7d0f0;font-weight:500}
-.notes{margin-top:24px;padding-left:0;list-style:none}
-.notes li{position:relative;padding:12px 0 12px 26px;border-bottom:1px solid var(--line);color:#d2cbef;font-size:15px}
-.notes li::before{content:"†";position:absolute;left:0;top:11px;color:var(--crimson);font-size:16px}
+/* 无相 风格表 */
+.stylelist{margin-top:22px;font-family:var(--serif);font-size:clamp(16px,2.8vw,20px);color:var(--paper);line-height:2}
+.stylelist .row{padding:10px 0;border-bottom:1px solid var(--line)}
+.stylelist .k{color:var(--purple);font-weight:500;margin-right:8px}
+.stylelist .sub{color:var(--blue-d);font-size:.82em;margin-left:14px}
 
-/* ============ 链接按钮 ============ */
-.clink{display:inline-flex;align-items:center;gap:8px;margin:10px 14px 10px 0;
-  padding:11px 22px;border:1px solid var(--line);border-radius:30px;
-  color:#e3ddf6;text-decoration:none;font-size:15px;letter-spacing:.04em;
-  background:linear-gradient(180deg,rgba(45,30,90,.3),rgba(15,12,35,.4));transition:.3s}
-.clink:hover{color:#fff;border-color:var(--klein-2);box-shadow:0 0 22px rgba(45,80,210,.35)}
+/* 须知 */
+.notes{margin:14px 0 0;padding:0;list-style:none;counter-reset:nt;max-width:46em}
+.notes li{counter-increment:nt;position:relative;padding:13px 0 13px 42px;border-bottom:1px solid var(--line);color:var(--blue);font-size:15.5px;line-height:1.85}
+.notes li::before{content:counter(nt);position:absolute;left:0;top:13px;width:26px;height:26px;border:1px solid var(--line);border-radius:50%;
+  font-family:var(--display);font-size:12px;color:var(--purple);display:flex;align-items:center;justify-content:center}
 
-/* ============ 页脚 ============ */
-footer{padding:90px 0 60px;text-align:center;position:relative;z-index:1}
-.fmark{font-family:var(--display);font-size:30px;letter-spacing:.3em;color:var(--klein-2);opacity:.5;margin-bottom:18px}
-.credit{font-family:var(--latin);font-style:italic;font-size:13px;letter-spacing:.18em;color:var(--muted);margin-top:14px}
-.credit a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--line)}
+/* 话术/板评 引用 */
+.quotes{margin-top:18px}
+.quotes p{font-family:var(--serif);font-weight:300;font-size:clamp(17px,3vw,22px);color:var(--paper);line-height:1.7;margin:12px 0}
+.quotes p .en{font-family:var(--script);color:var(--blue);font-size:1.15em}
+.tagline{font-family:var(--serif);font-weight:300;font-size:clamp(18px,3.4vw,24px);color:var(--purple);margin:16px 0;letter-spacing:.03em}
+
+footer{padding:90px 0 64px;text-align:center;position:relative;z-index:1}
+.fmark{font-family:var(--display);font-size:30px;letter-spacing:.3em;color:var(--blue-d);opacity:.5;margin-bottom:16px}
+.credit{font-family:var(--script);font-size:15px;letter-spacing:.04em;color:var(--purple-d);margin-top:14px}
+.credit a{color:var(--purple-d);text-decoration:none;border-bottom:1px solid var(--line)}
 .credit a:hover{color:#fff}
 
 .reveal{opacity:0;transform:translateY(30px);transition:opacity 1.1s ease,transform 1.1s ease}
 .reveal.in{opacity:1;transform:none}
-
-@media(max-width:600px){section{padding:96px 0}.wrap{padding:0 20px}}
+@media(max-width:600px){section{padding:92px 0}.wrap{padding:0 20px}.gallery img{max-width:100%;margin-bottom:14px!important}}
 </style>
 </head>
 <body>
-<div class="bg"></div>
+<div id="hand"></div>
 <div id="petals"></div>
 <canvas id="ripple"></canvas>
 
 <!-- ============ 开屏 ============ -->
-<header class="hero">
-  <svg class="mark" viewBox="0 0 200 320" aria-hidden="true">
-    <g stroke="#bcd2ff" stroke-width="2.4" fill="none" stroke-linecap="round">
-      <line x1="100" y1="40" x2="100" y2="280"/>
-      <line x1="62" y1="92" x2="138" y2="92"/>
-    </g>
-    <g id="markflower" stroke="#c01230" stroke-width="2.6" fill="none" stroke-linecap="round"></g>
-  </svg>
+<header class="hero" style="min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;padding:0 22px">
   <div class="eyebrow">BING LIAN · 病恋</div>
-  <h1>贪恋你的吻<br>也是<span class="accent">罪过</span>吗</h1>
-  <div class="sub">— Claire · 克莱尔</div>
-  <div class="tag">向死而生，亦向爱而生</div>
-  <div class="scrollcue">scroll</div>
+  <h1 style="font-family:var(--serif);font-weight:500;font-size:clamp(34px,8.4vw,82px);line-height:1.14;letter-spacing:.04em;color:#f2f1ff;text-shadow:0 0 40px rgba(40,80,200,.5)">贪恋你的吻<br>也是<span style="color:#ffd9e2">罪过</span>吗</h1>
+  <div class="script" style="margin-top:18px;font-size:clamp(22px,4.4vw,32px)">— Claire · 克莱尔</div>
+  <div class="eyebrow" style="margin-top:30px;font-size:13px">向死而生，亦向爱而生</div>
+  <div style="position:absolute;bottom:30px;left:50%;transform:translateX(-50%);font-family:var(--script);color:var(--blue);font-size:14px;opacity:.7;animation:cue 2.4s ease-in-out infinite">scroll</div>
 </header>
-
-<!-- ============ ｜我 ============ -->
-<section class="wrap reveal">
-  <div class="eyebrow">｜ 我</div>
-  <h2 class="h2">克莱尔<small>Claire</small></h2>
-  <div class="rule"></div>
-  <div class="idcard">
-    <span>18</span><span>le-T</span><span>天蝎 Scorpio</span><span>ENTP</span><span>常驻十二无</span>
-  </div>
-  <div class="bigline">亲吻我 · 拥抱我 · <b>依附在我身上</b></div>
-  <p class="quote" style="margin-top:24px">“ The moment I met you, it was not the wind but the heart. ”</p>
-</section>
+<style>@keyframes cue{0%,100%{opacity:.3;transform:translate(-50%,0)}50%{opacity:.9;transform:translate(-50%,6px)}}</style>
 
 <!-- ============ 【陰暗】 ============ -->
 <section class="wrap reveal">
-  <div class="eyebrow">【 陰暗 】</div>
-  <h2 class="h2">只是想掠夺<br>你全部的注意力而已</h2>
+  <div class="eyebrow">SHADOW · 【陰暗】</div>
+  <h2 class="h2">【陰暗】</h2>
   <div class="rule"></div>
-  <p class="quote">“ It is the white plum that blooms in the cold winter — it is the.</p>
-  <p class="lead" style="margin-top:22px">爱到偏执，是一种病。可若连病都不被允许，又该把这一腔滚烫，安放去哪里。</p>
-</section>
-
-<!-- ============ 我能为你做什么 ============ -->
-<section class="wrap reveal">
-  <div class="eyebrow">What I Offer</div>
-  <h2 class="h2">我能为你做什么<small>the shape of my devotion</small></h2>
-  <div class="rule"></div>
-  <div class="tags">
-    <span>病恋陪伴</span><span>角色依存</span><span>树洞倾听</span>
-    <span>深夜私语</span><span>情感疏导</span><span>痛感共情</span>
+  <p class="line">—— 我没有什么坏心思哦一·</p>
+  <p class="line">只是想掠夺你全部的注意力而已</p>
+  <p class="script" style="margin-top:22px">it is the white plum that blooms in the cold winter it is the.</p>
+  <div class="gallery img2">
+    <img src="assets/bl_bflybook.jpg" alt="">
+    <img src="assets/bl_glass.jpg" alt="">
   </div>
 </section>
 
-<!-- ============ 价目 ============ -->
+<!-- ============ ｜我 ============ -->
 <section class="wrap reveal">
-  <div class="eyebrow">Price · 价目</div>
-  <h2 class="h2">价目<small>the cost of staying</small></h2>
+  <div class="eyebrow">｜ 我 · ME</div>
+  <h2 class="h2">｜我<small>Claire</small></h2>
   <div class="rule"></div>
-  <div class="note-card">
-    <b>价目表见文档附件</b>，提取时仅读到正文文字、取不到图片，故此处暂为占位。<br>
-    待你贴出价目截图 / 文字，我会原样替换进来。
+  <div class="idcard">
+    <span>克莱尔</span><span>18</span><span>le-T</span><span>天蝎 Scorpio</span><span>ENTP</span><span>常驻十二无</span>
+  </div>
+  <p class="line">亲吻我 · 拥抱我 · <span class="red">依附在我身上</span></p>
+  <p class="script" style="margin-top:20px">“ The moment I met you, it was not the wind but the heart. ”</p>
+  <div class="gallery s3">
+    <img src="assets/bl_fl1.jpg" alt="">
+    <img src="assets/bl_fl2.jpg" alt="">
+    <img src="assets/bl_fl3.jpg" alt="">
   </div>
 </section>
 
-<!-- ============ 须知 ============ -->
+<!-- ============ 抓娃娃机 ============ -->
 <section class="wrap reveal">
-  <div class="eyebrow">Boundaries · 须知</div>
-  <h2 class="h2">须知<small>before you lean on me</small></h2>
-  <div class="rule"></div>
-  <ul class="notes">
-    <li>这是一段被允许的「病」，但请记得——它发生在屏幕的这一侧。</li>
-    <li>你可以依附，也可以随时离开；我的门，向死而生，也向你而开。</li>
-    <li>（其余须知见文档附件，待补充。）</li>
-  </ul>
+  <p class="line">世界是一个巨大的抓娃娃机<br>隔着玻璃 只想要你</p>
+  <div class="gallery img2">
+    <img src="assets/bl_circle.jpg" alt="">
+  </div>
+  <p class="script">/ . 你去发誓吧 说你离开我就会三掉 . /</p>
 </section>
 
-<!-- ============ 话术 · 板评 ============ -->
+<!-- ============ ｜无相 ============ -->
 <section class="wrap reveal">
-  <div class="eyebrow">Craft · 话术 / 板评</div>
-  <h2 class="h2">话术与板评<small>words I keep for you</small></h2>
+  <div class="eyebrow">｜无相 · STYLE</div>
+  <h2 class="h2">｜无相<small>最近 风格</small></h2>
   <div class="rule"></div>
-  <p class="lead">话术与板评详见文档附件。如需外链，把对应金山文档链接给我，我会做成跳转按钮。</p>
-  <div style="margin-top:14px">
-    <a class="clink" href="#" target="_blank" rel="noopener">话术 ↗</a>
-    <a class="clink" href="#" target="_blank" rel="noopener">板评 ↗</a>
+  <div class="stylelist">
+    <div class="row"><span class="k">诱导</span> 恶趣味 <span class="red">//</span> 温病</div>
+    <div class="row"><span class="k">伪高恋</span> <span class="red">//</span> 微 <span class="red">/</span> 高撩</div>
+    <div class="row"><span class="del">随机掉落</span> <span class="red">血暴</span> <span class="red">//</span> 高压</div>
+    <div class="row"><span class="k">副 我可以↓</span><span class="sub">伪下 / 狗1 <span class="red">//</span> 意识流 <span class="red">//</span> 钓系</span></div>
+    <div class="row"><span class="k">低无</span> 疯病 <span class="red">/</span> 白切黑 <span class="red">//</span> 逻辑</div>
+  </div>
+  <p class="tagline" style="margin-top:26px">什么文案能有我本人吸引你的注意</p>
+</section>
+
+<!-- ============ 我的常驻 ============ -->
+<section class="wrap reveal">
+  <p class="line">摸摸头会变乖么<br>软软的窝在怀里</p>
+  <p class="script" style="margin-top:16px">you were always meant to be my destiny</p>
+  <div class="gallery">
+    <img src="assets/bl_cat.jpg" alt="我的常驻" style="max-height:240px">
+  </div>
+  <p class="tagline">斜太 · 爱神</p>
+</section>
+
+<!-- ============ 单前须知 ============ -->
+<section class="wrap reveal">
+  <p class="line">是在说我吗.听不懂.像是在对主人示好</p>
+  <p class="script" style="margin-top:10px">—— Claire</p>
+  <p class="script" style="margin-top:6px;font-size:clamp(19px,3.4vw,27px)">It's a shame to bring it up about you</p>
+  <div class="gallery img2">
+    <img src="assets/bl_notice.jpg" alt="克莱尔·单前须知">
+  </div>
+  <h2 class="h2" style="margin-top:10px">克莱尔 · 单前须知</h2>
+  <div class="rule"></div>
+  <p class="red" style="margin:6px 0 4px;font-size:14px;letter-spacing:.04em">le 不接男板</p>
+  <ol class="notes">
+    <li>开始前请告诉我您需要的风格类型，以及喜好雷点，<span class="red">若未标注，则单内触雷概不负责</span></li>
+    <li>若一味抽象，整蛊，刁难，骂人我将停止这次约会，婉拒反驳型人格</li>
+    <li class="miss">（本条截图缺失，待补）</li>
+    <li>主话术风格并不华丽，更多是直白 若是需要请提前备注</li>
+    <li>不允许在未经允许的情况下将我们约会的内容录屏，截图，发表，这会让您我都很难办</li>
+    <li>若觉得不适，请说出安全词<span class="red">“我需要休息”</span>，我会即刻调整风格或暂停约会，尽量给您安抚</li>
+    <li>不要上升到个人生活，请不要过度窥探我的隐私，留足约会的神秘感</li>
+    <li>请礼貌对待我们的关系，约会时请不要把现实的问题代入我们间，我希望您能在我这里获得快乐与慰藉，但我并不足以有资格解决您现生的困难</li>
+    <li>/1h/ 您有 20min 的体验时间 20min 后不可退单　/0.5h/ 您有 10min 体验时间，10min 后不可退单</li>
+    <li>这不是一场游戏，请我的爱人配合我，但适当的反抗会让我更兴奋</li>
+    <li>上线即开始约会 您是我的爱人请不要因为和好友玩而忽视我</li>
+    <li>如果亲爱的你（1h/0.5h）失约 25min/15min，我会觉得你放弃了这次相遇的机会（若未存，视为送单）</li>
+    <li>约会开始默认已读须知，请好好享受与我的约会吧</li>
+    <li>如果我的爱人不配合，我将会提前结束约会，<span class="red">时间内 我就是你的恋人</span>（低无，dom 等特殊情况除外）</li>
+    <li>最后，很荣幸能与您进行一场愉快的约会，我们都在期待</li>
+  </ol>
+  <div class="gallery img3" style="margin-top:30px">
+    <img src="assets/bl_bfpaint.jpg" alt="">
+    <img src="assets/bl_flpaint.jpg" alt="">
+    <img src="assets/bl_swan1.jpg" alt="">
+  </div>
+  <p class="black" style="margin-top:26px">Mecum lacrimare, mecum plorare.</p>
+  <p class="lead">同我啜泣 同我悲鸣</p>
+  <div class="gallery img3">
+    <img src="assets/bl_swan2.jpg" alt="">
+    <img src="assets/bl_swan3.jpg" alt="">
+    <img src="assets/bl_jelly.jpg" alt="">
+  </div>
+  <div class="gallery">
+    <img src="assets/bl_grid.jpg" alt="" style="max-height:280px">
+  </div>
+  <div class="quotes">
+    <p>“嘴上说着讨厌我，其实噩梦和椿梦都是我的脸吧”</p>
+    <p>“学会对我撒娇就好了.不是吗”</p>
+  </div>
+</section>
+
+<!-- ============ ｜板评 ============ -->
+<section class="wrap reveal">
+  <div class="eyebrow">｜板评 · REVIEW</div>
+  <h2 class="h2">｜板评</h2>
+  <div class="rule"></div>
+  <div class="gallery img2">
+    <img src="assets/bl_cross.jpg" alt="">
+  </div>
+  <div class="quotes">
+    <p>— 白鸽啃食信徒的身躯</p>
+    <p>乌鸦沉迷于欲望.</p>
+  </div>
+</section>
+
+<!-- ============ ｜话术 ============ -->
+<section class="wrap reveal">
+  <div class="eyebrow">｜话术 · CRAFT</div>
+  <h2 class="h2">｜话术</h2>
+  <div class="rule"></div>
+  <div class="gallery img3">
+    <img src="assets/bl_tree.jpg" alt="">
+    <img src="assets/bl_ghost.jpg" alt="">
+    <img src="assets/bl_handwrite.jpg" alt="">
+  </div>
+  <div class="quotes">
+    <p><span class="en">as far as I can see</span></p>
+    <p>每一句都在怪我</p>
+    <p><span class="en">you were always meant to be my destiny</span></p>
+    <p>其实是想依赖我吧</p>
+    <p>链子我给你解开了<br>去拥抱你所谓的自由吧</p>
+    <p>—— 我是<br>克莱尔 ——</p>
+    <p>喜欢和你玩，有种…逗小狗的感觉？.</p>
+    <p>抱我，直到你拥有和我一样的香气</p>
   </div>
 </section>
 
 <!-- ============ 页脚 ============ -->
 <footer>
   <div class="fmark">†</div>
-  <div class="quote">“ 如果你需要我，我就在。 ”</div>
+  <div class="line" style="text-align:center">如果你需要我，我就在。</div>
   <div class="credit">made by <a href="https://github.com/yw-iris" target="_blank" rel="noopener">yw-iris</a></div>
 </footer>
 
 <script>
-/* 开屏彼岸花标记 */
-(function(){
-  const g=document.getElementById('markflower');
-  const cy=150;
-  for(let k=0;k<6;k++){
-    const a=(-90+k*60)*Math.PI/180;
-    const tx=100+Math.cos(a)*70, ty=cy+Math.sin(a)*70;
-    const cx=100+Math.cos(a)*30, cyy=cy+Math.sin(a)*30-8;
-    const p=document.createElementNS('http://www.w3.org/2000/svg','path');
-    p.setAttribute('d',`M100 ${cy} Q ${cx} ${cyy} ${tx} ${ty}`);
-    g.appendChild(p);
-    const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
-    c.setAttribute('cx',tx);c.setAttribute('cy',ty);c.setAttribute('r','6');
-    c.setAttribute('fill','#c01230');c.setAttribute('stroke','none');
-    g.appendChild(c);
-  }
-})();
-
 /* 升腾的彼岸花 / 蝴蝶 / 十字架 */
 (function(){
   const host=document.getElementById('petals');
-  const COL=['#c01230','#3a6bff','#7a4fd0','#cfd0e8','#002FA7'];
+  const COL=['#c01230','#3a6bff','#7a4fd0','#cfd0e8','#8a6bff'];
   function spider(c){let s='<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><g stroke="'+c+'" stroke-width="2.4" fill="none" stroke-linecap="round"><line x1="60" y1="64" x2="60" y2="120"/>';
     for(let k=0;k<6;k++){const a=(-90+k*60)*Math.PI/180;const tx=60+Math.cos(a)*46,ty=64+Math.sin(a)*46;const cx=60+Math.cos(a)*20,cy=64+Math.sin(a)*20-6;s+='<path d="M60 64 Q '+cx+' '+cy+' '+tx+' '+ty+'"/><circle cx="'+tx+'" cy="'+ty+'" r="4.5" fill="'+c+'" stroke="none"/>';}
     for(let k=0;k<6;k++){const a=(-90+k*60+30)*Math.PI/180;const px=60+Math.cos(a)*15,py=64+Math.sin(a)*15;s+='<path d="M60 64 Q '+px+' '+py+' '+(60+Math.cos(a)*8)+' '+(64+Math.sin(a)*8)+'" stroke-width="1.5"/>';}
     return s+'</g></svg>';}
-  function butterfly(c){return '<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg"><g fill="'+c+'" opacity="0.92"><path d="M60 50 C30 8 6 20 18 46 C6 56 36 60 60 50 Z"/><path d="M60 50 C90 8 114 20 102 46 C114 56 84 60 60 50 Z"/><path d="M60 52 C40 72 22 80 30 94 C46 96 58 70 60 52 Z"/><path d="M60 52 C80 72 98 80 90 94 C74 96 62 70 60 52 Z"/></g><line x1="60" y1="28" x2="60" y2="94" stroke="'+c+'" stroke-width="2"/></svg>';}
+  function butterfly(c){return '<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg"><g fill="'+c+'" opacity="0.9"><path d="M60 50 C30 8 6 20 18 46 C6 56 36 60 60 50 Z"/><path d="M60 50 C90 8 114 20 102 46 C114 56 84 60 60 50 Z"/><path d="M60 52 C40 72 22 80 30 94 C46 96 58 70 60 52 Z"/><path d="M60 52 C80 72 98 80 90 94 C74 96 62 70 60 52 Z"/></g><line x1="60" y1="28" x2="60" y2="94" stroke="'+c+'" stroke-width="2"/></svg>';}
   function cross(c){return '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g stroke="'+c+'" stroke-width="3.4" stroke-linecap="round"><line x1="50" y1="16" x2="50" y2="86"/><line x1="28" y1="38" x2="72" y2="38"/></g></svg>';}
   const FN=[spider,butterfly,cross];
-  const N=innerWidth<600?11:19;
+  const N=innerWidth<600?7:12;
   for(let i=0;i<N;i++){
-    const w=20+Math.random()*46;
+    const w=20+Math.random()*44;
     const el=document.createElement('div');el.className='pwrap';
-    const fn=FN[Math.random()*FN.length|0];
-    const c=COL[Math.random()*COL.length|0];
+    const fn=FN[Math.random()*FN.length|0],c=COL[Math.random()*COL.length|0];
     el.style.left=(Math.random()*100)+'vw';
     el.style.width=w+'px';el.style.height=w+'px';
-    el.style.setProperty('--dur',(16+Math.random()*15).toFixed(1)+'s');
-    el.style.setProperty('--del',(-Math.random()*30).toFixed(1)+'s');
-    el.style.setProperty('--op',(0.22+Math.random()*0.45).toFixed(2));
+    el.style.setProperty('--dur',(18+Math.random()*16).toFixed(1)+'s');
+    el.style.setProperty('--del',(-Math.random()*32).toFixed(1)+'s');
+    el.style.setProperty('--op',(0.16+Math.random()*0.34).toFixed(2));
     el.style.setProperty('--sdur',(4+Math.random()*5).toFixed(1)+'s');
     el.style.setProperty('--sdel',(-Math.random()*6).toFixed(1)+'s');
     el.style.setProperty('--r0',(-12+Math.random()*8).toFixed(1)+'deg');
@@ -292,14 +320,14 @@ footer{padding:90px 0 60px;text-align:center;position:relative;z-index:1}
       if(o.a<=0){rip.splice(i,1);continue;}
       for(let k=0;k<3;k++){const rr=o.r-k*7*dpr;if(rr<=0)continue;
         ctx.beginPath();ctx.arc(o.x,o.y,rr,0,7);
-        ctx.strokeStyle='rgba(90,140,255,'+(o.a*(0.32-k*0.08))+')';ctx.lineWidth=1.4*dpr;ctx.stroke();}}
+        ctx.strokeStyle='rgba(110,150,255,'+(o.a*(0.32-k*0.08))+')';ctx.lineWidth=1.4*dpr;ctx.stroke();}}
     ctx.globalCompositeOperation='source-over';requestAnimationFrame(loop);})();
 })();
 
 /* 滚动显现 */
 const io=new IntersectionObserver(es=>{
   es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
-},{threshold:.15});
+},{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
 </body>
