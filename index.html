@@ -23,36 +23,39 @@ html{scroll-behavior:smooth}
 body{font-family:var(--sans);color:var(--ink);background:#06060c;overflow-x:hidden;line-height:2.1;-webkit-font-smoothing:antialiased}
 
 /* ===== 开场：白底蓝花图，非白部分如流体淌下 ===== */
-.hero{min-height:100svh;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 24px;overflow:hidden;background:#fdfdfe}
+.hero{min-height:100svh;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 24px;overflow:hidden;background:#06060c}
 /* 与原图同比例的画布，按 cover 方式铺满首屏 */
 .hero-stage{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
   --arn:1.1184; /* 1445/1292 */
   width:max(100vw,calc(100svh * var(--arn)));
   height:max(100svh,calc(100vw / var(--arn)));}
-.hero-stage .clean{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block}
+/* 黑底蓝花：作为静态"源"，碎片从它身上淌下 */
+.hero-stage .clean{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block;opacity:.55;filter:blur(.4px)}
 /* 碎片层：越往下淌越淡，融入暗区 */
 .frags{position:absolute;inset:0;
-  -webkit-mask-image:linear-gradient(180deg,#000 58%,transparent 96%);
-          mask-image:linear-gradient(180deg,#000 58%,transparent 96%)}
-.frag{position:absolute;height:auto;display:block;
-  filter:drop-shadow(0 4px 10px rgba(30,60,200,.16)) blur(.3px);
-  transform:translateY(0);
-  animation:flow var(--d,9s) cubic-bezier(.5,.06,.7,.6) var(--dl,0s) infinite}
+  -webkit-mask-image:linear-gradient(180deg,#000 56%,transparent 95%);
+          mask-image:linear-gradient(180deg,#000 56%,transparent 95%)}
+.frag{position:absolute;height:auto;display:block;transform-origin:top center;
+  filter:drop-shadow(0 0 16px rgba(70,110,240,.55)) drop-shadow(0 6px 16px rgba(15,35,140,.55));
+  animation:flow var(--d,9s) cubic-bezier(.45,.05,.6,1) var(--dl,0s) infinite}
+/* 先拉长（原位拉伸）再下滑，循环首尾 opacity 均为 0 → 无缝不闪 */
 @keyframes flow{
-  0%      {transform:translateY(0) scaleY(1);opacity:0}
-  8%      {transform:translateY(0) scaleY(1);opacity:1}
-  26%     {transform:translateY(0) scaleY(1);opacity:1}
-  76%     {transform:translateY(42vh) scaleY(1.05);opacity:.9}
-  93%,100%{transform:translateY(60vh) scaleY(1.12);opacity:0}
+  0%        {opacity:0;transform:translateY(0) scaleY(.35)}
+  11%       {opacity:1;transform:translateY(0) scaleY(.35)}
+  37%       {opacity:1;transform:translateY(0) scaleY(2.5)}      /* 先拉长 */
+  64%       {opacity:1;transform:translateY(33vh) scaleY(1.25)}  /* 再下滑 */
+  90%       {opacity:0;transform:translateY(60vh) scaleY(1.02)}
+  100%      {opacity:0;transform:translateY(60vh) scaleY(1.02)}
 }
 .hero-veil{position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(180deg,rgba(253,253,254,0) 30%,rgba(6,6,12,.34) 74%,rgba(6,6,12,.78) 90%,#06060c 100%)}
+  background:radial-gradient(120% 78% at 50% 42%,transparent,rgba(6,6,12,.55)),
+  linear-gradient(180deg,transparent 58%,rgba(6,6,12,.82) 92%,#06060c 100%)}
 .hero-in{position:relative;z-index:1}
-.hero .eyebrow{font-family:var(--display);letter-spacing:.44em;font-size:12px;text-transform:uppercase;color:var(--kb);opacity:.85;margin-bottom:26px}
-.hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(34px,8.2vw,80px);line-height:1.18;letter-spacing:.05em;color:var(--kb);
-  text-shadow:0 0 24px rgba(255,255,255,.9),0 0 60px rgba(255,255,255,.7)}
-.hero .sub{font-family:var(--script);color:var(--kb);font-size:clamp(22px,4.2vw,32px);margin-top:22px;text-shadow:0 0 18px rgba(255,255,255,.9)}
-.hero .tag{font-family:var(--serif);font-weight:300;letter-spacing:.34em;font-size:clamp(12px,2.4vw,15px);color:var(--kb);opacity:.75;margin-top:34px}
+.hero .eyebrow{font-family:var(--display);letter-spacing:.44em;font-size:12px;text-transform:uppercase;color:var(--ink);opacity:.62;margin-bottom:26px}
+.hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(34px,8.2vw,80px);line-height:1.18;letter-spacing:.05em;color:var(--ink);
+  text-shadow:0 0 26px rgba(80,120,255,.6),0 0 64px rgba(40,80,220,.45)}
+.hero .sub{font-family:var(--script);color:var(--ink);font-size:clamp(22px,4.2vw,32px);margin-top:22px;text-shadow:0 0 18px rgba(80,120,255,.55)}
+.hero .tag{font-family:var(--serif);font-weight:300;letter-spacing:.34em;font-size:clamp(12px,2.4vw,15px);color:var(--ink);opacity:.68;margin-top:34px}
 .hero .cue{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);font-family:var(--script);color:var(--ink);font-size:14px;opacity:.65;animation:cue 2.4s ease-in-out infinite;z-index:1}
 @keyframes cue{0%,100%{opacity:.25;transform:translate(-50%,0)}50%{opacity:.8;transform:translate(-50%,6px)}}
 
@@ -106,6 +109,13 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 .credit a{color:inherit;text-decoration:none;border-bottom:1px solid rgba(237,240,251,.25)}
 .credit a:hover{opacity:1}
 
+/* 跳转链接按钮（板评 / 话术） */
+.clink{display:inline-block;margin-top:34px;padding:13px 32px;border:1px solid rgba(120,150,255,.5);border-radius:40px;
+  color:var(--ink);font-family:var(--serif);letter-spacing:.14em;font-size:15px;text-decoration:none;
+  background:rgba(30,60,200,.14);box-shadow:0 0 22px rgba(40,80,220,.25);transition:.3s}
+.clink:hover{background:rgba(45,85,225,.3);border-color:rgba(150,180,255,.85);box-shadow:0 0 32px rgba(60,110,240,.5)}
+.clink .ar{opacity:.7;margin-left:8px}
+
 .reveal{opacity:0;transform:translateY(34px);transition:opacity 1.2s ease,transform 1.2s ease}
 .reveal.in{opacity:1;transform:none}
 @media(max-width:600px){section{padding:120px 0}.wrap{padding:0 22px}}
@@ -117,7 +127,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 <!-- ============ 开场：非白部分如流体淌下 ============ -->
 <header class="hero">
   <div class="hero-stage">
-    <img class="clean" src="assets/bl_hero_clean.png" alt="">
+    <img class="clean" src="assets/bl_hero_black.png" alt="">
     <div class="frags">
       <img class="frag" src="assets/bl_frag01.png" style="left:0%;top:2.86%;width:7.06%;--d:15s;--dl:1s" alt="">
       <img class="frag" src="assets/bl_frag02.png" style="left:6.71%;top:18.89%;width:5.54%;--d:13.5s;--dl:3.4s" alt="">
@@ -231,6 +241,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
     <p>— 白鸽啃食信徒的身躯</p>
     <p>乌鸦沉迷于欲望.</p>
   </div>
+  <a class="clink" href="https://www.kdocs.cn/l/cpf1gQPTzjvX" target="_blank" rel="noopener">查看板评<span class="ar">→</span></a>
 </section>
 
 <!-- ============ ｜话术 ============ -->
@@ -248,6 +259,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
     <p>喜欢和你玩，有种…逗小狗的感觉？.</p>
     <p>抱我，直到你拥有和我一样的香气</p>
   </div>
+  <a class="clink" href="https://www.kdocs.cn/l/clTtART18F5K" target="_blank" rel="noopener">查看话术<span class="ar">→</span></a>
 </section>
 
 <!-- ============ 页脚 ============ -->
