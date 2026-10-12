@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>贪恋你的吻也是罪过吗 · 克莱尔</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Noto+Serif+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --serif:'Noto Serif SC',serif;
+  --display:'Cinzel',serif;
+  --latin:'Cormorant Garamond',serif;
+  --klein:#002FA7;            /* 克莱因蓝 */
+  --klein-2:#1d4fd6;
+  --purple:#5a32b0;
+  --violet:#2a1652;
+  --crimson:#c01230;          /* 彼岸花红 */
+  --paper:#e9e6f5;
+  --muted:#9b90c4;
+  --line:rgba(150,130,220,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--serif);color:var(--paper);
+  background:var(--ink,#06060c);
+  overflow-x:hidden;line-height:1.85;-webkit-font-smoothing:antialiased;
+}
+.bg{position:fixed;inset:0;z-index:-3;
+  background:
+    radial-gradient(120% 90% at 50% -15%,#163a8a 0%,#0c1f5e 30%,#1a0f3e 62%,#06060c 100%),
+    linear-gradient(180deg,#06060c,#0a0820);
+}
+.bg::after{content:"";position:absolute;inset:0;
+  background:radial-gradient(70% 50% at 50% 110%,rgba(192,18,48,.16),transparent 70%);
+  mix-blend-mode:screen}
+/* 升腾的彼岸花 / 蝴蝶 / 十字架 */
+#petals{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden}
+.pwrap{position:absolute;top:0;will-change:transform;
+  animation:rise var(--dur) linear infinite;animation-delay:var(--del);opacity:0}
+.pwrap i{display:block;width:100%;height:100%;
+  animation:sway var(--sdur) ease-in-out infinite alternate;animation-delay:var(--sdel);
+  filter:drop-shadow(0 0 6px rgba(140,110,230,.35))}
+@keyframes rise{
+  0%{transform:translateY(72vh);opacity:0}
+  9%{opacity:var(--op)}
+  91%{opacity:var(--op)}
+  100%{transform:translateY(-82vh);opacity:0}}
+@keyframes sway{
+  from{transform:translateX(-16px) rotate(var(--r0))}
+  to{transform:translateX(16px) rotate(var(--r1))}}
+/* 水波 */
+#ripple{position:fixed;inset:0;z-index:-1;pointer-events:none}
+.wrap{max-width:880px;margin:0 auto;padding:0 26px}
+section{padding:128px 0;position:relative;z-index:1}
+.eyebrow{font-family:var(--display);letter-spacing:.42em;font-size:12px;
+  color:var(--klein-2);text-transform:uppercase;margin-bottom:22px}
+.h2{font-family:var(--serif);font-weight:500;font-size:clamp(26px,5.4vw,42px);
+  line-height:1.28;letter-spacing:.02em}
+.h2 small{display:block;font-family:var(--latin);font-style:italic;font-weight:400;
+  font-size:.42em;letter-spacing:.14em;color:var(--muted);margin-top:12px}
+.rule{width:54px;height:1px;background:linear-gradient(90deg,var(--klein-2),transparent);margin:24px 0}
+.lead{color:var(--muted);font-size:clamp(15px,2.4vw,17px);max-width:38em}
+.quote{font-family:var(--latin);font-style:italic;font-size:clamp(18px,3vw,24px);
+  color:#cfc6ef;letter-spacing:.02em;line-height:1.6}
+.bigline{font-size:clamp(20px,4vw,30px);font-weight:300;letter-spacing:.06em;
+  color:var(--paper);margin-top:18px}
+.bigline b{font-weight:500;color:#fff}
+
+/* ============ 开屏 ============ */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;position:relative;padding:0 22px}
+.hero .mark{position:absolute;top:50%;left:50%;transform:translate(-50%,-54%);
+  width:min(60vmin,440px);opacity:.14;z-index:-1;pointer-events:none}
+.hero .eyebrow{margin-bottom:26px}
+.hero h1{font-family:var(--serif);font-weight:500;
+  font-size:clamp(34px,8.4vw,82px);line-height:1.12;letter-spacing:.04em;
+  text-shadow:0 0 38px rgba(40,80,200,.45)}
+.hero h1 .accent{color:#bcd2ff}
+.hero .sub{font-family:var(--latin);font-style:italic;font-size:clamp(20px,4vw,30px);
+  color:var(--muted);margin-top:18px;letter-spacing:.06em}
+.hero .tag{margin-top:34px;font-size:clamp(13px,2.6vw,15px);letter-spacing:.34em;
+  color:var(--klein-2);text-transform:uppercase;font-family:var(--display)}
+.scrollcue{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
+  font-family:var(--latin);font-style:italic;color:var(--muted);font-size:13px;letter-spacing:.2em;
+  animation:cue 2.4s ease-in-out infinite}
+@keyframes cue{0%,100%{opacity:.3;transform:translate(-50%,0)}50%{opacity:.9;transform:translate(-50%,6px)}}
+
+/* ============ ｜我 ============ */
+.idcard{display:flex;flex-wrap:wrap;gap:10px 14px;margin:26px 0}
+.idcard span{border:1px solid var(--line);border-radius:2px;padding:7px 14px;
+  font-size:14px;letter-spacing:.06em;color:#d7d0f0;background:rgba(40,30,80,.25)}
+
+/* ============ 标签 ============ */
+.tags{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.tags span{border:1px solid var(--line);padding:9px 18px;border-radius:30px;
+  font-size:14.5px;letter-spacing:.05em;color:#d8d1f2;
+  background:linear-gradient(180deg,rgba(45,30,90,.35),rgba(20,15,45,.45));
+  transition:.3s}
+.tags span:hover{color:#fff;border-color:var(--klein-2);box-shadow:0 0 18px rgba(45,80,210,.3)}
+
+/* ============ 价目 / 须知 占位 ============ */
+.note-card{border:1px dashed var(--line);border-radius:8px;padding:22px 24px;margin-top:24px;
+  background:rgba(30,20,60,.28);color:var(--muted);font-size:14.5px;line-height:1.9}
+.note-card b{color:#d7d0f0;font-weight:500}
+.notes{margin-top:24px;padding-left:0;list-style:none}
+.notes li{position:relative;padding:12px 0 12px 26px;border-bottom:1px solid var(--line);color:#d2cbef;font-size:15px}
+.notes li::before{content:"†";position:absolute;left:0;top:11px;color:var(--crimson);font-size:16px}
+
+/* ============ 链接按钮 ============ */
+.clink{display:inline-flex;align-items:center;gap:8px;margin:10px 14px 10px 0;
+  padding:11px 22px;border:1px solid var(--line);border-radius:30px;
+  color:#e3ddf6;text-decoration:none;font-size:15px;letter-spacing:.04em;
+  background:linear-gradient(180deg,rgba(45,30,90,.3),rgba(15,12,35,.4));transition:.3s}
+.clink:hover{color:#fff;border-color:var(--klein-2);box-shadow:0 0 22px rgba(45,80,210,.35)}
+
+/* ============ 页脚 ============ */
+footer{padding:90px 0 60px;text-align:center;position:relative;z-index:1}
+.fmark{font-family:var(--display);font-size:30px;letter-spacing:.3em;color:var(--klein-2);opacity:.5;margin-bottom:18px}
+.credit{font-family:var(--latin);font-style:italic;font-size:13px;letter-spacing:.18em;color:var(--muted);margin-top:14px}
+.credit a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--line)}
+.credit a:hover{color:#fff}
+
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 1.1s ease,transform 1.1s ease}
+.reveal.in{opacity:1;transform:none}
+
+@media(max-width:600px){section{padding:96px 0}.wrap{padding:0 20px}}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div id="petals"></div>
+<canvas id="ripple"></canvas>
+
+<!-- ============ 开屏 ============ -->
+<header class="hero">
+  <svg class="mark" viewBox="0 0 200 320" aria-hidden="true">
+    <g stroke="#bcd2ff" stroke-width="2.4" fill="none" stroke-linecap="round">
+      <line x1="100" y1="40" x2="100" y2="280"/>
+      <line x1="62" y1="92" x2="138" y2="92"/>
+    </g>
+    <g id="markflower" stroke="#c01230" stroke-width="2.6" fill="none" stroke-linecap="round"></g>
+  </svg>
+  <div class="eyebrow">BING LIAN · 病恋</div>
+  <h1>贪恋你的吻<br>也是<span class="accent">罪过</span>吗</h1>
+  <div class="sub">— Claire · 克莱尔</div>
+  <div class="tag">向死而生，亦向爱而生</div>
+  <div class="scrollcue">scroll</div>
+</header>
+
+<!-- ============ ｜我 ============ -->
+<section class="wrap reveal">
+  <div class="eyebrow">｜ 我</div>
+  <h2 class="h2">克莱尔<small>Claire</small></h2>
+  <div class="rule"></div>
+  <div class="idcard">
+    <span>18</span><span>le-T</span><span>天蝎 Scorpio</span><span>ENTP</span><span>常驻十二无</span>
+  </div>
+  <div class="bigline">亲吻我 · 拥抱我 · <b>依附在我身上</b></div>
+  <p class="quote" style="margin-top:24px">“ The moment I met you, it was not the wind but the heart. ”</p>
+</section>
+
+<!-- ============ 【陰暗】 ============ -->
+<section class="wrap reveal">
+  <div class="eyebrow">【 陰暗 】</div>
+  <h2 class="h2">只是想掠夺<br>你全部的注意力而已</h2>
+  <div class="rule"></div>
+  <p class="quote">“ It is the white plum that blooms in the cold winter — it is the.</p>
+  <p class="lead" style="margin-top:22px">爱到偏执，是一种病。可若连病都不被允许，又该把这一腔滚烫，安放去哪里。</p>
+</section>
+
+<!-- ============ 我能为你做什么 ============ -->
+<section class="wrap reveal">
+  <div class="eyebrow">What I Offer</div>
+  <h2 class="h2">我能为你做什么<small>the shape of my devotion</small></h2>
+  <div class="rule"></div>
+  <div class="tags">
+    <span>病恋陪伴</span><span>角色依存</span><span>树洞倾听</span>
+    <span>深夜私语</span><span>情感疏导</span><span>痛感共情</span>
+  </div>
+</section>
+
+<!-- ============ 价目 ============ -->
+<section class="wrap reveal">
+  <div class="eyebrow">Price · 价目</div>
+  <h2 class="h2">价目<small>the cost of staying</small></h2>
+  <div class="rule"></div>
+  <div class="note-card">
+    <b>价目表见文档附件</b>，提取时仅读到正文文字、取不到图片，故此处暂为占位。<br>
+    待你贴出价目截图 / 文字，我会原样替换进来。
+  </div>
+</section>
+
+<!-- ============ 须知 ============ -->
+<section class="wrap reveal">
+  <div class="eyebrow">Boundaries · 须知</div>
+  <h2 class="h2">须知<small>before you lean on me</small></h2>
+  <div class="rule"></div>
+  <ul class="notes">
+    <li>这是一段被允许的「病」，但请记得——它发生在屏幕的这一侧。</li>
+    <li>你可以依附，也可以随时离开；我的门，向死而生，也向你而开。</li>
+    <li>（其余须知见文档附件，待补充。）</li>
+  </ul>
+</section>
+
+<!-- ============ 话术 · 板评 ============ -->
+<section class="wrap reveal">
+  <div class="eyebrow">Craft · 话术 / 板评</div>
+  <h2 class="h2">话术与板评<small>words I keep for you</small></h2>
+  <div class="rule"></div>
+  <p class="lead">话术与板评详见文档附件。如需外链，把对应金山文档链接给我，我会做成跳转按钮。</p>
+  <div style="margin-top:14px">
+    <a class="clink" href="#" target="_blank" rel="noopener">话术 ↗</a>
+    <a class="clink" href="#" target="_blank" rel="noopener">板评 ↗</a>
+  </div>
+</section>
+
+<!-- ============ 页脚 ============ -->
+<footer>
+  <div class="fmark">†</div>
+  <div class="quote">“ 如果你需要我，我就在。 ”</div>
+  <div class="credit">made by <a href="https://github.com/yw-iris" target="_blank" rel="noopener">yw-iris</a></div>
+</footer>
+
+<script>
+/* 开屏彼岸花标记 */
+(function(){
+  const g=document.getElementById('markflower');
+  const cy=150;
+  for(let k=0;k<6;k++){
+    const a=(-90+k*60)*Math.PI/180;
+    const tx=100+Math.cos(a)*70, ty=cy+Math.sin(a)*70;
+    const cx=100+Math.cos(a)*30, cyy=cy+Math.sin(a)*30-8;
+    const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+    p.setAttribute('d',`M100 ${cy} Q ${cx} ${cyy} ${tx} ${ty}`);
+    g.appendChild(p);
+    const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',tx);c.setAttribute('cy',ty);c.setAttribute('r','6');
+    c.setAttribute('fill','#c01230');c.setAttribute('stroke','none');
+    g.appendChild(c);
+  }
+})();
+
+/* 升腾的彼岸花 / 蝴蝶 / 十字架 */
+(function(){
+  const host=document.getElementById('petals');
+  const COL=['#c01230','#3a6bff','#7a4fd0','#cfd0e8','#002FA7'];
+  function spider(c){let s='<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><g stroke="'+c+'" stroke-width="2.4" fill="none" stroke-linecap="round"><line x1="60" y1="64" x2="60" y2="120"/>';
+    for(let k=0;k<6;k++){const a=(-90+k*60)*Math.PI/180;const tx=60+Math.cos(a)*46,ty=64+Math.sin(a)*46;const cx=60+Math.cos(a)*20,cy=64+Math.sin(a)*20-6;s+='<path d="M60 64 Q '+cx+' '+cy+' '+tx+' '+ty+'"/><circle cx="'+tx+'" cy="'+ty+'" r="4.5" fill="'+c+'" stroke="none"/>';}
+    for(let k=0;k<6;k++){const a=(-90+k*60+30)*Math.PI/180;const px=60+Math.cos(a)*15,py=64+Math.sin(a)*15;s+='<path d="M60 64 Q '+px+' '+py+' '+(60+Math.cos(a)*8)+' '+(64+Math.sin(a)*8)+'" stroke-width="1.5"/>';}
+    return s+'</g></svg>';}
+  function butterfly(c){return '<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg"><g fill="'+c+'" opacity="0.92"><path d="M60 50 C30 8 6 20 18 46 C6 56 36 60 60 50 Z"/><path d="M60 50 C90 8 114 20 102 46 C114 56 84 60 60 50 Z"/><path d="M60 52 C40 72 22 80 30 94 C46 96 58 70 60 52 Z"/><path d="M60 52 C80 72 98 80 90 94 C74 96 62 70 60 52 Z"/></g><line x1="60" y1="28" x2="60" y2="94" stroke="'+c+'" stroke-width="2"/></svg>';}
+  function cross(c){return '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g stroke="'+c+'" stroke-width="3.4" stroke-linecap="round"><line x1="50" y1="16" x2="50" y2="86"/><line x1="28" y1="38" x2="72" y2="38"/></g></svg>';}
+  const FN=[spider,butterfly,cross];
+  const N=innerWidth<600?11:19;
+  for(let i=0;i<N;i++){
+    const w=20+Math.random()*46;
+    const el=document.createElement('div');el.className='pwrap';
+    const fn=FN[Math.random()*FN.length|0];
+    const c=COL[Math.random()*COL.length|0];
+    el.style.left=(Math.random()*100)+'vw';
+    el.style.width=w+'px';el.style.height=w+'px';
+    el.style.setProperty('--dur',(16+Math.random()*15).toFixed(1)+'s');
+    el.style.setProperty('--del',(-Math.random()*30).toFixed(1)+'s');
+    el.style.setProperty('--op',(0.22+Math.random()*0.45).toFixed(2));
+    el.style.setProperty('--sdur',(4+Math.random()*5).toFixed(1)+'s');
+    el.style.setProperty('--sdel',(-Math.random()*6).toFixed(1)+'s');
+    el.style.setProperty('--r0',(-12+Math.random()*8).toFixed(1)+'deg');
+    el.style.setProperty('--r1',(4+Math.random()*12).toFixed(1)+'deg');
+    el.innerHTML='<i>'+fn(c)+'</i>';
+    host.appendChild(el);
+  }
+})();
+
+/* 水波荡漾（鼠标 / 触摸滑动 / 滚动） */
+(function(){
+  const cv=document.getElementById('ripple'),ctx=cv.getContext('2d');
+  let dpr=Math.min(2,devicePixelRatio||1),W,H;
+  function rs(){W=cv.width=innerWidth*dpr;H=cv.height=innerHeight*dpr;cv.style.width=innerWidth+'px';cv.style.height=innerHeight+'px';}
+  rs();addEventListener('resize',rs);
+  const rip=[];
+  function add(x,y){rip.push({x:x*dpr,y:y*dpr,r:0,a:1});if(rip.length>46)rip.shift();}
+  let px=-9,py=-9,pt=0;
+  addEventListener('pointermove',e=>{if(e.clientX-px>6||e.clientY-py>6){if(performance.now()-pt>26){add(e.clientX,e.clientY);px=e.clientX;py=e.clientY;pt=performance.now();}}},{passive:true});
+  addEventListener('touchmove',e=>{const t=e.touches[0];if(!t)return;if(t.clientX-px>6||t.clientY-py>6){if(performance.now()-pt>26){add(t.clientX,t.clientY);px=t.clientX;py=t.clientY;pt=performance.now();}}},{passive:true});
+  let sy=scrollY;
+  addEventListener('scroll',()=>{if(Math.abs(scrollY-sy)>26){sy=scrollY;add(innerWidth/2+(Math.random()*120-60),innerHeight/2+(Math.random()*120-60));}},{passive:true});
+  (function loop(){ctx.clearRect(0,0,W,H);ctx.globalCompositeOperation='lighter';
+    for(let i=rip.length-1;i>=0;i--){const o=rip[i];o.r+=2.4*dpr;o.a-=0.018;
+      if(o.a<=0){rip.splice(i,1);continue;}
+      for(let k=0;k<3;k++){const rr=o.r-k*7*dpr;if(rr<=0)continue;
+        ctx.beginPath();ctx.arc(o.x,o.y,rr,0,7);
+        ctx.strokeStyle='rgba(90,140,255,'+(o.a*(0.32-k*0.08))+')';ctx.lineWidth=1.4*dpr;ctx.stroke();}}
+    ctx.globalCompositeOperation='source-over';requestAnimationFrame(loop);})();
+})();
+
+/* 滚动显现 */
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
