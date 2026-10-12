@@ -29,24 +29,8 @@ body{font-family:var(--sans);color:var(--ink);background:#06060c;overflow-x:hidd
   --arn:1.1184; /* 1445/1292 */
   width:max(100vw,calc(100svh * var(--arn)));
   height:max(100svh,calc(100vw / var(--arn)));}
-/* 黑底蓝花：作为静态"源"，碎片从它身上淌下 */
-.hero-stage .clean{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block;opacity:.55;filter:blur(.4px)}
-/* 碎片层：越往下淌越淡，融入暗区 */
-.frags{position:absolute;inset:0;
-  -webkit-mask-image:linear-gradient(180deg,#000 56%,transparent 95%);
-          mask-image:linear-gradient(180deg,#000 56%,transparent 95%)}
-.frag{position:absolute;height:auto;display:block;transform-origin:top center;
-  filter:drop-shadow(0 0 16px rgba(70,110,240,.55)) drop-shadow(0 6px 16px rgba(15,35,140,.55));
-  animation:flow var(--d,9s) cubic-bezier(.45,.05,.6,1) var(--dl,0s) infinite}
-/* 先拉长（原位拉伸）再下滑，循环首尾 opacity 均为 0 → 无缝不闪 */
-@keyframes flow{
-  0%        {opacity:0;transform:translateY(0) scaleY(.35)}
-  11%       {opacity:1;transform:translateY(0) scaleY(.35)}
-  37%       {opacity:1;transform:translateY(0) scaleY(2.5)}      /* 先拉长 */
-  64%       {opacity:1;transform:translateY(33vh) scaleY(1.25)}  /* 再下滑 */
-  90%       {opacity:0;transform:translateY(60vh) scaleY(1.02)}
-  100%      {opacity:0;transform:translateY(60vh) scaleY(1.02)}
-}
+/* 黑底蓝花：静态开场，不再做流体动画 */
+.hero-stage .clean{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block;opacity:.85}
 .hero-veil{position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(120% 78% at 50% 42%,transparent,rgba(6,6,12,.55)),
   linear-gradient(180deg,transparent 58%,rgba(6,6,12,.82) 92%,#06060c 100%)}
@@ -64,7 +48,7 @@ body{font-family:var(--sans);color:var(--ink);background:#06060c;overflow-x:hidd
 #hand::after{content:"";position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(5,9,26,.5),rgba(10,8,38,.34) 48%,rgba(3,3,12,.78)),
   radial-gradient(85% 60% at 50% 32%,transparent,rgba(3,3,14,.35))}
-#ripple{position:fixed;inset:0;z-index:-1;pointer-events:none}
+#bfly{position:fixed;inset:0;z-index:-1;pointer-events:none}
 
 /* ===== 排版 ===== */
 .wrap{max-width:720px;margin:0 auto;padding:0 28px}
@@ -119,7 +103,6 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 .reveal{opacity:0;transform:translateY(34px);transition:opacity 1.2s ease,transform 1.2s ease}
 .reveal.in{opacity:1;transform:none}
 @media(max-width:600px){section{padding:120px 0}.wrap{padding:0 22px}}
-@media(prefers-reduced-motion:reduce){.frag{animation:none;opacity:1}}
 </style>
 </head>
 <body>
@@ -128,16 +111,6 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 <header class="hero">
   <div class="hero-stage">
     <img class="clean" src="assets/bl_hero_black.png" alt="">
-    <div class="frags">
-      <img class="frag" src="assets/bl_frag01.png" style="left:0%;top:2.86%;width:7.06%;--d:15s;--dl:1s" alt="">
-      <img class="frag" src="assets/bl_frag02.png" style="left:6.71%;top:18.89%;width:5.54%;--d:13.5s;--dl:3.4s" alt="">
-      <img class="frag" src="assets/bl_frag03.png" style="left:11.76%;top:14.09%;width:41.38%;--d:17s;--dl:1.8s" alt="">
-      <img class="frag" src="assets/bl_frag04.png" style="left:52.66%;top:35.6%;width:16.82%;--d:14.5s;--dl:5s" alt="">
-      <img class="frag" src="assets/bl_frag05.png" style="left:69.2%;top:62.23%;width:5.61%;--d:13s;--dl:6.2s" alt="">
-      <img class="frag" src="assets/bl_frag06.png" style="left:74.95%;top:35.91%;width:12.53%;--d:16s;--dl:4.1s" alt="">
-      <img class="frag" src="assets/bl_frag07.png" style="left:86.44%;top:38.78%;width:4.91%;--d:12.5s;--dl:5.6s" alt="">
-      <img class="frag" src="assets/bl_frag08.png" style="left:92.66%;top:9.21%;width:7.34%;--d:14s;--dl:2.6s" alt="">
-    </div>
   </div>
   <div class="hero-veil"></div>
   <div class="hero-in">
@@ -270,29 +243,76 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 </footer>
 
 <div id="hand"></div>
-<canvas id="ripple"></canvas>
+<canvas id="bfly"></canvas>
 
 <script>
-/* 水波荡漾（鼠标 / 触摸滑动 / 滚动） */
+/* 白色蝴蝶：随指针 / 触摸 / 滚动 / 定时 在暗底上飘飞（取代水波纹） */
 (function(){
-  const cv=document.getElementById('ripple'),ctx=cv.getContext('2d');
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  const cv=document.getElementById('bfly'),ctx=cv.getContext('2d');
   let dpr=Math.min(2,devicePixelRatio||1),W,H;
   function rs(){W=cv.width=innerWidth*dpr;H=cv.height=innerHeight*dpr;cv.style.width=innerWidth+'px';cv.style.height=innerHeight+'px';}
   rs();addEventListener('resize',rs);
-  const rip=[];
-  function add(x,y){rip.push({x:x*dpr,y:y*dpr,r:0,a:1});if(rip.length>46)rip.shift();}
+  const B=[];
+  const rnd=(a,b)=>a+Math.random()*(b-a);
+  function spawn(x,y,opt){
+    if(B.length>46)return; opt=opt||{};
+    const s=rnd(0.65,1.7), up=opt.dir||(Math.random()<.5?-1:1);
+    B.push({x:x*dpr,y:y*dpr,s:s*dpr,
+      vx:rnd(-0.3,0.3)*dpr, vy:up*rnd(0.35,0.85)*dpr,
+      ph:rnd(0,6.28), fs:rnd(0.13,0.24),
+      sway:rnd(0.6,1.5), t:0, life:rnd(6,11), a0:opt.a||0.92});
+  }
+  function drawB(b){
+    const s=b.s, ws=0.18+0.82*Math.abs(Math.cos(b.ph));
+    ctx.save();ctx.translate(b.x,b.y);ctx.rotate(b.rot);ctx.scale(s,s);
+    ctx.globalAlpha=b.a;
+    ctx.shadowColor='rgba(255,255,255,'+(0.6*b.a)+')';ctx.shadowBlur=11;
+    ctx.fillStyle='rgba(245,249,255,0.93)';
+    ctx.beginPath();ctx.ellipse(0,0,1.5,6.6,0,0,7);ctx.fill(); // 身体
+    for(const sg of[-1,1]){
+      ctx.save();ctx.scale(sg*ws,1);
+      ctx.beginPath();   // 上翅
+      ctx.moveTo(0,-1.5);
+      ctx.bezierCurveTo(4,-9,13.5,-11,12.5,-3.4);
+      ctx.bezierCurveTo(12,-0.4,5,1.2,0,1.2);ctx.closePath();ctx.fill();
+      ctx.beginPath();   // 下翅
+      ctx.moveTo(0,1);
+      ctx.bezierCurveTo(6,2,8.6,8,4.3,10.3);
+      ctx.bezierCurveTo(1.6,11.5,0,6,0,2);ctx.closePath();ctx.fill();
+      ctx.restore();
+    }
+    ctx.shadowBlur=0;ctx.strokeStyle='rgba(255,255,255,'+(0.7*b.a)+')';ctx.lineWidth=0.7;
+    ctx.beginPath();ctx.moveTo(0,-6);ctx.quadraticCurveTo(2,-11,4.5,-13);
+    ctx.moveTo(0,-6);ctx.quadraticCurveTo(-2,-11,-4.5,-13);ctx.stroke();
+    ctx.restore();
+  }
+  (function loop(){
+    ctx.clearRect(0,0,W,H);
+    for(let i=B.length-1;i>=0;i--){
+      const b=B[i];b.t+=0.016;b.ph+=b.fs;
+      b.x+=b.vx+Math.sin(b.t*b.sway)*0.28*dpr;
+      b.y+=b.vy;b.vy*=0.998;
+      const lin=b.t/b.life;
+      b.a=Math.min(1,Math.min(b.t*1.6,(1-lin)*2.6))*b.a0;
+      b.rot=Math.atan2(b.vy,b.vx)-Math.PI/2+Math.sin(b.t*b.sway)*0.22;
+      drawB(b);
+      if(b.t>b.life||b.y<-30*dpr||b.y>H+30*dpr)B.splice(i,1);
+    }
+    requestAnimationFrame(loop);
+  })();
+  // 指针 / 触摸：在光标处生蝶
   let px=-9,py=-9,pt=0;
-  addEventListener('pointermove',e=>{if(e.clientX-px>6||e.clientY-py>6){if(performance.now()-pt>26){add(e.clientX,e.clientY);px=e.clientX;py=e.clientY;pt=performance.now();}}},{passive:true});
-  addEventListener('touchmove',e=>{const t=e.touches[0];if(!t)return;if(t.clientX-px>6||e.clientY-py>6){if(performance.now()-pt>26){add(t.clientX,t.clientY);px=e.clientX;py=e.clientY;pt=performance.now();}}},{passive:true});
+  function move(x,y){if(performance.now()-pt>120){spawn(x,y,{});px=x;py=y;pt=performance.now();}}
+  addEventListener('pointermove',e=>move(e.clientX,e.clientY),{passive:true});
+  addEventListener('touchmove',e=>{const t=e.touches[0];if(t)move(t.clientX,t.clientY);},{passive:true});
+  // 滚动：自上方飘落
   let sy=scrollY;
-  addEventListener('scroll',()=>{if(Math.abs(scrollY-sy)>26){sy=scrollY;add(innerWidth/2+(Math.random()*120-60),innerHeight/2+(Math.random()*120-60));}},{passive:true});
-  (function loop(){ctx.clearRect(0,0,W,H);ctx.globalCompositeOperation='lighter';
-    for(let i=rip.length-1;i>=0;i--){const o=rip[i];o.r+=2.4*dpr;o.a-=0.018;
-      if(o.a<=0){rip.splice(i,1);continue;}
-      for(let k=0;k<3;k++){const rr=o.r-k*7*dpr;if(rr<=0)continue;
-        ctx.beginPath();ctx.arc(o.x,o.y,rr,0,7);
-        ctx.strokeStyle='rgba(110,150,255,'+(o.a*(0.32-k*0.08))+')';ctx.lineWidth=1.4*dpr;ctx.stroke();}}
-    ctx.globalCompositeOperation='source-over';requestAnimationFrame(loop);})();
+  addEventListener('scroll',()=>{if(Math.abs(scrollY-sy)>30){sy=scrollY;spawn(rnd(0,innerWidth),rnd(-10,40),{});}},{passive:true});
+  // 环境飘落
+  setInterval(()=>spawn(rnd(0,innerWidth),rnd(-10,innerHeight*0.3),{}),1700);
+  // 开场预置几只
+  for(let k=0;k<6;k++)spawn(rnd(0,innerWidth),rnd(0,innerHeight*0.6),{});
 })();
 
 /* 滚动显现 */
