@@ -14,151 +14,186 @@
   --script:'Dancing Script',cursive;
   --black:'UnifrakturMaguntia',serif;
   --display:'Cinzel',serif;
-  --purple:#b69ce6;
-  --purple-d:#8f74c8;
-  --blue:#9ab2f0;
-  --blue-d:#6f8fe0;
-  --red:#e06078;
-  --paper:#eef0fb;
-  --line:rgba(150,130,220,.20);
+  /* 全站仅两种字体颜色 */
+  --kb:#1730b8;      /* 克莱因蓝 —— 开场白底区 */
+  --ink:#edf0fb;     /* 纸白 —— 正文暗底区 */
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:var(--sans);color:var(--blue);background:#06060c;overflow-x:hidden;line-height:1.95;-webkit-font-smoothing:antialiased}
+body{font-family:var(--sans);color:var(--ink);background:#06060c;overflow-x:hidden;line-height:2.1;-webkit-font-smoothing:antialiased}
 
-/* 底图：蓝手 */
+/* ===== 开场：蓝花碎片 ===== */
+.hero{min-height:100svh;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 24px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('assets/bl_hero.jpg') center/cover no-repeat;background-color:#fdfdfe}
+.hero-veil{position:absolute;inset:0;
+  background:radial-gradient(70% 55% at 50% 44%,rgba(255,255,255,.62),rgba(255,255,255,.18) 62%,transparent 78%),
+  linear-gradient(180deg,rgba(253,253,254,.35),transparent 22%,transparent 58%,rgba(6,6,12,.42) 84%,#06060c 99%)}
+.hero-in{position:relative;z-index:1}
+.hero .eyebrow{font-family:var(--display);letter-spacing:.44em;font-size:12px;text-transform:uppercase;color:var(--kb);opacity:.85;margin-bottom:26px}
+.hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(34px,8.2vw,80px);line-height:1.18;letter-spacing:.05em;color:var(--kb)}
+.hero .sub{font-family:var(--script);color:var(--kb);font-size:clamp(22px,4.2vw,32px);margin-top:22px}
+.hero .tag{font-family:var(--serif);font-weight:300;letter-spacing:.34em;font-size:clamp(12px,2.4vw,15px);color:var(--kb);opacity:.75;margin-top:34px}
+.hero .cue{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);font-family:var(--script);color:var(--kb);font-size:14px;opacity:.65;animation:cue 2.4s ease-in-out infinite;z-index:1}
+@keyframes cue{0%,100%{opacity:.25;transform:translate(-50%,0)}50%{opacity:.8;transform:translate(-50%,6px)}}
+
+/* ===== 正文底图：蓝手 ===== */
 #hand{position:fixed;inset:0;z-index:-3;background:url('assets/bl_hand.jpg') center 38%/cover no-repeat;background-color:#04060f}
 #hand::after{content:"";position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(5,9,26,.74),rgba(10,8,38,.58) 48%,rgba(3,3,12,.88)),
+  background:linear-gradient(180deg,rgba(5,9,26,.78),rgba(10,8,38,.6) 48%,rgba(3,3,12,.9)),
   radial-gradient(85% 60% at 50% 32%,transparent,rgba(3,3,14,.55))}
 #ripple{position:fixed;inset:0;z-index:-1;pointer-events:none}
 
-.wrap{max-width:920px;margin:0 auto;padding:0 26px}
-section{padding:118px 0;position:relative;z-index:1}
-.eyebrow{font-family:var(--display);letter-spacing:.4em;font-size:12px;color:var(--blue-d);text-transform:uppercase;margin-bottom:20px}
-.h2{font-family:var(--serif);font-weight:500;font-size:clamp(26px,5.2vw,42px);line-height:1.3;letter-spacing:.03em;color:var(--purple)}
-.h2 small{display:block;font-family:var(--display);font-weight:400;font-size:.32em;letter-spacing:.18em;color:var(--purple-d);margin-top:14px;text-transform:uppercase}
-.rule{width:54px;height:1px;background:linear-gradient(90deg,var(--blue-d),transparent);margin:22px 0}
-.lead{color:var(--blue);font-size:clamp(15px,2.4vw,17px);max-width:40em}
-.line{font-family:var(--serif);font-weight:300;font-size:clamp(19px,3.6vw,27px);line-height:1.5;color:var(--paper);letter-spacing:.04em;margin:14px 0}
-.script{font-family:var(--script);color:var(--blue);font-size:clamp(22px,4vw,34px);line-height:1.3;letter-spacing:.01em}
-.black{font-family:var(--black);color:var(--purple);font-size:clamp(26px,5vw,40px);letter-spacing:.02em;line-height:1.2}
-.red{color:var(--red);font-weight:500}
-.del{text-decoration:line-through;opacity:.6}
-.miss{color:var(--purple-d);font-style:italic;font-size:14px}
+/* ===== 排版 ===== */
+.wrap{max-width:720px;margin:0 auto;padding:0 28px}
+section{padding:170px 0;position:relative;z-index:1}
+.eyebrow{font-family:var(--display);letter-spacing:.4em;font-size:11px;color:var(--ink);opacity:.5;text-transform:uppercase;margin-bottom:26px}
+.h2{font-family:var(--serif);font-weight:500;font-size:clamp(28px,5.4vw,44px);line-height:1.35;letter-spacing:.04em;color:var(--ink);margin-top:30px}
+.h2 small{display:block;font-family:var(--display);font-weight:400;font-size:.3em;letter-spacing:.2em;opacity:.55;margin-top:16px;text-transform:uppercase}
+.rule{width:54px;height:1px;background:linear-gradient(90deg,rgba(237,240,251,.7),transparent);margin:34px 0}
+.lead{font-size:clamp(15px,2.4vw,17px);opacity:.85;max-width:38em}
+.line{font-family:var(--serif);font-weight:300;font-size:clamp(20px,3.6vw,28px);line-height:1.7;letter-spacing:.05em;margin:26px 0}
+.script{font-family:var(--script);font-size:clamp(22px,4vw,33px);line-height:1.45;opacity:.9;margin:26px 0}
+.black{font-family:var(--black);font-size:clamp(26px,5vw,40px);letter-spacing:.02em;line-height:1.3;margin:40px 0 12px}
+.em{font-weight:600;letter-spacing:.06em}
+.del{text-decoration:line-through;opacity:.55}
+.miss{opacity:.5;font-style:italic;font-size:14px}
 
 /* id 卡 */
-.idcard{display:flex;flex-wrap:wrap;gap:10px 14px;margin:24px 0}
-.idcard span{border:1px solid var(--line);border-radius:3px;padding:7px 15px;font-size:14px;letter-spacing:.06em;color:#d7d0f0;background:rgba(40,30,80,.3)}
+.idcard{display:flex;flex-wrap:wrap;gap:12px 14px;margin:34px 0}
+.idcard span{border:1px solid rgba(237,240,251,.22);border-radius:3px;padding:8px 17px;font-size:14px;letter-spacing:.08em}
 
 /* 无相 风格表 */
-.stylelist{margin-top:22px;font-family:var(--serif);font-size:clamp(16px,2.8vw,20px);color:var(--paper);line-height:2}
-.stylelist .row{padding:10px 0;border-bottom:1px solid var(--line)}
-.stylelist .k{color:var(--purple);font-weight:500;margin-right:8px}
-.stylelist .sub{color:var(--blue-d);font-size:.82em;margin-left:14px}
+.stylelist{margin-top:30px;font-family:var(--serif);font-size:clamp(16px,2.8vw,20px);line-height:2.1}
+.stylelist .row{padding:14px 0;border-bottom:1px solid rgba(237,240,251,.14)}
+.stylelist .k{font-weight:600;margin-right:10px;letter-spacing:.06em}
+.stylelist .sub{opacity:.6;font-size:.82em;margin-left:14px}
 
 /* 须知 */
-.notes{margin:14px 0 0;padding:0;list-style:none;counter-reset:nt;max-width:46em}
-.notes li{counter-increment:nt;position:relative;padding:13px 0 13px 42px;border-bottom:1px solid var(--line);color:var(--blue);font-size:15.5px;line-height:1.85}
-.notes li::before{content:counter(nt);position:absolute;left:0;top:13px;width:26px;height:26px;border:1px solid var(--line);border-radius:50%;
-  font-family:var(--display);font-size:12px;color:var(--purple);display:flex;align-items:center;justify-content:center}
+.notes{margin:30px 0 0;padding:0;list-style:none;counter-reset:nt;max-width:44em}
+.notes li{counter-increment:nt;position:relative;padding:17px 0 17px 46px;border-bottom:1px solid rgba(237,240,251,.14);font-size:15.5px;line-height:1.95;opacity:.92}
+.notes li::before{content:counter(nt);position:absolute;left:0;top:17px;width:27px;height:27px;border:1px solid rgba(237,240,251,.24);border-radius:50%;
+  font-family:var(--display);font-size:12px;display:flex;align-items:center;justify-content:center}
 
-/* 话术/板评 引用 */
-.quotes{margin-top:18px}
-.quotes p{font-family:var(--serif);font-weight:300;font-size:clamp(17px,3vw,22px);color:var(--paper);line-height:1.7;margin:12px 0}
-.quotes p .en{font-family:var(--script);color:var(--blue);font-size:1.15em}
-.tagline{font-family:var(--serif);font-weight:300;font-size:clamp(18px,3.4vw,24px);color:var(--purple);margin:16px 0;letter-spacing:.03em}
+/* 引用 */
+.quotes{margin-top:30px}
+.quotes p{font-family:var(--serif);font-weight:300;font-size:clamp(17px,3vw,22px);line-height:1.85;margin:24px 0}
+.quotes p .en{font-family:var(--script);font-size:1.18em}
+.tagline{font-family:var(--serif);font-weight:300;font-size:clamp(18px,3.4vw,24px);margin:30px 0;letter-spacing:.04em}
 
-footer{padding:90px 0 64px;text-align:center;position:relative;z-index:1}
-.fmark{font-family:var(--display);font-size:30px;letter-spacing:.3em;color:var(--blue-d);opacity:.5;margin-bottom:16px}
-.credit{font-family:var(--script);font-size:15px;letter-spacing:.04em;color:var(--purple-d);margin-top:14px}
-.credit a{color:var(--purple-d);text-decoration:none;border-bottom:1px solid var(--line)}
-.credit a:hover{color:#fff}
+/* ===== 流体小图：每一节垂落 ===== */
+.drip{width:104px;height:148px;margin:6px 0 46px;opacity:0;transform:translateY(-56px) scaleY(.45);transform-origin:top center;
+  transition:opacity 1s ease .15s,transform 1.5s cubic-bezier(.2,.85,.3,1.18) .15s}
+.reveal.in .drip{opacity:1;transform:none}
+.drip-morph{width:100%;height:100%;animation:bob 7s ease-in-out infinite}
+.drip img{width:100%;height:100%;object-fit:cover;display:block;
+  border-radius:52% 48% 58% 42%/62% 55% 45% 38%;
+  animation:morph 11s ease-in-out infinite alternate;
+  filter:drop-shadow(0 16px 34px rgba(15,35,130,.5)) saturate(1.15)}
+.drip.d2 img{border-radius:44% 56% 48% 52%/56% 44% 58% 42%;animation-delay:-3.5s,-2s}
+.drip.d3 img{border-radius:58% 42% 45% 55%/48% 60% 40% 52%;animation-delay:-6s,-4s}
+@keyframes morph{
+  0%{border-radius:52% 48% 58% 42%/62% 55% 45% 38%}
+  50%{border-radius:46% 54% 50% 50%/54% 46% 58% 42%}
+  100%{border-radius:56% 44% 52% 48%/58% 50% 42% 50%}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(12px)}}
 
-.reveal{opacity:0;transform:translateY(30px);transition:opacity 1.1s ease,transform 1.1s ease}
+footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
+.fmark{font-family:var(--display);font-size:30px;letter-spacing:.3em;opacity:.45;margin-bottom:22px}
+.credit{font-family:var(--script);font-size:15px;letter-spacing:.04em;opacity:.65;margin-top:18px}
+.credit a{color:inherit;text-decoration:none;border-bottom:1px solid rgba(237,240,251,.25)}
+.credit a:hover{opacity:1}
+
+.reveal{opacity:0;transform:translateY(34px);transition:opacity 1.2s ease,transform 1.2s ease}
 .reveal.in{opacity:1;transform:none}
-@media(max-width:600px){section{padding:92px 0}.wrap{padding:0 20px}}
+@media(max-width:600px){section{padding:120px 0}.wrap{padding:0 22px}.drip{width:84px;height:120px}}
 </style>
 </head>
 <body>
-<div id="hand"></div>
-<canvas id="ripple"></canvas>
 
-<!-- ============ 开屏 ============ -->
-<header class="hero" style="min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;padding:0 22px">
-  <div class="eyebrow">BING LIAN · 病恋</div>
-  <h1 style="font-family:var(--serif);font-weight:500;font-size:clamp(34px,8.4vw,82px);line-height:1.14;letter-spacing:.04em;color:#f2f1ff;text-shadow:0 0 40px rgba(40,80,200,.5)">贪恋你的吻<br>也是<span style="color:#ffd9e2">罪过</span>吗</h1>
-  <div class="script" style="margin-top:18px;font-size:clamp(22px,4.4vw,32px)">— Claire · 克莱尔</div>
-  <div class="eyebrow" style="margin-top:30px;font-size:13px">向死而生，亦向爱而生</div>
-  <div style="position:absolute;bottom:30px;left:50%;transform:translateX(-50%);font-family:var(--script);color:var(--blue);font-size:14px;opacity:.7;animation:cue 2.4s ease-in-out infinite">scroll</div>
+<!-- ============ 开场 ============ -->
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-veil"></div>
+  <div class="hero-in">
+    <div class="eyebrow">BING LIAN · 病恋</div>
+    <h1>贪恋你的吻<br>也是罪过吗</h1>
+    <div class="sub">— Claire · 克莱尔</div>
+    <div class="tag">向死而生，亦向爱而生</div>
+  </div>
+  <div class="cue">scroll</div>
 </header>
-<style>@keyframes cue{0%,100%{opacity:.3;transform:translate(-50%,0)}50%{opacity:.9;transform:translate(-50%,6px)}}</style>
 
 <!-- ============ 【陰暗】 ============ -->
 <section class="wrap reveal">
+  <div class="drip"><div class="drip-morph"><img src="assets/bl_bflybook.jpg" alt=""></div></div>
   <div class="eyebrow">SHADOW · 【陰暗】</div>
   <h2 class="h2">【陰暗】</h2>
   <div class="rule"></div>
   <p class="line">—— 我没有什么坏心思哦一·</p>
   <p class="line">只是想掠夺你全部的注意力而已</p>
-  <p class="script" style="margin-top:22px">it is the white plum that blooms in the cold winter it is the.</p>
+  <p class="script">it is the white plum that blooms in the cold winter it is the.</p>
 </section>
 
 <!-- ============ ｜我 ============ -->
 <section class="wrap reveal">
+  <div class="drip d2"><div class="drip-morph"><img src="assets/bl_fl2.jpg" alt=""></div></div>
   <div class="eyebrow">｜ 我 · ME</div>
   <h2 class="h2">｜我<small>Claire</small></h2>
   <div class="rule"></div>
   <div class="idcard">
     <span>克莱尔</span><span>18</span><span>le-T</span><span>天蝎 Scorpio</span><span>ENTP</span><span>常驻十二无</span>
   </div>
-  <p class="line">亲吻我 · 拥抱我 · <span class="red">依附在我身上</span></p>
-  <p class="script" style="margin-top:20px">“ The moment I met you, it was not the wind but the heart. ”</p>
+  <p class="line">亲吻我 · 拥抱我 · <span class="em">依附在我身上</span></p>
+  <p class="script">“ The moment I met you, it was not the wind but the heart. ”</p>
 </section>
 
 <!-- ============ 抓娃娃机 ============ -->
 <section class="wrap reveal">
+  <div class="drip d3"><div class="drip-morph"><img src="assets/bl_circle.jpg" alt=""></div></div>
   <p class="line">世界是一个巨大的抓娃娃机<br>隔着玻璃 只想要你</p>
   <p class="script">/ . 你去发誓吧 说你离开我就会三掉 . /</p>
 </section>
 
 <!-- ============ ｜无相 ============ -->
 <section class="wrap reveal">
+  <div class="drip"><div class="drip-morph"><img src="assets/bl_grid.jpg" alt=""></div></div>
   <div class="eyebrow">｜无相 · STYLE</div>
   <h2 class="h2">｜无相<small>最近 风格</small></h2>
   <div class="rule"></div>
   <div class="stylelist">
-    <div class="row"><span class="k">诱导</span> 恶趣味 <span class="red">//</span> 温病</div>
-    <div class="row"><span class="k">伪高恋</span> <span class="red">//</span> 微 <span class="red">/</span> 高撩</div>
-    <div class="row"><span class="del">随机掉落</span> <span class="red">血暴</span> <span class="red">//</span> 高压</div>
-    <div class="row"><span class="k">副 我可以↓</span><span class="sub">伪下 / 狗1 <span class="red">//</span> 意识流 <span class="red">//</span> 钓系</span></div>
-    <div class="row"><span class="k">低无</span> 疯病 <span class="red">/</span> 白切黑 <span class="red">//</span> 逻辑</div>
+    <div class="row"><span class="k">诱导</span> 恶趣味 <span class="em">//</span> 温病</div>
+    <div class="row"><span class="k">伪高恋</span> <span class="em">//</span> 微 <span class="em">/</span> 高撩</div>
+    <div class="row"><span class="del">随机掉落</span> <span class="em">血暴</span> <span class="em">//</span> 高压</div>
+    <div class="row"><span class="k">副 我可以↓</span><span class="sub">伪下 / 狗1 <span class="em">//</span> 意识流 <span class="em">//</span> 钓系</span></div>
+    <div class="row"><span class="k">低无</span> 疯病 <span class="em">/</span> 白切黑 <span class="em">//</span> 逻辑</div>
   </div>
-  <p class="tagline" style="margin-top:26px">什么文案能有我本人吸引你的注意</p>
+  <p class="tagline">什么文案能有我本人吸引你的注意</p>
 </section>
 
 <!-- ============ 我的常驻 ============ -->
 <section class="wrap reveal">
+  <div class="drip d2"><div class="drip-morph"><img src="assets/bl_cat.jpg" alt=""></div></div>
   <p class="line">摸摸头会变乖么<br>软软的窝在怀里</p>
-  <p class="script" style="margin-top:16px">you were always meant to be my destiny</p>
+  <p class="script">you were always meant to be my destiny</p>
   <p class="tagline">斜太 · 爱神</p>
 </section>
 
 <!-- ============ 单前须知 ============ -->
 <section class="wrap reveal">
+  <div class="drip d3"><div class="drip-morph"><img src="assets/bl_jelly.jpg" alt=""></div></div>
   <p class="line">是在说我吗.听不懂.像是在对主人示好</p>
-  <p class="script" style="margin-top:10px">—— Claire</p>
-  <p class="script" style="margin-top:6px;font-size:clamp(19px,3.4vw,27px)">It's a shame to bring it up about you</p>
-  <h2 class="h2" style="margin-top:10px">克莱尔 · 单前须知</h2>
+  <p class="script">—— Claire</p>
+  <p class="script" style="font-size:clamp(19px,3.4vw,27px)">It's a shame to bring it up about you</p>
+  <h2 class="h2" style="margin-top:44px">克莱尔 · 单前须知</h2>
   <div class="rule"></div>
-  <p class="red" style="margin:6px 0 4px;font-size:14px;letter-spacing:.04em">le 不接男板</p>
+  <p class="em" style="margin:8px 0 6px;font-size:14px;letter-spacing:.08em">le 不接男板</p>
   <ol class="notes">
-    <li>开始前请告诉我您需要的风格类型，以及喜好雷点，<span class="red">若未标注，则单内触雷概不负责</span></li>
+    <li>开始前请告诉我您需要的风格类型，以及喜好雷点，<span class="em">若未标注，则单内触雷概不负责</span></li>
     <li>若一味抽象，整蛊，刁难，骂人我将停止这次约会，婉拒反驳型人格</li>
     <li class="miss">（本条截图缺失，待补）</li>
-    <li>主话术风格并不华丽，更多是直白 若是需要请提前备注</li>
+    <li>主话术风格并不华丽，更多是直白 若是请提前备注</li>
     <li>不允许在未经允许的情况下将我们约会的内容录屏，截图，发表，这会让您我都很难办</li>
-    <li>若觉得不适，请说出安全词<span class="red">“我需要休息”</span>，我会即刻调整风格或暂停约会，尽量给您安抚</li>
+    <li>若觉得不适，请说出安全词<span class="em">“我需要休息”</span>，我会即刻调整风格或暂停约会，尽量给您安抚</li>
     <li>不要上升到个人生活，请不要过度窥探我的隐私，留足约会的神秘感</li>
     <li>请礼貌对待我们的关系，约会时请不要把现实的问题代入我们间，我希望您能在我这里获得快乐与慰藉，但我并不足以有资格解决您现生的困难</li>
     <li>/1h/ 您有 20min 的体验时间 20min 后不可退单　/0.5h/ 您有 10min 体验时间，10min 后不可退单</li>
@@ -166,10 +201,10 @@ footer{padding:90px 0 64px;text-align:center;position:relative;z-index:1}
     <li>上线即开始约会 您是我的爱人请不要因为和好友玩而忽视我</li>
     <li>如果亲爱的你（1h/0.5h）失约 25min/15min，我会觉得你放弃了这次相遇的机会（若未存，视为送单）</li>
     <li>约会开始默认已读须知，请好好享受与我的约会吧</li>
-    <li>如果我的爱人不配合，我将会提前结束约会，<span class="red">时间内 我就是你的恋人</span>（低无，dom 等特殊情况除外）</li>
+    <li>如果我的爱人不配合，我将会提前结束约会，<span class="em">时间内 我就是你的恋人</span>（低无，dom 等特殊情况除外）</li>
     <li>最后，很荣幸能与您进行一场愉快的约会，我们都在期待</li>
   </ol>
-  <p class="black" style="margin-top:26px">Mecum lacrimare, mecum plorare.</p>
+  <p class="black">Mecum lacrimare, mecum plorare.</p>
   <p class="lead">同我啜泣 同我悲鸣</p>
   <div class="quotes">
     <p>“嘴上说着讨厌我，其实噩梦和椿梦都是我的脸吧”</p>
@@ -179,6 +214,7 @@ footer{padding:90px 0 64px;text-align:center;position:relative;z-index:1}
 
 <!-- ============ ｜板评 ============ -->
 <section class="wrap reveal">
+  <div class="drip"><div class="drip-morph"><img src="assets/bl_cross.jpg" alt=""></div></div>
   <div class="eyebrow">｜板评 · REVIEW</div>
   <h2 class="h2">｜板评</h2>
   <div class="rule"></div>
@@ -190,6 +226,7 @@ footer{padding:90px 0 64px;text-align:center;position:relative;z-index:1}
 
 <!-- ============ ｜话术 ============ -->
 <section class="wrap reveal">
+  <div class="drip d2"><div class="drip-morph"><img src="assets/bl_handwrite.jpg" alt=""></div></div>
   <div class="eyebrow">｜话术 · CRAFT</div>
   <h2 class="h2">｜话术</h2>
   <div class="rule"></div>
@@ -211,6 +248,8 @@ footer{padding:90px 0 64px;text-align:center;position:relative;z-index:1}
   <div class="line" style="text-align:center">如果你需要我，我就在。</div>
   <div class="credit">made by <a href="https://github.com/yw-iris" target="_blank" rel="noopener">yw-iris</a></div>
 </footer>
+
+<canvas id="ripple"></canvas>
 
 <script>
 /* 水波荡漾（鼠标 / 触摸滑动 / 滚动） */
