@@ -58,13 +58,8 @@ body{font-family:var(--sans);color:var(--ink);background:#06060c;overflow-x:hidd
   60%{opacity:1}
   100%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0)}}
 @keyframes floaty{0%,100%{transform:rotate(0) translateY(0)}50%{transform:rotate(2.2deg) translateY(-10px)}}
-/* 开场动画底部：彼岸花英文 */
-.intro-cap{position:absolute;left:50%;bottom:6.5%;transform:translateX(-50%);
-  font-family:var(--display);text-transform:uppercase;letter-spacing:.46em;
-  font-size:12px;color:var(--ink);opacity:0;
-  text-shadow:0 0 16px rgba(80,120,255,.5);
-  animation:capin 1.4s ease 2.4s both}
-@keyframes capin{from{opacity:0;letter-spacing:.7em}to{opacity:.62;letter-spacing:.46em}}
+/* 开场动画底部：彼岸花英文（粉末颗粒聚集特效，由 canvas 绘制） */
+.capfx{position:absolute;left:50%;bottom:6.5%;transform:translateX(-50%);pointer-events:none}
 @media(prefers-reduced-motion:reduce){
   .big-flower{animation:none;opacity:1;transform:translate(-50%,-50%)}
 }
@@ -178,7 +173,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 <div class="intro" id="intro">
   <div class="stage">
     <div class="big-flower"><svg class="lily" viewBox="0 0 200 200"><use href="#lilyG"/></svg></div>
-    <div class="intro-cap">Lycoris radiata</div>
+    <canvas id="capfx" class="capfx" role="img" aria-label="Lycoris radiata"></canvas>
   </div>
 </div>
 
@@ -411,6 +406,76 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   function finish(){if(done)return;done=true;intro.classList.add('done');}
   setTimeout(finish,6000);
   intro.addEventListener('transitionend',e=>{if(done&&e.propertyName==='opacity')intro.style.display='none';});
+})();
+
+/* 开场底部英文：粉末颗粒聚集显现 */
+(function(){
+  const cv=document.getElementById('capfx'); if(!cv)return;
+  const ctx=cv.getContext('2d');
+  const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const TEXT='Lycoris radiata';
+  function run(){
+    const dpr=Math.min(2.5,devicePixelRatio||1);
+    const W=360,H=48;
+    cv.width=W*dpr; cv.height=H*dpr;
+    cv.style.width=W+'px'; cv.style.height=H+'px';
+    ctx.clearRect(0,0,cv.width,cv.height);
+    // 采样目标文字像素
+    const buf=document.createElement('canvas'); buf.width=cv.width; buf.height=cv.height;
+    const b=buf.getContext('2d');
+    b.fillStyle='#fff'; b.textAlign='center'; b.textBaseline='middle';
+    b.font='600 '+(22*dpr)+'px Cinzel, serif';
+    try{b.letterSpacing=(0.42*22*dpr)+'px';}catch(e){}
+    b.fillText(TEXT,cv.width/2,cv.height/2);
+    const img=b.getImageData(0,0,cv.width,cv.height).data;
+    const pts=[]; const step=Math.max(2,Math.round(2.2*dpr));
+    for(let y=0;y<cv.height;y+=step)for(let x=0;x<cv.width;x+=step){
+      if(img[(y*cv.width+x)*4+3]>110) pts.push([x,y]);
+    }
+    if(reduce||!pts.length){ // 降级：直接绘制发光文字
+      ctx.save();ctx.shadowColor='rgba(80,120,255,.6)';ctx.shadowBlur=16*dpr;
+      ctx.fillStyle='rgba(237,240,251,.85)';ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.font='600 '+(22*dpr)+'px Cinzel, serif';
+      try{ctx.letterSpacing=(0.42*22*dpr)+'px';}catch(e){}
+      ctx.fillText(TEXT,cv.width/2,cv.height/2);ctx.restore();
+      return;
+    }
+    const parts=pts.map(([tx,ty])=>{
+      const ang=Math.random()*6.283, rad=40+Math.random()*180;
+      return {tx,ty, sx:tx+Math.cos(ang)*rad, sy:ty+Math.sin(ang)*rad - 24*Math.random(),
+              delay:Math.random()*520, dur:900+Math.random()*520};
+    });
+    const TOT=1700, start=performance.now(); let raf;
+    function frame(now){
+      const t=now-start, gp=Math.min(1,t/TOT);
+      ctx.clearRect(0,0,cv.width,cv.height);
+      // 底层文字随聚集渐显
+      ctx.save();ctx.globalAlpha=gp*0.9;ctx.shadowColor='rgba(80,120,255,.6)';ctx.shadowBlur=16*dpr;
+      ctx.fillStyle='rgba(237,240,251,.9)';ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.font='600 '+(22*dpr)+'px Cinzel, serif';
+      try{ctx.letterSpacing=(0.42*22*dpr)+'px';}catch(e){}
+      ctx.fillText(TEXT,cv.width/2,cv.height/2);ctx.restore();
+      // 颗粒
+      ctx.fillStyle='rgba(205,222,255,.95)';
+      for(const p of parts){
+        const pr=Math.min(1,Math.max(0,(t-p.delay)/p.dur)), e=1-Math.pow(1-pr,3);
+        const x=p.sx+(p.tx-p.sx)*e, y=p.sy+(p.ty-p.sy)*e;
+        ctx.globalAlpha=Math.min(1,pr*1.4);
+        ctx.beginPath();ctx.arc(x,y,1.3*dpr,0,6.283);ctx.fill();
+      }
+      ctx.globalAlpha=1;
+      if(gp<1||parts.some(p=>t<p.delay+p.dur)) raf=requestAnimationFrame(frame);
+    }
+    raf=requestAnimationFrame(frame);
+    cv._raf=raf;
+    // 开场结束清理
+    const intro=document.getElementById('intro');
+    if(intro)intro.addEventListener('transitionend',e=>{
+      if(e.propertyName==='opacity'){ if(cv._raf)cancelAnimationFrame(cv._raf); ctx.clearRect(0,0,cv.width,cv.height); }
+    });
+  }
+  const go=()=>setTimeout(run,2200);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(go); else go();
 })();
 </script>
 </body>
