@@ -471,13 +471,15 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
   const rm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
   if(rm||!intro){ if(intro)intro.style.display='none'; enter(); return; }
   let done=false;
-  function finish(){if(done)return;done=true;intro.classList.add('done');}
+  function finish(){
+    if(done)return; done=true;
+    intro.classList.add('done');
+    enter();                                              // 立即开始正文淡入
+    setTimeout(()=>{ intro.style.display='none'; }, 1100); // 兜底清理，不依赖 transitionend
+  }
   setTimeout(finish,6000);
-  intro.addEventListener('transitionend',e=>{
-    if(done&&e.propertyName==='opacity'){intro.style.display='none';enter();}
-  });
 })();
 
-/* 里页英文文案：整句呈散落粒子，悬停/触摸处局部聚拢成字，其余保持粒子态（不改字体风格） */
-(function(){
-  // 用户明确要求该效果，故即便系统开启“减少动态效果”也照常播放
+</script>
+</body>
+</html>
