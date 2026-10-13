@@ -508,8 +508,8 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
   if(img&&img.complete&&img.naturalWidth)placePalm(idx); else if(img)img.addEventListener('load',()=>placePalm(idx));
   addEventListener('resize',()=>placePalm(idx));
   palm.addEventListener('click',e=>{e.stopPropagation();next();},{passive:true});
-  /* 第1页：点击页面任意处进入第2页（此时手心隐藏，不拦截） */
-  document.addEventListener('click',()=>{ if(started&&idx===0)next(); },{passive:true});
+  /* 第1页、第3页起：点击页面任意处即翻页；第2页（牵手门页）保留手心点击，不响应任意处 */
+  document.addEventListener('click',()=>{ if(started&&idx!==1)next(); },{passive:true});
   function enter(){ started=true; if(bg)bg.classList.add('show'); showPage(0); }
   const rm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
   if(rm||!intro){ if(intro)intro.style.display='none'; enter(); return; }
