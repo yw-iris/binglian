@@ -113,6 +113,9 @@ section{padding:170px 0;position:relative;z-index:1;border-top:1px solid rgba(23
 .lead{font-size:clamp(15px,2.4vw,17px);opacity:.85;max-width:38em}
 .line{font-family:var(--serif);font-weight:300;font-size:clamp(20px,3.6vw,28px);line-height:1.7;letter-spacing:.05em;margin:26px 0}
 .script{font-family:var(--script);font-size:clamp(22px,4vw,33px);line-height:1.45;opacity:.9;margin:26px 0}
+.illus{display:block;width:min(74%,320px);max-height:38vh;object-fit:cover;border-radius:14px;margin:32px auto 6px;
+  box-shadow:0 0 26px rgba(70,120,255,.35),0 8px 30px rgba(0,0,0,.5);border:1px solid rgba(180,205,255,.3)}
+.illus+* , .illus{scroll-margin:90px}
 .black{font-family:var(--black);font-size:clamp(26px,5vw,40px);letter-spacing:.02em;line-height:1.3;margin:40px 0 12px}
 .em{font-weight:600;letter-spacing:.06em}
 .del{text-decoration:line-through;opacity:.55}
@@ -252,6 +255,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
       <p class="line">—— 我没有什么坏心思哦一·</p>
       <p class="line">只是想掠夺你全部的注意力而已</p>
       <p class="script">it is the white plum that blooms in the cold winter it is the.</p>
+      <img class="illus" src="assets/bl_bg3.jpg" alt="">
     </section>
   </div>
 
@@ -465,8 +469,8 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
   const pages=[...document.querySelectorAll('.page')];
   const bgs=[...document.querySelectorAll('#bg .bgimg')];
   let idx=0, started=false;
-  /* 每页对应底图：0=兰花顶页 1=手图门页 2,3=图1 4,5=图2 6,7=图3 8,9=图4 10=图5 */
-  const BGMAP=[0,1,2,2,3,3,4,4,5,5,6];
+  /* 每页对应底图：0=兰花顶页 1=手图门页 2=蓝蝶水墨 3=蝴蝶画 4,5=蓝树林 6,7=蓝蝶烟雾 8,9=蝶翼少女 10=蓝蝶水墨 */
+  const BGMAP=[0,1,6,2,3,3,4,4,5,5,6];
   /* 每页手心位置：第1页不显示（点任意处进入）；第2页用手图掌心；第3页起底图各异，手心固定视口左下偏下 */
   function placePalm(i){
     i=(typeof i==='number')?i:idx;
