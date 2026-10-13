@@ -473,24 +473,20 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
   /* 每页对应底图：0=兰花顶页 1=手图门页 2,3=蓝蝶水墨 4,5=蓝树林 6,7=蓝蝶烟雾(提亮) 8,9,10=新底图 */
   const BGMAP=[0,1,6,6,3,3,4,4,7,7,7];
   /* 每页手心位置：第1页不显示（点任意处进入）；第2页用手图掌心；第3页起底图各异，手心固定视口左下偏下 */
+  /* 手心按钮仅在牵手门页（第2页）显示；第1页与第3页起底下的点击提示都不再需要 */
   function placePalm(i){
     i=(typeof i==='number')?i:idx;
-    if(i===0){palm.style.display='none';palm.classList.remove('show-hint');return;}
+    if(i!==1){palm.style.display='none';palm.classList.remove('show-hint');return;}
     palm.style.display='block';
-    palm.classList.toggle('show-hint', i===1);
-    if(i===1){
-      const img=bgs[1];
-      const iw=img.naturalWidth||1178, ih=img.naturalHeight||687;
-      const vw=innerWidth, vh=innerHeight;
-      const s=Math.max(vw/iw,vh/ih);
-      const dw=iw*s, dh=ih*s;
-      const ox=(vw-dw)/2, oy=(vh-dh)/2;
-      palm.style.left=(0.565*iw*s+ox)+'px';
-      palm.style.top=(0.575*ih*s+oy)+'px';
-    }else{
-      palm.style.left='50%';
-      palm.style.top='88%';
-    }
+    palm.classList.add('show-hint');
+    const img=bgs[1];
+    const iw=img.naturalWidth||1178, ih=img.naturalHeight||687;
+    const vw=innerWidth, vh=innerHeight;
+    const s=Math.max(vw/iw,vh/ih);
+    const dw=iw*s, dh=ih*s;
+    const ox=(vw-dw)/2, oy=(vh-dh)/2;
+    palm.style.left=(0.565*iw*s+ox)+'px';
+    palm.style.top=(0.575*ih*s+oy)+'px';
   }
   function showPage(i){
     const cur=pages[idx], nxt=pages[i];
