@@ -72,7 +72,8 @@ body{font-family:var(--sans);color:var(--ink);background:#06060c;overflow-x:hidd
 /* ===== 手图底图 + 逐页模块：点击手心翻页（底图不变） ===== */
 .bg{position:fixed;inset:0;z-index:0;background:#04060f;opacity:0;transition:opacity 1.1s ease}
 .bg.show{opacity:1}
-.bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.bg .bgimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:0;transition:opacity .7s ease}
+.bg .bgimg.on{opacity:1}
 .bg::after{content:"";position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(5,9,26,.40),rgba(10,8,38,.24) 48%,rgba(3,3,12,.60)),
   radial-gradient(85% 60% at 50% 32%,transparent,rgba(3,3,14,.30))}
@@ -200,8 +201,12 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
   </div>
 </div>
 
-<!-- ============ 手图底图（全页共用，不变） ============ -->
-<div class="bg" id="bg"><img src="assets/bl_hand.png" alt=""></div>
+<!-- ============ 底图：随页切换（兰花→伸手→手图） ============ -->
+<div class="bg" id="bg">
+  <img class="bgimg" src="assets/bl_hero_dark.png" alt="">
+  <img class="bgimg" src="assets/bl_reach.png" alt="">
+  <img class="bgimg on" src="assets/bl_hand.png" alt="">
+</div>
 
 <!-- ============ 逐页模块：每板块 + 顶页 各一页 ============ -->
 <div class="pages" id="pages">
@@ -217,6 +222,13 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
         <div class="oath">你去发誓吧——说你离开我，就会死掉。</div>
       </div>
     </header>
+  </div>
+
+  <!-- 手心门页（伸手图） -->
+  <div class="page">
+    <section class="wrap reveal" style="text-align:center">
+      <div class="eyebrow" style="letter-spacing:.5em">— 轻触手心 —</div>
+    </section>
   </div>
 
   <!-- 【陰暗】 -->
@@ -439,20 +451,28 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
   const palm=document.getElementById('palm');
   const pageno=document.getElementById('pageno');
   const pages=[...document.querySelectorAll('.page')];
+  const bgs=[...document.querySelectorAll('#bg .bgimg')];
   let idx=0;
-  function placePalm(){
-    const img=bg&&bg.querySelector('img');
+  /* 每页手心位置：第1页固定在下方；第2页用伸手图掌心；其余用手图掌心 */
+  function placePalm(i){
+    i=(typeof i==='number')?i:idx;
+    if(i===0){palm.style.left='50%';palm.style.top='76%';return;}
+    const img=bgs[i===1?1:2];
     if(!img)return;
     const iw=img.naturalWidth||1178, ih=img.naturalHeight||687;
     const vw=innerWidth, vh=innerHeight;
     const s=Math.max(vw/iw,vh/ih), dw=iw*s, dh=ih*s;
-    const px=0.565*iw*s+(vw-dw)/2, py=0.575*ih*s+(vh-dh)/2;
-    palm.style.left=px+'px'; palm.style.top=py+'px';
+    const fx=i===1?0.71:0.565, fy=i===1?0.51:0.575;
+    palm.style.left=(fx*iw*s+(vw-dw)/2)+'px';
+    palm.style.top=(fy*ih*s+(vh-dh)/2)+'px';
   }
   function showPage(i){
     const cur=pages[idx], nxt=pages[i];
     if(cur)cur.classList.remove('active');
     nxt.classList.add('active');
+    const bi=i===0?0:i===1?1:2;
+    bgs.forEach((b,k)=>b.classList.toggle('on',k===bi));
+    placePalm(i);
     nxt.querySelectorAll('.reveal').forEach(r=>{
       [...r.children].forEach((c,k)=>c.style.transitionDelay=(k*0.09)+'s');
       r.classList.add('in');
@@ -463,9 +483,9 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
   }
   function next(){ showPage((idx+1)%pages.length); }
   if(!palm||!pages.length){ if(intro)intro.style.display='none'; return; }
-  const img=bg&&bg.querySelector('img');
-  if(img&&img.complete&&img.naturalWidth)placePalm(); else if(img)img.addEventListener('load',placePalm);
-  addEventListener('resize',placePalm);
+  const img=bgs[2];
+  if(img&&img.complete&&img.naturalWidth)placePalm(idx); else if(img)img.addEventListener('load',()=>placePalm(idx));
+  addEventListener('resize',()=>placePalm(idx));
   palm.addEventListener('click',e=>{e.stopPropagation();next();},{passive:true});
   function enter(){ if(bg)bg.classList.add('show'); showPage(0); }
   const rm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
