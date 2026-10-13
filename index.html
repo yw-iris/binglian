@@ -98,6 +98,13 @@ body{font-family:var(--sans);color:var(--ink);background:#06060c;overflow-x:hidd
 @keyframes palmPulse{0%{transform:scale(.55);opacity:0}25%{opacity:.7}100%{transform:scale(1.3);opacity:0}}
 .pageno{position:fixed;right:18px;bottom:15px;z-index:6;font-family:var(--display);letter-spacing:.22em;
   font-size:12px;color:var(--ink);opacity:.5;pointer-events:none}
+/* 背景音乐开关：右下角低调按钮 */
+#bgmToggle{position:fixed;right:14px;bottom:14px;z-index:30;width:38px;height:38px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  border:1px solid rgba(150,190,255,.35);background:rgba(8,12,28,.42);color:var(--ink);
+  font-size:16px;line-height:1;backdrop-filter:blur(4px);opacity:.55;transition:opacity .25s ease}
+#bgmToggle:hover{opacity:.95}
+#bgmToggle.muted{opacity:.35}
 #bfly{position:fixed;inset:0;z-index:7;pointer-events:none}
 /* 逐页模式下 hero 去掉自身背景/配图，统一由手图底图承载 */
 .page .hero{background:transparent;min-height:auto;padding:0;overflow:visible}
@@ -397,6 +404,9 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 
 <canvas id="bfly"></canvas>
 
+<audio id="bgm" loop preload="auto" src="assets/bgm.mp3"></audio>
+<button id="bgmToggle" aria-label="背景音乐开关" title="背景音乐：开">♪</button>
+
 <script>
 /* 白色蝴蝶：点击鼠标 / 手机触屏 时在指点处生蝶（取代水波纹） */
 (function(){
@@ -512,6 +522,23 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
   palm.addEventListener('click',e=>{e.stopPropagation();next();},{passive:true});
   /* 第1页、第3页起：点击页面任意处即翻页；第2页（牵手门页）保留手心点击，不响应任意处 */
   document.addEventListener('click',()=>{ if(started&&idx!==1)next(); },{passive:true});
+  /* 背景音乐：首次交互后自动播放（绕过自动播放限制）+ 静音切换 */
+  const bgm=document.getElementById('bgm');
+  const bgmToggle=document.getElementById('bgmToggle');
+  let bgmStarted=false;
+  function startBGM(){
+    if(bgmStarted)return; bgmStarted=true;
+    bgm.volume=0.5;
+    const pr=bgm.play(); if(pr&&pr.catch)pr.catch(()=>{});
+    bgmToggle.classList.remove('muted'); bgmToggle.textContent='♪';
+  }
+  function toggleBGM(e){
+    if(e)e.stopPropagation();
+    if(bgm.muted||bgm.paused){ bgm.muted=false; const pr=bgm.play(); if(pr&&pr.catch)pr.catch(()=>{}); bgmToggle.classList.remove('muted'); bgmToggle.textContent='♪'; bgmStarted=true; }
+    else { bgm.muted=true; bgmToggle.classList.add('muted'); bgmToggle.textContent='🔇'; }
+  }
+  bgmToggle.addEventListener('click',toggleBGM,{passive:true});
+  document.addEventListener('pointerdown',startBGM,{passive:true});
   function enter(){ started=true; if(bg)bg.classList.add('show'); showPage(0); }
   const rm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
   if(rm||!intro){ if(intro)intro.style.display='none'; enter(); return; }
