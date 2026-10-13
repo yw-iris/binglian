@@ -404,7 +404,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 
 <canvas id="bfly"></canvas>
 
-<audio id="bgm" loop preload="auto" src="assets/bgm.mp3"></audio>
+<audio id="bgm" loop preload="auto" playsinline src="assets/bgm.mp3"></audio>
 <button id="bgmToggle" aria-label="背景音乐开关" title="背景音乐：开">♪</button>
 
 <script>
@@ -522,29 +522,34 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
   palm.addEventListener('click',e=>{e.stopPropagation();next();},{passive:true});
   /* 第1页、第3页起：点击页面任意处即翻页；第2页（牵手门页）保留手心点击，不响应任意处 */
   document.addEventListener('click',()=>{ if(started&&idx!==1)next(); },{passive:true});
-  /* 背景音乐：首次交互后自动播放（绕过自动播放限制）+ 静音切换 */
+  /* 背景音乐：首次用户手势内同步播放（兼容 iOS/微信）+ 静音切换 */
   const bgm=document.getElementById('bgm');
   const bgmToggle=document.getElementById('bgmToggle');
   let bgmStarted=false;
   function startBGM(){
     if(bgmStarted)return; bgmStarted=true;
     bgm.volume=0.5;
-    const pr=bgm.play(); if(pr&&pr.catch)pr.catch(()=>{});
+    try{ bgm.load(); }catch(e){}            // iOS 解锁：手势内先 load 再 play
+    const pr=bgm.play();
+    if(pr&&pr.catch)pr.catch(()=>{ bgmStarted=false; });  // 失败则放行下次手势重试
     bgmToggle.classList.remove('muted'); bgmToggle.textContent='♪';
   }
   function toggleBGM(e){
     if(e)e.stopPropagation();
-    if(bgm.muted||bgm.paused){ bgm.muted=false; const pr=bgm.play(); if(pr&&pr.catch)pr.catch(()=>{}); bgmToggle.classList.remove('muted'); bgmToggle.textContent='♪'; bgmStarted=true; }
+    if(bgm.paused){ bgm.muted=false; bgm.volume=0.5; try{bgm.load();}catch(_){} const pr=bgm.play(); if(pr&&pr.catch)pr.catch(()=>{}); bgmToggle.classList.remove('muted'); bgmToggle.textContent='♪'; bgmStarted=true; }
     else { bgm.muted=true; bgmToggle.classList.add('muted'); bgmToggle.textContent='🔇'; }
   }
   bgmToggle.addEventListener('click',toggleBGM,{passive:true});
-  document.addEventListener('pointerdown',startBGM,{passive:true});
+  // 移动端多手势兜底：touchstart / pointerdown / click 任一手势即尝试启动
+  ['touchstart','pointerdown','click'].forEach(ev=>
+    document.addEventListener(ev,startBGM,{passive:true}));
   function enter(){ started=true; if(bg)bg.classList.add('show'); showPage(0); }
   const rm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
   if(rm||!intro){ if(intro)intro.style.display='none'; enter(); return; }
   let done=false;
   function finish(){
     if(done)return; done=true;
+    startBGM();                                           // 开场点击即明确手势内启动 BGM（iOS 兼容）
     intro.classList.add('done');
     enter();                                              // 立即开始正文淡入
     setTimeout(()=>{ intro.style.display='none'; }, 1100); // 兜底清理，不依赖 transitionend
