@@ -85,10 +85,18 @@ body{font-family:var(--sans);color:var(--ink);background:#06060c;overflow-x:hidd
   text-align:center;padding:6vh 22px;overflow:auto;opacity:0;pointer-events:none;transition:opacity .7s ease}
 .page.active{opacity:1;pointer-events:auto}
 .palm{position:fixed;width:16vmin;height:16vmin;transform:translate(-50%,-50%);z-index:6;
-  background:transparent;border:0;border-radius:50%;cursor:pointer;padding:0}
+  background:transparent;border:0;border-radius:50%;cursor:pointer;padding:0;transition:transform .12s ease}
 .palm::before,.palm::after{content:'';position:absolute;inset:0;border-radius:50%;
   border:1px solid rgba(150,190,255,.55);animation:palmPulse 2.4s ease-out infinite}
 .palm::after{animation-delay:1.2s}
+.palm:active{transform:translate(-50%,-50%) scale(.88)}
+.palm .pdot{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  display:none;pointer-events:none;white-space:nowrap;font-family:var(--display);
+  font-size:13px;letter-spacing:.22em;color:#dcebff;text-shadow:0 0 12px rgba(90,150,255,.9);
+  opacity:.95}
+.palm.show-hint .pdot{display:block;animation:pdot 1.1s ease-in-out infinite}
+@keyframes pdot{0%,100%{transform:translate(-50%,-150%) scale(1);opacity:.85}
+  50%{transform:translate(-50%,-200%) scale(1.08);opacity:1}}
 @keyframes palmPulse{0%{transform:scale(.55);opacity:0}25%{opacity:.7}100%{transform:scale(1.3);opacity:0}}
 .pageno{position:fixed;right:18px;bottom:15px;z-index:6;font-family:var(--display);letter-spacing:.22em;
   font-size:12px;color:var(--ink);opacity:.5;pointer-events:none}
@@ -378,7 +386,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 </div>
 
 <!-- 点击手图手心，翻到下一页 -->
-<button class="palm" id="palm" aria-label="轻触手心，翻页"></button>
+<button class="palm" id="palm" aria-label="轻触手心，翻页"><span class="pdot">点这里</span></button>
 <div class="pageno" id="pageno">1 / 10</div>
 
 <canvas id="bfly"></canvas>
@@ -460,8 +468,9 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
   /* 每页手心位置：第1页不显示手心（点任意处进入）；第2页用伸手图掌心；其余用手图掌心 */
   function placePalm(i){
     i=(typeof i==='number')?i:idx;
-    if(i===0){palm.style.display='none';return;}
+    if(i===0){palm.style.display='none';palm.classList.remove('show-hint');return;}
     palm.style.display='block';
+    palm.classList.toggle('show-hint', i===1);
     const img=bgs[i===1?1:2];
     if(!img)return;
     const iw=img.naturalWidth||1178, ih=img.naturalHeight||687;
