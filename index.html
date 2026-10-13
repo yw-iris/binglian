@@ -153,8 +153,6 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 .reveal> *{opacity:0;transform:translateY(28px);filter:blur(6px);
   transition:opacity .9s ease,transform .95s cubic-bezier(.2,.7,.3,1),filter .9s ease}
 .reveal.in> *{opacity:1;transform:none;filter:none}
-/* 英文文案：默认藏起 DOM 文字，由粉末颗粒呈现；鼠标悬停/手指按住时局部聚拢成字（不改字体风格） */
-.reveal .powder{opacity:0;cursor:pointer}
 @media(prefers-reduced-motion:reduce){
   .reveal> *{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
 }
@@ -462,7 +460,6 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
     idx=i;
     if(pageno)pageno.textContent=(i+1)+' / '+pages.length;
     window.__activePage=nxt;
-    if(window.__refreshParticles)window.__refreshParticles();
   }
   function next(){ showPage((idx+1)%pages.length); }
   if(!palm||!pages.length){ if(intro)intro.style.display='none'; return; }
@@ -484,101 +481,3 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 /* 里页英文文案：整句呈散落粒子，悬停/触摸处局部聚拢成字，其余保持粒子态（不改字体风格） */
 (function(){
   // 用户明确要求该效果，故即便系统开启“减少动态效果”也照常播放
-  const cjk=/[　-鿿぀-ヿ＀-￯]/;
-  const items=[];
-  function build(el){
-    try{
-      const txt=el.textContent.trim();
-      const cs=getComputedStyle(el);
-      const fs=parseFloat(cs.fontSize), dpr=Math.min(2,devicePixelRatio||1);
-      const lh=parseFloat(cs.lineHeight)||fs*1.35;
-      const align=cs.textAlign==='center'?'center':cs.textAlign==='right'?'right':'left';
-      const rect=el.getBoundingClientRect();
-      if(rect.width<4||rect.height<4)return;
-      el.classList.add('powder');                 // 隐藏 DOM 文字，由粒子呈现
-      const Wd=Math.ceil(rect.width*dpr), Hd=Math.ceil(rect.height*dpr);
-      const cv=document.createElement('canvas');
-      cv.width=Wd; cv.height=Hd;
-      cv.style.cssText='position:absolute;left:'+(rect.left+scrollX)+'px;top:'+(rect.top+scrollY)+
-        'px;width:'+rect.width+'px;height:'+rect.height+'px;pointer-events:none;z-index:6;opacity:0;transition:opacity .9s ease';
-      document.body.appendChild(cv);
-      const ctx=cv.getContext('2d');
-      const fontStr=cs.fontStyle+' '+cs.fontWeight+' '+(fs*dpr)+'px '+cs.fontFamily;
-      ctx.font=fontStr; ctx.textBaseline='top';
-      const words=txt.split(/\s+/), maxW=Wd-2*dpr, lines=[]; let cur='';
-      for(const w of words){const t=cur?cur+' '+w:w;
-        if(ctx.measureText(t).width>maxW&&cur){lines.push(cur);cur=w;} else cur=t;}
-      if(cur)lines.push(cur);
-      const drawX=align==='center'?Wd/2:align==='right'?Wd-2*dpr:2*dpr, lhD=lh*dpr;
-      ctx.clearRect(0,0,Wd,Hd); ctx.fillStyle='#fff'; ctx.textAlign=align;
-      lines.forEach((ln,i)=>ctx.fillText(ln,drawX,i*lhD));
-      const data=ctx.getImageData(0,0,Wd,Hd).data, pts=[];
-      const step=Math.max(2,Math.round(2*dpr));
-      for(let y=0;y<Hd;y+=step)for(let x=0;x<Wd;x+=step)
-        if(data[(y*Wd+x)*4+3]>110)pts.push([x,y]);
-      if(!pts.length){cv.remove();el.classList.remove('powder');return;}
-      const parts=pts.map(([tx,ty])=>{
-        const a=Math.random()*6.283, r=14+Math.random()*48;
-        return {tx,ty, hx:tx+Math.cos(a)*r, hy:ty+Math.sin(a)*r*0.7,
-                ph:Math.random()*6.283, sp:.4+Math.random()*.8, m:0};
-      });
-      const it={el,cv,ctx,parts,Wd,Hd,fontStr,color:cs.color,dpr,px:-1e5,py:-1e5,on:false,active:false,shown:false,page:el.closest('.page')};
-      items.push(it);
-      const setPtr=(cx,cy)=>{const r=cv.getBoundingClientRect();it.px=(cx-r.left)*dpr;it.py=(cy-r.top)*dpr;it.on=true;};
-      const off=()=>{it.on=false;};
-      el.addEventListener('pointermove',e=>setPtr(e.clientX,e.clientY),{passive:true});
-      el.addEventListener('pointerdown',e=>setPtr(e.clientX,e.clientY),{passive:true});
-      el.addEventListener('pointerleave',off,{passive:true});
-      el.addEventListener('pointercancel',off,{passive:true});
-      el.addEventListener('touchend',off,{passive:true});
-    }catch(err){el.classList.remove('powder');}
-  }
-  let raf=null;
-  function tick(now){
-    raf=null; let any=false; const t=now/1000;
-    for(const it of items){
-      const inView=it.active && it.el.closest('.reveal') && it.el.closest('.reveal').classList.contains('in');
-      if(!inView){ if(it.shown){it.cv.style.opacity='0';it.shown=false;} continue; }
-      const r=it.cv.getBoundingClientRect();
-      if(r.bottom<0||r.top>innerHeight)continue;
-      any=true;
-      if(!it.shown){it.cv.style.opacity='1';it.shown=true;}
-      const c=it.ctx; c.clearRect(0,0,it.Wd,it.Hd);
-      const R=95*it.dpr;
-      for(const p of it.parts){
-        let tgt=0;
-        if(it.on){const dx=p.tx-it.px,dy=p.ty-it.py;if(dx*dx+dy*dy<R*R)tgt=1;}
-        p.m+= (tgt-p.m)*0.09;
-        const drift=Math.sin(t*p.sp+p.ph)*3*it.dpr, drift2=Math.cos(t*p.sp*.8+p.ph)*2.4*it.dpr;
-        const x=p.hx+(p.tx-p.hx)*p.m+drift*(1-p.m);
-        const y=p.hy+(p.ty-p.hy)*p.m+drift2*(1-p.m);
-        c.globalAlpha=.32+.62*p.m;
-        c.fillStyle=p.m>.5?it.color:'rgba(160,195,255,.9)';
-        c.beginPath(); c.arc(x,y,(1.1+.55*p.m)*it.dpr,0,6.283); c.fill();
-      }
-      c.globalAlpha=1;
-    }
-    if(any)raf=requestAnimationFrame(tick);
-  }
-  function wake(){if(raf==null)raf=requestAnimationFrame(tick);}
-  // 翻页模式下：仅当前 active 页的粒子参与动画（由翻页逻辑在切换页时调用）
-  window.__refreshParticles=function(){
-    const ap=window.__activePage;
-    for(const it of items)it.active=(it.page===ap && ap && ap.classList.contains('active'));
-    wake();
-  };
-  function init(){
-    document.querySelectorAll('.reveal .script, .reveal .en').forEach(el=>{
-      const txt=el.textContent.trim();
-      if(!txt||cjk.test(txt))return;          // 含中文则跳过，走普通浮现
-      build(el);
-    });
-    if(window.__refreshParticles)window.__refreshParticles();
-    let rt; addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>location.reload(),300);});
-  }
-  function start(){ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(init); else init(); }
-  if(document.readyState==='complete')start(); else addEventListener('load',start);
-})();
-</script>
-</body>
-</html>
