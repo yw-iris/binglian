@@ -76,6 +76,7 @@ body{font-family:var(--sans);color:var(--ink);background:#06060c;overflow-x:hidd
 .bg.show{opacity:1}
 .bg .bgimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:0;transition:opacity .7s ease}
 .bg .bgimg.on{opacity:1}
+.bg .bgimg.bright{filter:brightness(1.18) saturate(1.04)}
 .bg::after{content:"";position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(5,9,26,.40),rgba(10,8,38,.24) 48%,rgba(3,3,12,.60)),
   radial-gradient(85% 60% at 50% 32%,transparent,rgba(3,3,14,.30))}
@@ -218,7 +219,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
   <img class="bgimg" src="assets/bl_hand.png" alt="">
   <img class="bgimg" src="assets/bl_bg3.jpg" alt="">
   <img class="bgimg" src="assets/bl_bg4.jpg" alt="">
-  <img class="bgimg" src="assets/bl_bg5.jpg" alt="">
+  <img class="bgimg bright" src="assets/bl_bg5.jpg" alt="">
   <img class="bgimg" src="assets/bl_bg6.jpg" alt="">
   <img class="bgimg" src="assets/bl_bg7.jpg" alt="">
   <img class="bgimg" src="assets/bl_bg8.jpg" alt="">
@@ -469,8 +470,8 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
   const pages=[...document.querySelectorAll('.page')];
   const bgs=[...document.querySelectorAll('#bg .bgimg')];
   let idx=0, started=false;
-  /* 每页对应底图：0=兰花顶页 1=手图门页 2,3=蓝蝶水墨 4,5=蓝树林 6,7=蓝蝶烟雾 8,9=新底图 10=蝴蝶画 */
-  const BGMAP=[0,1,6,6,3,3,4,4,7,7,2];
+  /* 每页对应底图：0=兰花顶页 1=手图门页 2,3=蓝蝶水墨 4,5=蓝树林 6,7=蓝蝶烟雾(提亮) 8,9,10=新底图 */
+  const BGMAP=[0,1,6,6,3,3,4,4,7,7,7];
   /* 每页手心位置：第1页不显示（点任意处进入）；第2页用手图掌心；第3页起底图各异，手心固定视口左下偏下 */
   function placePalm(i){
     i=(typeof i==='number')?i:idx;
