@@ -69,26 +69,30 @@ body{font-family:var(--sans);color:var(--ink);background:#06060c;overflow-x:hidd
   .intro-cap{animation:none;opacity:.85}
 }
 
-/* ===== 手心门页：点击底图手心，切入正文 ===== */
-.gate{position:fixed;inset:0;z-index:49;background:#000;display:none;opacity:0;transition:opacity 1.1s ease}
-.gate.on{display:block}
-.gate.show{opacity:1}
-.gate.done{opacity:0;pointer-events:none}
-.gate-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
-.palm{position:absolute;width:16vmin;height:16vmin;transform:translate(-50%,-50%);
+/* ===== 手图底图 + 逐页模块：点击手心翻页（底图不变） ===== */
+.bg{position:fixed;inset:0;z-index:0;background:#04060f;opacity:0;transition:opacity 1.1s ease}
+.bg.show{opacity:1}
+.bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.bg::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(5,9,26,.40),rgba(10,8,38,.24) 48%,rgba(3,3,12,.60)),
+  radial-gradient(85% 60% at 50% 32%,transparent,rgba(3,3,14,.30))}
+.pages{position:fixed;inset:0;z-index:2}
+.page{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;padding:6vh 22px;overflow:auto;opacity:0;pointer-events:none;transition:opacity .7s ease}
+.page.active{opacity:1;pointer-events:auto}
+.palm{position:fixed;width:16vmin;height:16vmin;transform:translate(-50%,-50%);z-index:6;
   background:transparent;border:0;border-radius:50%;cursor:pointer;padding:0}
 .palm::before,.palm::after{content:'';position:absolute;inset:0;border-radius:50%;
   border:1px solid rgba(150,190,255,.55);animation:palmPulse 2.4s ease-out infinite}
 .palm::after{animation-delay:1.2s}
 @keyframes palmPulse{0%{transform:scale(.55);opacity:0}25%{opacity:.7}100%{transform:scale(1.3);opacity:0}}
+.pageno{position:fixed;right:18px;bottom:15px;z-index:6;font-family:var(--display);letter-spacing:.22em;
+  font-size:12px;color:var(--ink);opacity:.5;pointer-events:none}
+#bfly{position:fixed;inset:0;z-index:7;pointer-events:none}
+/* 逐页模式下 hero 去掉自身背景/配图，统一由手图底图承载 */
+.page .hero{background:transparent;min-height:auto;padding:0;overflow:visible}
+.page .hero-stage,.page .hero-veil,.page .cue{display:none}
 
-
-/* ===== 正文底图：蓝手（新版） ===== */
-#hand{position:fixed;inset:0;z-index:-3;background:url('assets/bl_hand2.jpg') center 38%/cover no-repeat;background-color:#04060f}
-#hand::after{content:"";position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(5,9,26,.5),rgba(10,8,38,.34) 48%,rgba(3,3,12,.78)),
-  radial-gradient(85% 60% at 50% 32%,transparent,rgba(3,3,14,.35))}
-#bfly{position:fixed;inset:0;z-index:-1;pointer-events:none}
 
 /* ===== 排版 ===== */
 .wrap{max-width:720px;margin:0 auto;padding:0 28px}
@@ -149,8 +153,8 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 .reveal> *{opacity:0;transform:translateY(28px);filter:blur(6px);
   transition:opacity .9s ease,transform .95s cubic-bezier(.2,.7,.3,1),filter .9s ease}
 .reveal.in> *{opacity:1;transform:none;filter:none}
-/* 英文文案：默认正常显示；鼠标悬停/手指按住时由粉末颗粒聚集特效揭示（不改字体风格） */
-.reveal .powder{cursor:pointer}
+/* 英文文案：默认藏起 DOM 文字，由粉末颗粒呈现；鼠标悬停/手指按住时局部聚拢成字（不改字体风格） */
+.reveal .powder{opacity:0;cursor:pointer}
 @media(prefers-reduced-motion:reduce){
   .reveal> *{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
 }
@@ -198,150 +202,171 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
   </div>
 </div>
 
-<div class="gate" id="gate">
-  <img class="gate-bg" src="assets/bl_hand.png" alt="">
-  <button class="palm" id="palm" aria-label="轻触手心，进入"></button>
+<!-- ============ 手图底图（全页共用，不变） ============ -->
+<div class="bg" id="bg"><img src="assets/bl_hand.png" alt=""></div>
+
+<!-- ============ 逐页模块：每板块 + 顶页 各一页 ============ -->
+<div class="pages" id="pages">
+
+  <!-- 顶页 -->
+  <div class="page" data-i="0">
+    <header class="hero reveal">
+      <div class="hero-in">
+        <div class="eyebrow">BING LIAN · 病恋</div>
+        <h1>贪恋你的吻<br>也是罪过吗</h1>
+        <div class="sub">— Claire · 克莱尔</div>
+        <div class="tag">向死而生，亦向爱而生</div>
+        <div class="oath">你去发誓吧——说你离开我，就会死掉。</div>
+      </div>
+    </header>
+  </div>
+
+  <!-- 【陰暗】 -->
+  <div class="page">
+    <section class="wrap reveal">
+      <div class="eyebrow">SHADOW · 【陰暗】</div>
+      <h2 class="h2">【陰暗】</h2>
+      <div class="rule"></div>
+      <p class="line">—— 我没有什么坏心思哦一·</p>
+      <p class="line">只是想掠夺你全部的注意力而已</p>
+      <p class="script">it is the white plum that blooms in the cold winter it is the.</p>
+    </section>
+  </div>
+
+  <!-- ｜我 -->
+  <div class="page">
+    <section class="wrap reveal">
+      <div class="eyebrow">｜ 我 · ME</div>
+      <h2 class="h2">｜我<small>Claire</small></h2>
+      <div class="rule"></div>
+      <div class="idcard">
+        <span>克莱尔</span><span>18</span><span>le-T</span><span>天蝎 Scorpio</span><span>ENTP</span><span>常驻十二无</span>
+      </div>
+      <p class="line">亲吻我 · 拥抱我 · <span class="em">依附在我身上</span></p>
+      <p class="script">“ The moment I met you, it was not the wind but the heart. ”</p>
+    </section>
+  </div>
+
+  <!-- 抓娃娃机 -->
+  <div class="page">
+    <section class="wrap reveal">
+      <p class="line">世界是一个巨大的抓娃娃机<br>隔着玻璃 只想要你</p>
+      <p class="script">/ . 你去发誓吧——说你离开我，就会死掉。. /</p>
+    </section>
+  </div>
+
+  <!-- ｜无相 -->
+  <div class="page">
+    <section class="wrap reveal">
+      <div class="eyebrow">｜无相 · STYLE</div>
+      <h2 class="h2">｜无相<small>最近 风格</small></h2>
+      <div class="rule"></div>
+      <div class="stylelist">
+        <div class="row"><span class="k">诱导</span> 恶趣味 <span class="em">//</span> 温病</div>
+        <div class="row"><span class="k">伪高恋</span> <span class="em">//</span> 微 <span class="em">/</span> 高撩</div>
+        <div class="row"><span class="del">随机掉落</span> <span class="em">血暴</span> <span class="em">//</span> 高压</div>
+        <div class="row"><span class="k">副 我可以↓</span><span class="sub">伪下 / 狗1 <span class="em">//</span> 意识流 <span class="em">//</span> 钓系</span></div>
+        <div class="row"><span class="k">低无</span> 疯病 <span class="em">/</span> 白切黑 <span class="em">//</span> 逻辑</div>
+      </div>
+      <p class="tagline">什么文案能有我本人吸引你的注意</p>
+    </section>
+  </div>
+
+  <!-- 我的常驻 -->
+  <div class="page">
+    <section class="wrap reveal">
+      <p class="line">摸摸头会变乖么<br>软软的窝在怀里</p>
+      <p class="script">you were always meant to be my destiny</p>
+      <p class="tagline">斜太 · 爱神</p>
+    </section>
+  </div>
+
+  <!-- 单前须知 -->
+  <div class="page">
+    <section class="wrap reveal">
+      <p class="line">是在说我吗.听不懂.像是在对主人示好</p>
+      <p class="script">—— Claire</p>
+      <p class="script" style="font-size:clamp(19px,3.4vw,27px)">It's a shame to bring it up about you</p>
+      <h2 class="h2" style="margin-top:44px">克莱尔 · 单前须知</h2>
+      <div class="rule"></div>
+      <p class="em" style="margin:8px 0 6px;font-size:14px;letter-spacing:.08em">le 不接男板</p>
+      <ol class="notes">
+        <li>开始前请告诉我您需要的风格类型，以及喜好雷点，<span class="em">若未标注，则单内触雷概不负责</span></li>
+        <li>若一味抽象，整蛊，刁难，骂人我将停止这次约会，婉拒反驳型人格</li>
+        <li>上线即开始，希望我们拥有一场浪漫的约会，没有他人来打扰</li>
+        <li>主话术风格并不华丽，更多是直白 若是请提前备注</li>
+        <li>不允许在未经允许的情况下将我们约会的内容录屏，截图，发表，这会让您我都很难办</li>
+        <li>若觉得不适，请说出安全词<span class="em">“我需要休息”</span>，我会即刻调整风格或暂停约会，尽量给您安抚</li>
+        <li>不要上升到个人生活，请不要过度窥探我的隐私，留足约会的神秘感</li>
+        <li>请礼貌对待我们的关系，约会时请不要把现实的问题代入我们间，我希望您能在我这里获得快乐与慰藉，但我并不足以有资格解决您现生的困难</li>
+        <li>/1h/ 您有 20min 的体验时间 20min 后不可退单　/0.5h/ 您有 10min 体验时间，10min 后不可退单</li>
+        <li>这不是一场游戏，请我的爱人配合我，但适当的反抗会让我更兴奋</li>
+        <li>上线即开始约会 您是我的爱人请不要因为和好友玩而忽视我</li>
+        <li>如果亲爱的你（1h/0.5h）失约 25min/15min，我会觉得你放弃了这次相遇的机会（若未存，视为送单）</li>
+        <li>约会开始默认已读须知，请好好享受与我的约会吧</li>
+        <li>如果我的爱人不配合，我将会提前结束约会，<span class="em">时间内 我就是你的恋人</span>（低无，dom 等特殊情况除外）</li>
+        <li>最后，很荣幸能与您进行一场愉快的约会，我们都在期待</li>
+      </ol>
+      <p class="black">Mecum lacrimare, mecum plorare.</p>
+      <p class="lead">同我啜泣 同我悲鸣</p>
+      <div class="quotes">
+        <p>“嘴上说着讨厌我，其实噩梦和椿梦都是我的脸吧”</p>
+        <p>“学会对我撒娇就好了.不是吗”</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ｜板评 -->
+  <div class="page">
+    <section class="wrap reveal">
+      <div class="eyebrow">｜板评 · REVIEW</div>
+      <h2 class="h2">｜板评</h2>
+      <div class="rule"></div>
+      <div class="quotes">
+        <p>— 白鸽啃食信徒的身躯</p>
+        <p>乌鸦沉迷于欲望.</p>
+      </div>
+      <a class="clink" href="https://www.kdocs.cn/l/cpf1gQPTzjvX" target="_blank" rel="noopener">查看板评<span class="ar">→</span></a>
+    </section>
+  </div>
+
+  <!-- ｜话术 -->
+  <div class="page">
+    <section class="wrap reveal">
+      <div class="eyebrow">｜话术 · CRAFT</div>
+      <h2 class="h2">｜话术</h2>
+      <div class="rule"></div>
+      <div class="quotes">
+        <p><span class="en">as far as I can see</span></p>
+        <p>每一句都在怪我</p>
+        <p><span class="en">you were always meant to be my destiny</span></p>
+        <p>其实是想依赖我吧</p>
+        <p>链子我给你解开了<br>去拥抱你所谓的自由吧</p>
+      </div>
+      <a class="clink" href="https://www.kdocs.cn/l/clTtART18F5K" target="_blank" rel="noopener">查看话术<span class="ar">→</span></a>
+      <div class="claire">
+        <span class="name">—— 我是<br>克莱尔 ——</span>
+        喜欢和你玩，有种…逗小狗的感觉？.<br>
+        抱我，直到你拥有和我一样的香气
+      </div>
+    </section>
+  </div>
+
+  <!-- 页脚 -->
+  <div class="page">
+    <footer>
+      <div class="fmark">†</div>
+      <div class="line" style="text-align:center">如果你需要我，我就在。</div>
+      <div class="credit">made by <a href="https://github.com/yw-iris" target="_blank" rel="noopener">yw-iris</a></div>
+    </footer>
+  </div>
+
 </div>
 
-<!-- ============ 开场：非白部分如流体淌下 ============ -->
-<header class="hero">
-  <div class="hero-stage">
-    <img class="clean" src="assets/bl_hero_dark.png" alt="">
-  </div>
-  <div class="hero-veil"></div>
-  <div class="hero-in">
-    <div class="eyebrow">BING LIAN · 病恋</div>
-    <h1>贪恋你的吻<br>也是罪过吗</h1>
-    <div class="sub">— Claire · 克莱尔</div>
-    <div class="tag">向死而生，亦向爱而生</div>
-    <div class="oath">你去发誓吧——说你离开我，就会死掉。</div>
-  </div>
-  <div class="cue">scroll</div>
-</header>
+<!-- 点击手图手心，翻到下一页 -->
+<button class="palm" id="palm" aria-label="轻触手心，翻页"></button>
+<div class="pageno" id="pageno">1 / 10</div>
 
-<!-- ============ 【陰暗】 ============ -->
-<section class="wrap reveal">
-  <div class="eyebrow">SHADOW · 【陰暗】</div>
-  <h2 class="h2">【陰暗】</h2>
-  <div class="rule"></div>
-  <p class="line">—— 我没有什么坏心思哦一·</p>
-  <p class="line">只是想掠夺你全部的注意力而已</p>
-  <p class="script">it is the white plum that blooms in the cold winter it is the.</p>
-</section>
-
-<!-- ============ ｜我 ============ -->
-<section class="wrap reveal">
-  <div class="eyebrow">｜ 我 · ME</div>
-  <h2 class="h2">｜我<small>Claire</small></h2>
-  <div class="rule"></div>
-  <div class="idcard">
-    <span>克莱尔</span><span>18</span><span>le-T</span><span>天蝎 Scorpio</span><span>ENTP</span><span>常驻十二无</span>
-  </div>
-  <p class="line">亲吻我 · 拥抱我 · <span class="em">依附在我身上</span></p>
-  <p class="script">“ The moment I met you, it was not the wind but the heart. ”</p>
-</section>
-
-<!-- ============ 抓娃娃机 ============ -->
-<section class="wrap reveal">
-  <p class="line">世界是一个巨大的抓娃娃机<br>隔着玻璃 只想要你</p>
-  <p class="script">/ . 你去发誓吧——说你离开我，就会死掉。. /</p>
-</section>
-
-<!-- ============ ｜无相 ============ -->
-<section class="wrap reveal">
-  <div class="eyebrow">｜无相 · STYLE</div>
-  <h2 class="h2">｜无相<small>最近 风格</small></h2>
-  <div class="rule"></div>
-  <div class="stylelist">
-    <div class="row"><span class="k">诱导</span> 恶趣味 <span class="em">//</span> 温病</div>
-    <div class="row"><span class="k">伪高恋</span> <span class="em">//</span> 微 <span class="em">/</span> 高撩</div>
-    <div class="row"><span class="del">随机掉落</span> <span class="em">血暴</span> <span class="em">//</span> 高压</div>
-    <div class="row"><span class="k">副 我可以↓</span><span class="sub">伪下 / 狗1 <span class="em">//</span> 意识流 <span class="em">//</span> 钓系</span></div>
-    <div class="row"><span class="k">低无</span> 疯病 <span class="em">/</span> 白切黑 <span class="em">//</span> 逻辑</div>
-  </div>
-  <p class="tagline">什么文案能有我本人吸引你的注意</p>
-</section>
-
-<!-- ============ 我的常驻 ============ -->
-<section class="wrap reveal">
-  <p class="line">摸摸头会变乖么<br>软软的窝在怀里</p>
-  <p class="script">you were always meant to be my destiny</p>
-  <p class="tagline">斜太 · 爱神</p>
-</section>
-
-<!-- ============ 单前须知 ============ -->
-<section class="wrap reveal">
-  <p class="line">是在说我吗.听不懂.像是在对主人示好</p>
-  <p class="script">—— Claire</p>
-  <p class="script" style="font-size:clamp(19px,3.4vw,27px)">It's a shame to bring it up about you</p>
-  <h2 class="h2" style="margin-top:44px">克莱尔 · 单前须知</h2>
-  <div class="rule"></div>
-  <p class="em" style="margin:8px 0 6px;font-size:14px;letter-spacing:.08em">le 不接男板</p>
-  <ol class="notes">
-    <li>开始前请告诉我您需要的风格类型，以及喜好雷点，<span class="em">若未标注，则单内触雷概不负责</span></li>
-    <li>若一味抽象，整蛊，刁难，骂人我将停止这次约会，婉拒反驳型人格</li>
-    <li>上线即开始，希望我们拥有一场浪漫的约会，没有他人来打扰</li>
-    <li>主话术风格并不华丽，更多是直白 若是请提前备注</li>
-    <li>不允许在未经允许的情况下将我们约会的内容录屏，截图，发表，这会让您我都很难办</li>
-    <li>若觉得不适，请说出安全词<span class="em">“我需要休息”</span>，我会即刻调整风格或暂停约会，尽量给您安抚</li>
-    <li>不要上升到个人生活，请不要过度窥探我的隐私，留足约会的神秘感</li>
-    <li>请礼貌对待我们的关系，约会时请不要把现实的问题代入我们间，我希望您能在我这里获得快乐与慰藉，但我并不足以有资格解决您现生的困难</li>
-    <li>/1h/ 您有 20min 的体验时间 20min 后不可退单　/0.5h/ 您有 10min 体验时间，10min 后不可退单</li>
-    <li>这不是一场游戏，请我的爱人配合我，但适当的反抗会让我更兴奋</li>
-    <li>上线即开始约会 您是我的爱人请不要因为和好友玩而忽视我</li>
-    <li>如果亲爱的你（1h/0.5h）失约 25min/15min，我会觉得你放弃了这次相遇的机会（若未存，视为送单）</li>
-    <li>约会开始默认已读须知，请好好享受与我的约会吧</li>
-    <li>如果我的爱人不配合，我将会提前结束约会，<span class="em">时间内 我就是你的恋人</span>（低无，dom 等特殊情况除外）</li>
-    <li>最后，很荣幸能与您进行一场愉快的约会，我们都在期待</li>
-  </ol>
-  <p class="black">Mecum lacrimare, mecum plorare.</p>
-  <p class="lead">同我啜泣 同我悲鸣</p>
-  <div class="quotes">
-    <p>“嘴上说着讨厌我，其实噩梦和椿梦都是我的脸吧”</p>
-    <p>“学会对我撒娇就好了.不是吗”</p>
-  </div>
-</section>
-
-<!-- ============ ｜板评 ============ -->
-<section class="wrap reveal">
-  <div class="eyebrow">｜板评 · REVIEW</div>
-  <h2 class="h2">｜板评</h2>
-  <div class="rule"></div>
-  <div class="quotes">
-    <p>— 白鸽啃食信徒的身躯</p>
-    <p>乌鸦沉迷于欲望.</p>
-  </div>
-  <a class="clink" href="https://www.kdocs.cn/l/cpf1gQPTzjvX" target="_blank" rel="noopener">查看板评<span class="ar">→</span></a>
-</section>
-
-<!-- ============ ｜话术 ============ -->
-<section class="wrap reveal">
-  <div class="eyebrow">｜话术 · CRAFT</div>
-  <h2 class="h2">｜话术</h2>
-  <div class="rule"></div>
-  <div class="quotes">
-    <p><span class="en">as far as I can see</span></p>
-    <p>每一句都在怪我</p>
-    <p><span class="en">you were always meant to be my destiny</span></p>
-    <p>其实是想依赖我吧</p>
-    <p>链子我给你解开了<br>去拥抱你所谓的自由吧</p>
-  </div>
-  <a class="clink" href="https://www.kdocs.cn/l/clTtART18F5K" target="_blank" rel="noopener">查看话术<span class="ar">→</span></a>
-  <div class="claire">
-    <span class="name">—— 我是<br>克莱尔 ——</span>
-    喜欢和你玩，有种…逗小狗的感觉？.<br>
-    抱我，直到你拥有和我一样的香气
-  </div>
-</section>
-
-<!-- ============ 页脚 ============ -->
-<footer>
-  <div class="fmark">†</div>
-  <div class="line" style="text-align:center">如果你需要我，我就在。</div>
-  <div class="credit">made by <a href="https://github.com/yw-iris" target="_blank" rel="noopener">yw-iris</a></div>
-</footer>
-
-<div id="hand"></div>
 <canvas id="bfly"></canvas>
 
 <script>
@@ -409,53 +434,50 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
   addEventListener('touchstart',e=>{const t=e.touches[0];if(t)burst(t.clientX,t.clientY);},{passive:true});
 })();
 
-/* 滚动显现：板块整体进入后，子元素错落上浮 */
-const io=new IntersectionObserver(es=>{
-  es.forEach(e=>{
-    if(e.isIntersecting){
-      const el=e.target;
-      [...el.children].forEach((c,i)=>{c.style.transitionDelay=(i*0.11)+'s';});
-      el.classList.add('in');
-      io.unobserve(el);
-    }
-  });
-},{threshold:.12});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
-/* 开场动画：结束后淡出 → 手心门页；点击手心切入正文 */
+/* 开场动画：结束后淡出 → 手图底图逐页模块；点击手心翻页（底图不变） */
 (function(){
   const intro=document.getElementById('intro');
-  const gate=document.getElementById('gate');
+  const bg=document.getElementById('bg');
   const palm=document.getElementById('palm');
-  if(!gate||!palm)return;
-  const img=gate.querySelector('img');
-  // 依据 object-fit:cover 的裁切关系，把热点定位到图片中手心的真实位置
+  const pageno=document.getElementById('pageno');
+  const pages=[...document.querySelectorAll('.page')];
+  let idx=0;
   function placePalm(){
+    const img=bg&&bg.querySelector('img');
+    if(!img)return;
     const iw=img.naturalWidth||1178, ih=img.naturalHeight||687;
     const vw=innerWidth, vh=innerHeight;
     const s=Math.max(vw/iw,vh/ih), dw=iw*s, dh=ih*s;
     const px=0.565*iw*s+(vw-dw)/2, py=0.575*ih*s+(vh-dh)/2;
     palm.style.left=px+'px'; palm.style.top=py+'px';
   }
-  if(img.complete&&img.naturalWidth)placePalm(); else img.addEventListener('load',placePalm);
-  addEventListener('resize',placePalm);
-  function showGate(){
-    gate.classList.add('on');
-    requestAnimationFrame(()=>requestAnimationFrame(()=>gate.classList.add('show')));
+  function showPage(i){
+    const cur=pages[idx], nxt=pages[i];
+    if(cur)cur.classList.remove('active');
+    nxt.classList.add('active');
+    nxt.querySelectorAll('.reveal').forEach(r=>{
+      [...r.children].forEach((c,k)=>c.style.transitionDelay=(k*0.09)+'s');
+      r.classList.add('in');
+    });
+    idx=i;
+    if(pageno)pageno.textContent=(i+1)+' / '+pages.length;
+    window.__activePage=nxt;
+    if(window.__refreshParticles)window.__refreshParticles();
   }
-  let entered=false;
-  palm.addEventListener('click',()=>{
-    if(entered)return; entered=true;
-    gate.classList.add('done');
-    gate.addEventListener('transitionend',()=>{gate.classList.remove('on','show','done');},{once:true});
-  });
+  function next(){ showPage((idx+1)%pages.length); }
+  if(!palm||!pages.length){ if(intro)intro.style.display='none'; return; }
+  const img=bg&&bg.querySelector('img');
+  if(img&&img.complete&&img.naturalWidth)placePalm(); else if(img)img.addEventListener('load',placePalm);
+  addEventListener('resize',placePalm);
+  palm.addEventListener('click',e=>{e.stopPropagation();next();},{passive:true});
+  function enter(){ if(bg)bg.classList.add('show'); showPage(0); }
   const rm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
-  if(rm||!intro){if(intro)intro.style.display='none';showGate();return;}
+  if(rm||!intro){ if(intro)intro.style.display='none'; enter(); return; }
   let done=false;
   function finish(){if(done)return;done=true;intro.classList.add('done');}
   setTimeout(finish,6000);
   intro.addEventListener('transitionend',e=>{
-    if(done&&e.propertyName==='opacity'){intro.style.display='none';showGate();}
+    if(done&&e.propertyName==='opacity'){intro.style.display='none';enter();}
   });
 })();
 
@@ -500,7 +522,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
         return {tx,ty, hx:tx+Math.cos(a)*r, hy:ty+Math.sin(a)*r*0.7,
                 ph:Math.random()*6.283, sp:.4+Math.random()*.8, m:0};
       });
-      const it={el,cv,ctx,parts,Wd,Hd,fontStr,color:cs.color,dpr,px:-1e5,py:-1e5,on:false,active:false,shown:false};
+      const it={el,cv,ctx,parts,Wd,Hd,fontStr,color:cs.color,dpr,px:-1e5,py:-1e5,on:false,active:false,shown:false,page:el.closest('.page')};
       items.push(it);
       const setPtr=(cx,cy)=>{const r=cv.getBoundingClientRect();it.px=(cx-r.left)*dpr;it.py=(cy-r.top)*dpr;it.on=true;};
       const off=()=>{it.on=false;};
@@ -516,7 +538,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     raf=null; let any=false; const t=now/1000;
     for(const it of items){
       const inView=it.active && it.el.closest('.reveal') && it.el.closest('.reveal').classList.contains('in');
-      if(!inView)continue;
+      if(!inView){ if(it.shown){it.cv.style.opacity='0';it.shown=false;} continue; }
       const r=it.cv.getBoundingClientRect();
       if(r.bottom<0||r.top>innerHeight)continue;
       any=true;
@@ -539,18 +561,19 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     if(any)raf=requestAnimationFrame(tick);
   }
   function wake(){if(raf==null)raf=requestAnimationFrame(tick);}
-  const io=new IntersectionObserver(es=>{
-    es.forEach(e=>{const it=items.find(i=>i.el===e.target);if(it){it.active=e.isIntersecting;if(e.isIntersecting)wake();}});
-  },{rootMargin:'120px'});
+  // 翻页模式下：仅当前 active 页的粒子参与动画（由翻页逻辑在切换页时调用）
+  window.__refreshParticles=function(){
+    const ap=window.__activePage;
+    for(const it of items)it.active=(it.page===ap && ap && ap.classList.contains('active'));
+    wake();
+  };
   function init(){
     document.querySelectorAll('.reveal .script, .reveal .en').forEach(el=>{
       const txt=el.textContent.trim();
       if(!txt||cjk.test(txt))return;          // 含中文则跳过，走普通浮现
       build(el);
     });
-    items.forEach(it=>io.observe(it.el));
-    wake();
-    addEventListener('scroll',wake,{passive:true});
+    if(window.__refreshParticles)window.__refreshParticles();
     let rt; addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>location.reload(),300);});
   }
   function start(){ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(init); else init(); }
