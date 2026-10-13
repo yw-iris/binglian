@@ -255,7 +255,6 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
       <p class="line">—— 我没有什么坏心思哦一·</p>
       <p class="line">只是想掠夺你全部的注意力而已</p>
       <p class="script">it is the white plum that blooms in the cold winter it is the.</p>
-      <img class="illus" src="assets/bl_bg3.jpg" alt="">
     </section>
   </div>
 
@@ -469,8 +468,8 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
   const pages=[...document.querySelectorAll('.page')];
   const bgs=[...document.querySelectorAll('#bg .bgimg')];
   let idx=0, started=false;
-  /* 每页对应底图：0=兰花顶页 1=手图门页 2=蓝蝶水墨 3=蝴蝶画 4,5=蓝树林 6,7=蓝蝶烟雾 8,9=蝶翼少女 10=蓝蝶水墨 */
-  const BGMAP=[0,1,6,2,3,3,4,4,5,5,6];
+  /* 每页对应底图：0=兰花顶页 1=手图门页 2,3=蓝蝶水墨 4,5=蓝树林 6,7=蓝蝶烟雾 8,9=蝶翼少女 10=蝴蝶画 */
+  const BGMAP=[0,1,6,6,3,3,4,4,5,5,2];
   /* 每页手心位置：第1页不显示（点任意处进入）；第2页用手图掌心；第3页起底图各异，手心固定视口左下偏下 */
   function placePalm(i){
     i=(typeof i==='number')?i:idx;
