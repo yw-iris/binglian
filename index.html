@@ -213,7 +213,11 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
 <div class="bg" id="bg">
   <img class="bgimg" src="assets/bl_hero_dark.png" alt="">
   <img class="bgimg" src="assets/bl_hand.png" alt="">
-  <img class="bgimg on" src="assets/bl_hand.png" alt="">
+  <img class="bgimg" src="assets/bl_bg3.jpg" alt="">
+  <img class="bgimg" src="assets/bl_bg4.jpg" alt="">
+  <img class="bgimg" src="assets/bl_bg5.jpg" alt="">
+  <img class="bgimg" src="assets/bl_bg6.jpg" alt="">
+  <img class="bgimg" src="assets/bl_bg7.jpg" alt="">
 </div>
 
 <!-- ============ 逐页模块：每板块 + 顶页 各一页 ============ -->
@@ -461,28 +465,33 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
   const pages=[...document.querySelectorAll('.page')];
   const bgs=[...document.querySelectorAll('#bg .bgimg')];
   let idx=0, started=false;
-  /* 每页手心位置：第1页不显示手心（点任意处进入）；其余各页均用手图掌心 */
+  /* 每页对应底图：0=兰花顶页 1=手图门页 2,3=图1 4,5=图2 6,7=图3 8,9=图4 10=图5 */
+  const BGMAP=[0,1,2,2,3,3,4,4,5,5,6];
+  /* 每页手心位置：第1页不显示（点任意处进入）；第2页用手图掌心；第3页起底图各异，手心固定视口左下偏下 */
   function placePalm(i){
     i=(typeof i==='number')?i:idx;
     if(i===0){palm.style.display='none';palm.classList.remove('show-hint');return;}
     palm.style.display='block';
     palm.classList.toggle('show-hint', i===1);
-    const img=bgs[i===1?1:2];
-    if(!img)return;
-    const iw=img.naturalWidth||1178, ih=img.naturalHeight||687;
-    const vw=innerWidth, vh=innerHeight;
-    const s=Math.max(vw/iw,vh/ih);
-    const dw=iw*s, dh=ih*s;
-    const ox=(vw-dw)/2, oy=(vh-dh)/2;
-    const fx=0.565, fy=0.575;
-    palm.style.left=(fx*iw*s+ox)+'px';
-    palm.style.top=(fy*ih*s+oy)+'px';
+    if(i===1){
+      const img=bgs[1];
+      const iw=img.naturalWidth||1178, ih=img.naturalHeight||687;
+      const vw=innerWidth, vh=innerHeight;
+      const s=Math.max(vw/iw,vh/ih);
+      const dw=iw*s, dh=ih*s;
+      const ox=(vw-dw)/2, oy=(vh-dh)/2;
+      palm.style.left=(0.565*iw*s+ox)+'px';
+      palm.style.top=(0.575*ih*s+oy)+'px';
+    }else{
+      palm.style.left='50%';
+      palm.style.top='88%';
+    }
   }
   function showPage(i){
     const cur=pages[idx], nxt=pages[i];
     if(cur)cur.classList.remove('active');
     nxt.classList.add('active');
-    const bi=i===0?0:i===1?1:2;
+    const bi=BGMAP[i];
     bgs.forEach((b,k)=>b.classList.toggle('on',k===bi));
     placePalm(i);
     nxt.querySelectorAll('.reveal').forEach(r=>{
@@ -495,7 +504,7 @@ footer{padding:130px 0 70px;text-align:center;position:relative;z-index:1}
   }
   function next(){ showPage((idx+1)%pages.length); }
   if(!palm||!pages.length){ if(intro)intro.style.display='none'; return; }
-  const img=bgs[2];
+  const img=bgs[1];
   if(img&&img.complete&&img.naturalWidth)placePalm(idx); else if(img)img.addEventListener('load',()=>placePalm(idx));
   addEventListener('resize',()=>placePalm(idx));
   palm.addEventListener('click',e=>{e.stopPropagation();next();},{passive:true});
